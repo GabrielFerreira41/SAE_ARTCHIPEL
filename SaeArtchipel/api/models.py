@@ -1,43 +1,5 @@
 from django.db import models
 
-"""
-UTILISATEUR: IdUtilisateur, NomUtilisateur, PrenomUtilisateur, MdpUtilisateur, EmailUtilisateur, TypeUtilisateur(admin, particulier), DdnUtilisateur
-
-PREFERENCELIEU : idUtilisateur, idLieu // (Preferer)
-
-FAVORIEPARCOURS: IdUtilisateur, IdParcours // (Favoriser)
-
-PARCOURS: IdParcours, NomParcours, IdUtilisateur, TypeParcours(professionnel, particulier), DifficultéParcours(moyen, élevé, facile), DistanceParcours
-
-ETAPE: IdParcours, IdLieu, NumEtape (Etaper)
-
-LIEU: IdLieu, NomLieu, BoolAccessibilite, BoolParking, BoolShooping, BoolRepas, BoolTable, BoolJaujeLieux, NombreMaxVisiteur, Adresse, IdVille, RefTarif, IdTypeLieu
-
-HORAIRE: Id_horaire, jour_Horaire(lundi, mardi, mercredi…), horaireouverture, horairefermeture 
-
-JOURFERIE: idJourferier, dateJourferie
-
-LNK_LIEU_HORAIRE: idLieu, idHoraire (Ouvrir)
-
-LNK_LIEU_JOUR_FERIE: idLieu, idJourferie (Fermer)
-
-TYPELIEU: IdTypeLieu, NomTypeLieu(atelier artiste, maisons ecrivains, lieux de création, résidence, patrimoine, maison privée, monument historique, ecole beaux-arts,parc naturel, … , 
-
-LNK_LIEU_TARIF: IdLieu, IdTarif (Tarifer)
-
-TARIF: IdTarif, TypeTarif(enfant(0,17),étudiant(17,25),standard(26,64),senior(65+)), PrixUnitaire 
-
-VILLE: IdVille, NomVille, CodePostal, #IdDepartement
-
-DEPARTEMENT :IdDepartement, NomDepartement, NumeroDepartement, #IdRegion
-
-REGION: IdRegion, NomRegion
-
-OEUVRE: IdOeuvre, NomOeuvre, DescriptionOeuvre, #IdLieu
-
-EVENEMENT: IdEvenement, NomEvenement, DescriptionEvenement, #IdLieu
-
-"""
 
 class Utilisateur(models.Model):
     idUtilisateur = models.AutoField(primary_key=True)

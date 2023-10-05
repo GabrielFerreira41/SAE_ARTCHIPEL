@@ -27,11 +27,7 @@ const Lieux = () => {
         <div className="rectangle-mini" />
         <div>Indre-et-Loire (37)</div>
         <div className="rectangle-mini" />
-        
-        
-        
-        
-        
+
       </div>
     </div>
   );

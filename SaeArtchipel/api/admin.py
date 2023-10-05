@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Lieux
+from .models import Lieu
 
-class LieuxAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'description', 'open')
+class LieuAdmin(admin.ModelAdmin):
+    list_display = ("idLieu","nomLieu")
 
 # Register your models here.
 
-admin.site.register(Lieux, LieuxAdmin)
+admin.site.register(Lieu, LieuAdmin)

@@ -20,7 +20,7 @@ class PreferenceLieu(models.Model):
     def __str__(self):
             return f"[\n User : {self.idUtilisateur} \n Lieu : {self.idLieu} \n]"
 
-class FavorieParcours(models.Model):
+class FavorisParcours(models.Model):
     idUtilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     idParcours = models.ForeignKey('Parcours', on_delete=models.CASCADE)
     
@@ -154,3 +154,25 @@ class LnkLieuHoraire(models.Model):
 class LnkLieuJourFerie(models.Model):
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     idJourFerie = models.ForeignKey(JourFerie, on_delete=models.CASCADE)
+
+"""
+liste des tables :
+    Utilisateur
+    PreferenceLieu
+    FavorisParcours
+    Parcours
+    Etape
+    Lieu
+    Horaire
+    JourFerie
+    TypeLieu
+    LnkLieuTarif
+    Tarif
+    Ville
+    Departement
+    Region
+    Oeuvre
+    Evenement
+    LnkLieuHoraire
+    LnkLieuJourFerie
+"""

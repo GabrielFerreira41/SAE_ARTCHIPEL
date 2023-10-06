@@ -1,21 +1,48 @@
 from rest_framework import serializers
-from .models import Lieu
+from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours
 
-
-"""idLieu = models.AutoField(primary_key=True)
-        nomLieu = models.CharField(max_length=50)
-        boolAccessibilite = models.BooleanField()
-        boolParking = models.BooleanField()
-        boolShopping = models.BooleanField()
-        boolRepas = models.BooleanField()
-        boolTable = models.BooleanField()
-        boolJaujeLieux = models.BooleanField()
-        nombreMaxVisiteur = models.IntegerField()
-        adresse = models.CharField(max_length=50)
-        idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
-        refTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
-"""
 class LieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lieu
-        queryset =('id', 'title', 'description', 'completed')
+        queryset =('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresse','idVille','refTarif','idLieu')
+
+class VilleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ville
+        fields = ('nomVille','codePostal','idVille')
+
+class TarifSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tarif
+        fields = ('typeTarif','prixUnitaire','idTarif')
+
+class TypeLieuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeLieu
+        fields = ('nomTypeLieu','idTypeLieu')
+    
+class PreferenceLieuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreferenceLieu
+        fields = ('idPreferenceLieu','idUtilisateur','idTypeLieu')
+
+class UtilisateurSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Utilisateur
+        fields = ('nomUtilisateur','prenomUtilisateur','mailUtilisateur','mdpUtilisateur','idUtilisateur')
+
+class ParcoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Parcours
+        fields = ('idParcours','nomParcours','idUtilisateur','typeParcours','difficulteParcours','distanceParcours')
+
+class EtapeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Etape
+        fields = ('idParcours','idLieu','numEtape')
+
+class FavorisParcoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavorisParcours
+        fields = ('idUtilisateur','idParcours')
+

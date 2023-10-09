@@ -7,8 +7,8 @@ class Utilisateur(models.Model):
     prenomUtilisateur = models.CharField(max_length=50)
     mdpUtilisateur = models.CharField(max_length=50)
     emailUtilisateur = models.CharField(max_length=50)
-    typeUtilisateur = models.CharField(max_length=50)
-    ddnUtilisateur = models.DateField()
+    typeUtilisateur = models.BooleanField()
+    ddnUtilisateur = models.DateField(format('%d/%m/%Y'))
     
     def __str__(self):
             return f"[\n User : {self.nomUtilisateur} \n Email : {self.emailUtilisateur} \n Type : {self.typeUtilisateur} \n]"
@@ -138,7 +138,7 @@ class Oeuvre(models.Model):
 class Evenement(models.Model):
     idEvenement = models.AutoField(primary_key=True)
     nomEvenement = models.CharField(max_length=50)
-    descriptionEvenement = models.CharField(max_length=50)
+    descriptionEvenement = models.CharField  (max_length=50)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     
     def __str__(self):

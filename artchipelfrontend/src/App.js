@@ -44,6 +44,8 @@ import Accueil from './components/Accueil';
 import Lieux from './components/Lieux';
 import Info from './components/Info';
 import Decouverte from './components/Decouverte';
+import Evenement from './components/Evenement'
+import Parcours from './components/Parcours';
 
 function App() {
   return (
@@ -53,7 +55,10 @@ function App() {
         <Route path="/Lieux" element={<Lieux />} />
         <Route path="/Info" element={<Info />} />
         <Route path="/Decouverte" element={<Decouverte />} />
-      </Routes>
+        <Route path="/Evenement" element={<Evenement/>}/>
+        <Route path='/Parcours' element={<Parcours/>}/>
+        </Routes>
+
     </Router>
   );
 }

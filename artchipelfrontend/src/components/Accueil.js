@@ -4,6 +4,8 @@ import lieuImage from "../components/images/lieu.png";
 import franceImage from "../components/images/france.png";
 import calendrierImage from "../components/images/calendrier.png";
 import destinationImage from "../components/images/destination.png";
+import { Link } from 'react-router-dom';
+
 
 const imageStyle = {
   width: "5vw", // ajustez la largeur comme vous le souhaitez
@@ -19,31 +21,29 @@ const Accueil = () => {
         <div className="row justify-content-center align-items-center">
           <div className="col-sm-2">
             <div className="d-flex flex-column align-items-center">
-              <button className="btn btn-success btn-sm mx-2">
+              <Link to="/Lieux" className="btn btn-success btn-sm mx-2">
                 <img src={lieuImage} alt="Lieu" style={imageStyle} />
-              </button>
+              </Link>
               <span>Lieu</span>
             </div>
           </div>
-
           <div className="col-sm-2">
             <div className="d-flex flex-column align-items-center">
-              <button className="btn btn-danger btn-sm mx-2">
+              <Link to="/Parcours" className="btn btn-danger btn-sm mx-2">
                 <img src={franceImage} alt="France" style={imageStyle} />
-              </button>
-              <span>France</span>
+              </Link>
+              <span>Parcours</span>
             </div>
           </div>
 
           <div className="col-sm-2">
             <div className="d-flex flex-column align-items-center">
-              <button className="btn btn-primary btn-sm mx-2">
+              <Link to="/Evenement" className="btn btn-primary btn-sm mx-2">
                 <img src={calendrierImage} alt="Calendrier" style={imageStyle} />
-              </button>
-              <span>Calendrier</span>
+              </Link>
+              <span>Evenement</span>
             </div>
           </div>
-
           <div className="col-sm-2">
             <div className="d-flex flex-column align-items-center">
               <button className="btn btn-warning btn-sm mx-2">

@@ -1,0 +1,245 @@
+{
+    "Utilisateur": [
+      {
+        "idUtilisateur": 1,
+        "nomUtilisateur": "John",
+        "prenomUtilisateur": "Doe",
+        "mdpUtilisateur": "password",
+        "emailUtilisateur": "johndoe@example.com",
+        "typeUtilisateur": "Normal",
+        "ddnUtilisateur": "1990-01-01"
+      },
+      {
+        "idUtilisateur": 2,
+        "nomUtilisateur": "Jane",
+        "prenomUtilisateur": "Smith",
+        "mdpUtilisateur": "securepassword",
+        "emailUtilisateur": "janesmith@example.com",
+        "typeUtilisateur": "Admin",
+        "ddnUtilisateur": "1985-03-15"
+      }
+    ],
+    "PreferenceLieu": [
+      {
+        "idUtilisateur": 1,
+        "idLieu": 3
+      },
+      {
+        "idUtilisateur": 2,
+        "idLieu": 1
+      }
+    ],
+    "FavorisParcours": [
+      {
+        "idUtilisateur": 1,
+        "idParcours": 5
+      },
+      {
+        "idUtilisateur": 2,
+        "idParcours": 2
+      }
+    ],
+    "Parcours": [
+      {
+        "idParcours": 1,
+        "nomParcours": "Nature Walk",
+        "idUtilisateur": 1,
+        "typeParcours": "Hiking",
+        "difficulteParcours": "Moderate",
+        "distanceParcours": 10
+      },
+      {
+        "idParcours": 2,
+        "nomParcours": "City Tour",
+        "idUtilisateur": 2,
+        "typeParcours": "Sightseeing",
+        "difficulteParcours": "Easy",
+        "distanceParcours": 5
+      }
+    ],
+    "Etape": [
+      {
+        "idParcours": 1,
+        "idLieu": 3,
+        "numEtape": 1
+      },
+      {
+        "idParcours": 2,
+        "idLieu": 1,
+        "numEtape": 1
+      }
+    ],
+    "Lieu": [
+      {
+        "idLieu": 1,
+        "nomLieu": "City Park",
+        "boolAccessibilite": true,
+        "boolParking": true,
+        "boolShopping": false,
+        "boolRepas": true,
+        "boolTable": false,
+        "boolJaujeLieux": false,
+        "nombreMaxVisiteur": 500,
+        "adresse": "123 Main St",
+        "idVille": 1,
+        "refTarif": 2
+      },
+      {
+        "idLieu": 2,
+        "nomLieu": "Museum",
+        "boolAccessibilite": true,
+        "boolParking": true,
+        "boolShopping": true,
+        "boolRepas": false,
+        "boolTable": true,
+        "boolJaujeLieux": false,
+        "nombreMaxVisiteur": 200,
+        "adresse": "456 Museum Ave",
+        "idVille": 2,
+        "refTarif": 1
+      }
+    ],
+    "Horaire": [
+      {
+        "idHoraire": 1,
+        "jourHoraire": "Monday",
+        "horaireOuverture": "09:00:00",
+        "horaireFermeture": "17:00:00"
+      },
+      {
+        "idHoraire": 2,
+        "jourHoraire": "Tuesday",
+        "horaireOuverture": "10:00:00",
+        "horaireFermeture": "18:00:00"
+      }
+    ],
+    "JourFerie": [
+      {
+        "idJourFerie": 1,
+        "dateJourFerie": "2023-12-25"
+      },
+      {
+        "idJourFerie": 2,
+        "dateJourFerie": "2023-11-11"
+      }
+    ],
+    "TypeLieu": [
+      {
+        "idTypeLieu": 1,
+        "nomTypeLieu": "Park"
+      },
+      {
+        "idTypeLieu": 2,
+        "nomTypeLieu": "Museum"
+      }
+    ],
+    "LnkLieuTarif": [
+      {
+        "idLieu": 1,
+        "idTarif": 2
+      },
+      {
+        "idLieu": 2,
+        "idTarif": 1
+      }
+    ],
+    "Tarif": [
+      {
+        "idTarif": 1,
+        "typeTarif": "Standard",
+        "prixUnitaire": 10
+      },
+      {
+        "idTarif": 2,
+        "typeTarif": "Discount",
+        "prixUnitaire": 5
+      }
+    ],
+    "Ville": [
+      {
+        "idVille": 1,
+        "nomVille": "Cityville",
+        "codePostal": 12345,
+        "idDepartement": 3
+      },
+      {
+        "idVille": 2,
+        "nomVille": "Museumtown",
+        "codePostal": 56789,
+        "idDepartement": 4
+      }
+    ],
+    "Departement": [
+      {
+        "idDepartement": 3,
+        "nomDepartement": "County A",
+        "numeroDepartement": 101,
+        "idRegion": 1
+      },
+      {
+        "idDepartement": 4,
+        "nomDepartement": "County B",
+        "numeroDepartement": 102,
+        "idRegion": 2
+      }
+    ],
+    "Region": [
+      {
+        "idRegion": 1,
+        "nomRegion": "Region X"
+      },
+      {
+        "idRegion": 2,
+        "nomRegion": "Region Y"
+      }
+    ],
+    "Oeuvre": [
+      {
+        "idOeuvre": 1,
+        "nomOeuvre": "Masterpiece",
+        "descriptionOeuvre": "A beautiful piece of art",
+        "idLieu": 2
+      },
+      {
+        "idOeuvre": 2,
+        "nomOeuvre": "Sculpture",
+        "descriptionOeuvre": "An amazing sculpture",
+        "idLieu": 1
+      }
+    ],
+    "Evenement": [
+      {
+        "idEvenement": 1,
+        "nomEvenement": "Art Exhibition",
+        "descriptionEvenement": "An exhibition of art",
+        "idLieu": 2
+      },
+      {
+        "idEvenement": 2,
+        "nomEvenement": "Music Concert",
+        "descriptionEvenement": "A live music concert",
+        "idLieu": 1
+      }
+    ],
+    "LnkLieuHoraire": [
+      {
+        "idLieu": 1,
+        "idHoraire": 1
+      },
+      {
+        "idLieu": 2,
+        "idHoraire": 2
+      }
+    ],
+    "LnkLieuJourFerie": [
+      {
+        "idLieu": 1,
+        "idJourFerie": 1
+      },
+      {
+        "idLieu": 2,
+        "idJourFerie": 2
+      }
+    ]
+  }
+  

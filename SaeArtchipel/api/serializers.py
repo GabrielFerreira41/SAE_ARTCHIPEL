@@ -29,7 +29,7 @@ class PreferenceLieuSerializer(serializers.ModelSerializer):
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilisateur
-        fields = ('nomUtilisateur','prenomUtilisateur','mailUtilisateur','mdpUtilisateur','idUtilisateur')
+        fields = ('idUtilisateur','nomUtilisateur','prenomUtilisateur','emailUtilisateur','mdpUtilisateur','typeUtilisateur','ddnUtilisateur')
 
 class ParcoursSerializer(serializers.ModelSerializer):
     class Meta:

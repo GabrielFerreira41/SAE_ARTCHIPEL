@@ -12,7 +12,7 @@ const Header = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
+  
   return (
     <header className="bg-white">
       <nav className="navbar navbar-expand-lg navbar-light">

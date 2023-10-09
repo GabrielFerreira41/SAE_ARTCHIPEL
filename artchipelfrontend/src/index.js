@@ -12,6 +12,8 @@ import './style/bootstrap.css'
 import './style/bootstrap.min.css'
 import './style/bootstrap.rtl.css'
 import './style/bootstrap.rtl.min.css'
+import Footer from './components/Footer'
+import './style/styleApp.css'
 
 
 
@@ -19,6 +21,8 @@ ReactDOM.render(
   <React.StrictMode>
     <Header></Header>
     <App/>
+    <Footer></Footer>
+
   </React.StrictMode>,
   document.getElementById('root')
 );

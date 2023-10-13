@@ -46,6 +46,7 @@ import Info from './components/Info';
 import Decouverte from './components/Decouverte';
 import Evenement from './components/Evenement';
 import Parcours from './components/Parcours';
+import Lieu from './components/Lieu';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Accueil />} />
         <Route path="/Lieux" element={<Lieux />} />
+        <Route path="/lieux/:id" component={Lieu} />
         <Route path="/Info" element={<Info />} />
         <Route path="/Decouverte" element={<Decouverte />} />
         <Route path="/Evenement" element={<Evenement/>}/>

@@ -44,7 +44,7 @@ import Accueil from './components/Accueil';
 import Lieux from './components/Lieux';
 import Info from './components/Info';
 import Decouverte from './components/Decouverte';
-import Evenement from './components/Evenement'
+import Evenement from './components/Evenement';
 import Parcours from './components/Parcours';
 
 
@@ -52,14 +52,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Accueil" element={<Accueil />} />
+        <Route path="/" element={<Accueil />} />
         <Route path="/Lieux" element={<Lieux />} />
         <Route path="/Info" element={<Info />} />
         <Route path="/Decouverte" element={<Decouverte />} />
         <Route path="/Evenement" element={<Evenement/>}/>
         <Route path='/Parcours' element={<Parcours/>}/>
         </Routes>
-
     </Router>
   );
 }

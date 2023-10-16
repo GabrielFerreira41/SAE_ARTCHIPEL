@@ -45,7 +45,7 @@ import Lieux from './components/Lieux';
 import Info from './components/Info';
 import Decouverte from './components/Decouverte';
 import Evenement from './components/Evenement';
-import Parcours from './components/Parcours';
+import Carte from './components/Carte';
 import Lieu from './components/Lieu';
 
 
@@ -59,7 +59,7 @@ function App() {
         <Route path="/Info" element={<Info />} />
         <Route path="/Decouverte" element={<Decouverte />} />
         <Route path="/Evenement" element={<Evenement/>}/>
-        <Route path='/Parcours' element={<Parcours/>}/>
+        <Route path='/Carte' element={<Carte/>}/>
         </Routes>
     </Router>
   );

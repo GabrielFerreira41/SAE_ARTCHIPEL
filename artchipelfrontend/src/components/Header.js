@@ -71,39 +71,13 @@ const Header = () => {
               <button className="btn btn-outline-primary" type="submit">
                 <i className="fas fa-search"></i>
               </button>
-              <Button variant="primary" className="ml-2" onClick={handleShowModal}>
+              <Button variant="primary" className="ml-2" href="/Connexion">
                 Connexion
               </Button>
             </form>
           </div>
         </div>
       </nav>
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Formulaire de Connexion</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="username">
-              <Form.Label>Nom d'utilisateur</Form.Label>
-              <Form.Control type="text" placeholder="Entrez votre nom d'utilisateur" />
-            </Form.Group>
-
-            <Form.Group controlId="password">
-              <Form.Label>Mot de passe</Form.Label>
-              <Form.Control type="password" placeholder="Entrez votre mot de passe" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Annuler
-          </Button>
-          <Button variant="primary">
-            Se Connecter
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </header>
   );
 };

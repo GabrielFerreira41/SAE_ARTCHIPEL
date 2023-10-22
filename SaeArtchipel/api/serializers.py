@@ -4,7 +4,8 @@ from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Pa
 class LieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lieu
-        queryset =('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresse','idVille','refTarif','idLieu')
+        #fields =('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresse','idVille','refTarif','idLieu')
+        fields = '__all__' 
 
 class VilleSerializer(serializers.ModelSerializer):
     class Meta:

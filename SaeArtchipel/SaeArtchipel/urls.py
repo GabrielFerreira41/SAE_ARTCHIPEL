@@ -6,6 +6,8 @@ from api import views
 router = routers.DefaultRouter()
 router.register(r'Lieu', views.LieuView, 'Lieu')
 router.register(r'User',views.UtilisateurView,'User')
+router.register(r'Ville', views.VilleView, 'Ville')
+router.register(r'Tarif',views.TarifView,'Tarif')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -3,7 +3,7 @@ from django.db import models
 
 class Utilisateur(models.Model):
     idUtilisateur = models.AutoField(primary_key=True)
-    nomUtilisateur = models.CharField(max_length=50)
+    nomUtilisateur = models.CharField(max_length=50, unique=True)
     prenomUtilisateur = models.CharField(max_length=50)
     mdpUtilisateur = models.CharField(max_length=50)
     emailUtilisateur = models.CharField(max_length=50)

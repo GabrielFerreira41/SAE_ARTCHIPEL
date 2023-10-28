@@ -3,10 +3,10 @@ from django.db import models
 
 class Utilisateur(models.Model):
     idUtilisateur = models.AutoField(primary_key=True)
-    nomUtilisateur = models.CharField(max_length=50, unique=True)
-    prenomUtilisateur = models.CharField(max_length=50)
-    mdpUtilisateur = models.CharField(max_length=50)
-    emailUtilisateur = models.CharField(max_length=50)
+    nomUtilisateur = models.CharField(max_length=250, unique=True)
+    prenomUtilisateur = models.CharField(max_length=250)
+    mdpUtilisateur = models.CharField(max_length=15)
+    emailUtilisateur = models.CharField(max_length=150, unique=True)
     typeUtilisateur = models.BooleanField()
     ddnUtilisateur = models.DateField(format('%d/%m/%Y'))
     
@@ -29,10 +29,10 @@ class FavorisParcours(models.Model):
     
 class Parcours(models.Model):
     idParcours = models.AutoField(primary_key=True)
-    nomParcours = models.CharField(max_length=50)
+    nomParcours = models.CharField(max_length=200)
     idUtilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
-    typeParcours = models.CharField(max_length=50)
-    difficulteParcours = models.CharField(max_length=50)
+    typeParcours = models.CharField(max_length=200)
+    difficulteParcours = models.CharField(max_length=100)
     distanceParcours = models.IntegerField()
     
     def __str__(self):
@@ -48,7 +48,7 @@ class Etape(models.Model):
 
 class Lieu(models.Model):
         idLieu = models.AutoField(primary_key=True)
-        nomLieu = models.CharField(max_length=50)
+        nomLieu = models.CharField(max_length=150, unique=True)
         boolAccessibilite = models.BooleanField()
         boolParking = models.BooleanField()
         boolShopping = models.BooleanField()
@@ -56,55 +56,45 @@ class Lieu(models.Model):
         boolTable = models.BooleanField()
         boolJaujeLieux = models.BooleanField()
         nombreMaxVisiteur = models.IntegerField()
-        adresse = models.CharField(max_length=50)
+        adresseLieu = models.CharField(max_length=250)
+        telLieu = models.IntegerField(max_length=10)
+        mailLieu = models.CharField(max_length=150)
+        webLieu = models.CharField(max_length=250)
         idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
-        refTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
+        idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
 
         def __str__(self):
             return f"[\n idLieu : {self.idLieu} \n Lieu : {self.nomLieu} \n Adresse : {self.adresse} \n]"
 
 class Horaire(models.Model):
     idHoraire = models.AutoField(primary_key=True)
-    jourHoraire = models.CharField(max_length=50)
+    listJour = models.CharField(max_length=300)
     horaireOuverture = models.TimeField()
     horaireFermeture = models.TimeField()
+    intervalHoraire = models.BooleanField
     
     def __str__(self):
-            return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n]"
-    
-class JourFerie(models.Model):
-    idJourFerie = models.AutoField(primary_key=True)
-    dateJourFerie = models.DateField()
-    
-    def __str__(self):
-            return f"[\n date : {self.dateJourFerie} \n Jour Férié : {self.idJourFerie} \n]"
+            return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
 
 class TypeLieu(models.Model):
     idTypeLieu = models.AutoField(primary_key=True)
-    nomTypeLieu = models.CharField(max_length=50)
+    nomTypeLieu = models.CharField(max_length=150, unique=True)
     
     def __str__(self):
             return f"[\n Type Lieu : {self.nomTypeLieu} \n]"
 
-class LnkLieuTarif(models.Model):
-    idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
-    idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
-
-    def __str__(self):
-            return f"[\n Lieu : {self.idLieu} \n Tarif : {self.idTarif} \n]"
-
 class Tarif(models.Model):
     idTarif = models.AutoField(primary_key=True)
-    typeTarif = models.CharField(max_length=50)
-    prixUnitaire = models.IntegerField()
+    payant = models.BooleanField()
+    reservation = models.BooleanField()
     
     def __str__(self):
-            return f"[\n Tarif : {self.typeTarif} \n Prix : {self.prixUnitaire} \n]"
+            return f"[\n Tarif payant : {self.payant} \n reservation : {self.reservation} \n]"
 
 class Ville(models.Model):
     idVille = models.AutoField(primary_key=True)
-    nomVille = models.CharField(max_length=50)
-    codePostal = models.IntegerField()
+    nomVille = models.CharField(max_length=200, unique=True)
+    codePostal = models.IntegerField(max_length=5)
     idDepartement = models.ForeignKey('Departement', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -112,8 +102,8 @@ class Ville(models.Model):
 
 class Departement(models.Model):
     idDepartement = models.AutoField(primary_key=True)
-    nomDepartement = models.CharField(max_length=50)
-    numeroDepartement = models.IntegerField()
+    nomDepartement = models.CharField(max_length=200, unique=True)
+    numeroDepartement = models.IntegerField(max_length=2)
     idRegion = models.ForeignKey('Region', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -121,15 +111,15 @@ class Departement(models.Model):
 
 class Region(models.Model):
     idRegion = models.AutoField(primary_key=True)
-    nomRegion = models.CharField(max_length=50)
+    nomRegion = models.CharField(max_length=200, unique=True)
     
     def __str__(self):
             return f"[\n Région : {self.nomRegion} \n]"
 
 class Oeuvre(models.Model):
     idOeuvre = models.AutoField(primary_key=True)
-    nomOeuvre = models.CharField(max_length=50)
-    descriptionOeuvre = models.CharField(max_length=50)
+    nomOeuvre = models.CharField(max_length=200)
+    descriptionOeuvre = models.CharField(max_length=200)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -137,8 +127,8 @@ class Oeuvre(models.Model):
 
 class Evenement(models.Model):
     idEvenement = models.AutoField(primary_key=True)
-    nomEvenement = models.CharField(max_length=50)
-    descriptionEvenement = models.CharField  (max_length=50)
+    nomEvenement = models.CharField(max_length=200, unique=True)
+    descriptionEvenement = models.CharField  (max_length=200)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -147,13 +137,12 @@ class Evenement(models.Model):
 class LnkLieuHoraire(models.Model):
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     idHoraire = models.ForeignKey(Horaire, on_delete=models.CASCADE)
+    dateDebut = models.DateField
+    dateFin = models.DateField
     
     def __str__(self):
-            return f"[\n Lieu : {self.idLieu} \n Horaire : {self.idHoraire} \n]"
+            return f"[\n Lieu : {self.idLieu} \n Horaire : {self.idHoraire} \n date de début : {self.dateDebut} \n date de fin: {self.dateFin} \n]"
 
-class LnkLieuJourFerie(models.Model):
-    idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
-    idJourFerie = models.ForeignKey(JourFerie, on_delete=models.CASCADE)
 
 """
 liste des tables :
@@ -164,9 +153,7 @@ liste des tables :
     Etape
     Lieu
     Horaire
-    JourFerie
     TypeLieu
-    LnkLieuTarif
     Tarif
     Ville
     Departement
@@ -174,5 +161,4 @@ liste des tables :
     Oeuvre
     Evenement
     LnkLieuHoraire
-    LnkLieuJourFerie
 """

@@ -64,7 +64,7 @@ class Lieu(models.Model):
         idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
 
         def __str__(self):
-            return f"[\n idLieu : {self.idLieu} \n Lieu : {self.nomLieu} \n Adresse : {self.adresse} \n]"
+            return f"[\n idLieu : {self.idLieu} \n Lieu : {self.nomLieu} \n Adresse : {self.adresseLieu} \n]"
 
 class Horaire(models.Model):
     idHoraire = models.AutoField(primary_key=True)

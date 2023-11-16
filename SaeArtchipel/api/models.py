@@ -60,6 +60,7 @@ class Lieu(models.Model):
         telLieu = models.IntegerField(max_length=10)
         mailLieu = models.CharField(max_length=150)
         webLieu = models.CharField(max_length=250)
+        idTypeLieu = models.ForeignKey('TypeLieu', on_delete=models.CASCADE)
         idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
         idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
 

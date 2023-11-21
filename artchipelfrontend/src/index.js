@@ -4,15 +4,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import App from './App';
 import Header from './components/Header'
-import Accueil from './components/Accueil'
-import Lieux from './components/Lieux'
+import Footer from './components/Footer'
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './style/bootstrap.css'
 import './style/bootstrap.min.css'
 import './style/bootstrap.rtl.css'
 import './style/bootstrap.rtl.min.css'
-import Footer from './components/Footer'
+import "./style/styleHeader.css";
 import './style/styleApp.css'
 
 

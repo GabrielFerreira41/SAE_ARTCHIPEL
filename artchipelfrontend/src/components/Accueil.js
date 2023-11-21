@@ -11,76 +11,84 @@ import { Link } from 'react-router-dom';
 const Accueil = () => {
   return (
     <div className="index">
-    <div className="div">
-    <p className="art-chipel">
-        <span className="span">Art</span>
-        <span className="text-wrapper-16">Chipel</span>
-      </p>
-      <div className="overlap-group">
-        <div className="overlap-2">
+      <div className="div">
+        <div className="overlap-group">
           <div className="rectangle" />
           <img
             className="noah-buscher"
             alt="Noah buscher"
-            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/652d46c6dd97f0a699044dd5/img/noah-buscher-x8zstuks2pm-unsplash-1@2x.png"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/noah-buscher-x8zstuks2pm-unsplash-2.png"
           />
-          <div className="text-wrapper">Parcours</div>
           <div className="rectangle-2" />
+          <div className="text-wrapper">Parcours</div>
+          <img
+            className="image"
+            alt="Image"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/image-2.png"
+          />
           <div className="rectangle-3" />
-          <div className="text-wrapper-2">Organiser</div>
-          <div className="text-wrapper-3">Profiter</div>
+          <div className="rectangle-4" />
+          <div className="rectangle-4" />
+          <div className="text-wrapper-2">Lieux</div>
+          <img
+            className="tamas-tuzes-katai"
+            alt="Tamas tuzes katai"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/tamas-tuzes-katai-ren-adbr3ig-unsplash-2.png"
+          />
+          <div className="rectangle-5" />
+          <div className="text-wrapper-3">Carte</div>
+          <img
+            className="jakob-dalbjorn"
+            alt="Jakob dalbjorn"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/jakob-dalbjorn-cukjre3nyyc-unsplash-2.png"
+          />
+          <div className="rectangle-6" />
+          <div className="text-wrapper-4">Evenement</div>
+          <img
+            className="img"
+            alt="Image"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/image-4.png"
+          />
+          <p className="p">“Partez à la découverte du Centre Val de Loire”</p>
+          <p className="bienvenue-dans-la">
+            “ Bienvenue dans la magie du Centre-Val de Loire ! Explorez la vallée de la Loire avec ses châteaux
+            emblématiques, plongez dans des vignobles d&#39;exception, et découvrez des paysages naturels à couper le
+            souffle. Notre site vous ouvre les portes d&#39;une expérience unique, mêlant histoire, gastronomie, et
+            charme à la française. Offrez-vous une escapade inoubliable au cœur de cette région captivante. Vivez la
+            France authentique avec le Centre-Val de Loire ! “
+          </p>
+          <div className="text-wrapper-5">A PROPOS</div>
+          <div className="text-wrapper-6">PLAN DU SITE</div>
+          <div className="text-wrapper-7">ACCESSIBILITE</div>
+          <div className="text-wrapper-8">MENTION LEGALES</div>
+          <img
+            className="line"
+            alt="Line"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/line-25.svg"
+          />
+          <img
+            className="line-2"
+            alt="Line"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/line-6.svg"
+          />
+          <img
+            className="line-3"
+            alt="Line"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/line-7.svg"
+          />
+          <img
+            className="line-4"
+            alt="Line"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/line-8.svg"
+          />
+          <img
+            className="image-2"
+            alt="Image"
+            src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/655633910d79d153e0ed390c/img/image-14.png"
+          />
         </div>
-        <div className="overlap-3">
-          <div className="mask-group">
-            <div className="overlap-group-2">
-              <div className="rectangle-4" />
-              <div className="rectangle-5" />
-              <div className="rectangle-6" />
-              <img
-                className="tamas-tuzes-katai"
-                alt="Tamas tuzes katai"
-                src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/652d46c6dd97f0a699044dd5/img/tamas-tuzes-katai-ren-adbr3ig-unsplash-1@2x.png"
-              />
-              <Link to="/Carte">
-                <img src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/652d46c6dd97f0a699044dd5/img/jakob-dalbjorn-cukjre3nyyc-unsplash-1@2x.png" alt="Calendrier" className="jakob-dalbjorn" />
-            </Link>
-              <div className="text-wrapper-4">Carte</div>
-            </div>
-          </div>
-          <div className="text-wrapper-5">Découvrer</div>
-          <div className="text-wrapper-6">Parcourez la Région Centre</div>
-        </div>
-        <div className="overlap-4">
-          <div className="rectangle-7" />
-          <div className="rectangle-8" />
-          <div className="rectangle-9" />
-          <div className="rectangle-10" />
-          <div className="phil-hearing" />
-          <Link to="/Evenement">
-                <img src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/652d46c6dd97f0a699044dd5/img/jakob-dalbjorn-cukjre3nyyc-unsplash-1@2x.png" alt="Calendrier" className="jakob-dalbjorn" />
-          </Link>
-          <div className="text-wrapper-7">Evenements</div>
-          <div className="text-wrapper-8">Participer</div>
-          <div className="text-wrapper-9">Rencontrer</div>
-          <div className="text-wrapper-10">Apprendre</div>
-        </div>
-        <div className="overlap-5">
-          <div className="rectangle-11" />
-          <div className="rectangle-12" />
-          <div className="rectangle-13" />
-          <div className="rectangle-14" />
-          <Link to="/Lieux">
-                <img src="https://cdn.animaapp.com/projects/6511c698c032644aea5b6c4d/releases/652d46c6dd97f0a699044dd5/img/image-1@2x.png" alt="France" className="image" />
-          </Link>
-          <div className="text-wrapper-11">Lieux</div>
-          <div className="text-wrapper-12">Explorer</div>
-          <div className="text-wrapper-13">Admirer</div>
-          <div className="text-wrapper-14">Découvrir</div>
-        </div>
-        <p className="p">“Partez à la découverte des merveilleuses régions françaises !”</p>
-      </div>      
-    </div>
-  </div>       
+      </div>
+    </div>   
   );
 };
 

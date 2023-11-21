@@ -1,0 +1,369 @@
+header{
+    height: 10vh;
+} 
+ .div {
+    background-color: #ffffff;
+    height: 2048px;
+    position: relative;
+    width: 1440px;
+  }
+  
+ .overlap {
+    background-color: #000000;
+    border-radius: 10px;
+    height: 40px;
+    left: 932px;
+    position: absolute;
+    top: 50px;
+    width: 278px;
+  }
+  
+.vector {
+    height: 32px;
+    left: 16px;
+    position: absolute;
+    top: 5px;
+    width: 30px;
+  }
+  
+ .overlap-group {
+    height: 1880px;
+    left: 0;
+    position: absolute;
+    top: 168px;
+    width: 1440px;
+  }
+  
+ .rectangle {
+    background: linear-gradient(180deg, rgba(0, 159, 227, 0) 0%, rgb(0, 159, 227) 100%);
+    height: 1320px;
+    left: 0;
+    position: absolute;
+    top: 560px;
+    width: 1440px;
+  }
+  
+ .noah-buscher {
+    height: 300px;
+    left: 94px;
+    object-fit: cover;
+    position: absolute;
+    top: 989px;
+    width: 600px;
+  }
+  
+ .rectangle-2 {
+    background-color: #12aa36;
+    height: 71px;
+    left: 289px;
+    position: absolute;
+    top: 1252px;
+    width: 208px;
+  }
+  
+ .text-wrapper {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 700;
+    left: 323px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1267px;
+  }
+  
+ .image {
+    height: 300px;
+    left: 757px;
+    object-fit: cover;
+    position: absolute;
+    top: 988px;
+    width: 600px;
+  }
+  
+ .rectangle-3 {
+    background-color: #12aa36;
+    border-radius: 10px;
+    height: 71px;
+    left: 943px;
+    position: absolute;
+    top: 1263px;
+    width: 228px;
+  }
+  
+ .rectangle-4 {
+    background-color: #12aa36;
+    height: 71px;
+    left: 392px;
+    position: absolute;
+    top: 689px;
+    width: 730px;
+  }
+  
+ .text-wrapper-2 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 700;
+    left: 1015px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1278px;
+  }
+  
+ .tamas-tuzes-katai {
+    height: 300px;
+    left: 757px;
+    object-fit: cover;
+    position: absolute;
+    top: 1378px;
+    width: 600px;
+  }
+  
+ .rectangle-5 {
+    background-color: #12aa36;
+    height: 71px;
+    left: 944px;
+    position: absolute;
+    top: 1642px;
+    width: 228px;
+  }
+  
+ .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 700;
+    left: 1014px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1657px;
+  }
+  
+ .jakob-dalbjorn {
+    height: 300px;
+    left: 94px;
+    object-fit: cover;
+    position: absolute;
+    top: 1378px;
+    width: 600px;
+  }
+  
+ .rectangle-6 {
+    background-color: #12aa36;
+    height: 71px;
+    left: 279px;
+    position: absolute;
+    top: 1642px;
+    width: 228px;
+  }
+  
+ .text-wrapper-4 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 700;
+    left: 305px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1657px;
+  }
+  
+ .img {
+    height: 620px;
+    left: 111px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 1246px;
+  }
+  
+ .p {
+    color: #ffffff;
+    font-family: "Lilita One", Helvetica;
+    font-size: 26px;
+    font-weight: 400;
+    left: 509px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 710px;
+    white-space: nowrap;
+  }
+  
+ .bienvenue-dans-la {
+    color: #000000;
+    font-family: "Inter", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    left: 400px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: justify;
+    top: 789px;
+    width: 714px;
+  }
+  
+ .text-wrapper-5 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 1057px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1822px;
+    width: 205px;
+  }
+  
+ .text-wrapper-6 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 240px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1822px;
+    width: 205px;
+  }
+  
+ .text-wrapper-7 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 506px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1822px;
+    width: 205px;
+  }
+  
+ .text-wrapper-8 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 768px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 1822px;
+    width: 264px;
+  }
+  
+ .line {
+    height: 14px;
+    left: 194px;
+    position: absolute;
+    top: 1778px;
+    width: 1000px;
+  }
+  
+ .line-2 {
+    height: 10px;
+    left: 1255px;
+    position: absolute;
+    top: 1833px;
+    width: 56px;
+  }
+  
+ .line-3 {
+    height: 10px;
+    left: 1311px;
+    position: absolute;
+    top: 1833px;
+    width: 28px;
+  }
+  
+ .line-4 {
+    height: 10px;
+    left: 1339px;
+    position: absolute;
+    top: 1833px;
+    width: 56px;
+  }
+  
+ .image-2 {
+    height: 57px;
+    left: 1331px;
+    object-fit: cover;
+    position: absolute;
+    top: 1758px;
+    width: 77px;
+  }
+  
+ .text-wrapper-9 {
+    color: #000000;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 167px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 50px;
+    width: 154px;
+  }
+  
+ .text-wrapper-10 {
+    color: #000000;
+    font-family: "Inter", Helvetica;
+    font-size: 24px;
+    font-weight: 400;
+    left: 335px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 50px;
+    width: 154px;
+  }
+  
+ .vector-wrapper {
+    background-color: #000000;
+    border-radius: 25px;
+    height: 50px;
+    left: 1253px;
+    position: absolute;
+    top: 41px;
+    width: 50px;
+  }
+  
+ .vector-2 {
+    height: 36px;
+    left: 8px;
+    position: absolute;
+    top: 5px;
+    width: 34px;
+  }
+  
+ .vector-3 {
+    height: 43px;
+    left: 1333px;
+    position: absolute;
+    top: 49px;
+    width: 40px;
+  }
+  
+ .image-3 {
+    height: 81px;
+    left: 42px;
+    object-fit: cover;
+    position: absolute;
+    top: 28px;
+    width: 96px;
+  }
+  

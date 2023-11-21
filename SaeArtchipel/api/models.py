@@ -60,7 +60,6 @@ class Lieu(models.Model):
         telLieu = models.IntegerField(max_length=10)
         mailLieu = models.CharField(max_length=150)
         webLieu = models.CharField(max_length=250)
-        idTypeLieu = models.ForeignKey('TypeLieu', on_delete=models.CASCADE)
         idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
         idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
 
@@ -72,7 +71,7 @@ class Horaire(models.Model):
     listJour = models.CharField(max_length=300)
     horaireOuverture = models.TimeField()
     horaireFermeture = models.TimeField()
-    intervalHoraire = models.BooleanField()
+    intervalHoraire = models.BooleanField
     
     def __str__(self):
             return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"

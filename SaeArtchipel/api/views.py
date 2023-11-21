@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, OeuvreSerializer, EvenementSerializer, LnkLieuHoraireSerializer
 from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Oeuvre, Evenement, LnkLieuHoraire
-
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class LieuView(viewsets.ModelViewSet):
@@ -26,8 +26,13 @@ class PreferenceLieuView(viewsets.ModelViewSet):
     queryset = PreferenceLieu.objects.all()
 
 class UtilisateurView(viewsets.ModelViewSet):
-    serializer_class = UtilisateurSerializer
+
     queryset = Utilisateur.objects.all()
+    serializer_class = UtilisateurSerializer
+    permission_classes = (IsAuthenticated,)
+    filterset_fields = ['typeUtilisateur','ddnUtilisateur']
+    search_fields = ['nomUtilisateur','prenomUtilisateur','emailUtilisateur']
+    
 
 class ParcoursView(viewsets.ModelViewSet):
     serializer_class = ParcoursSerializer

@@ -6,7 +6,6 @@ class LieuSerializer(serializers.ModelSerializer):
         model = Lieu
         #fields =('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresse','idVille','refTarif','idLieu')
         #fields = '__all__' 
-
         fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif')
 
 class VilleSerializer(serializers.ModelSerializer):

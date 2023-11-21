@@ -2,3 +2,5 @@ django
 django-cors-headers
 djangorestframework
 mysqlclient
+dj-rest-auth
+django-filter

@@ -57,21 +57,24 @@ class Lieu(models.Model):
         boolJaujeLieux = models.BooleanField()
         nombreMaxVisiteur = models.IntegerField()
         adresseLieu = models.CharField(max_length=250)
-        telLieu = models.IntegerField(max_length=10)
-        mailLieu = models.CharField(max_length=150)
-        webLieu = models.CharField(max_length=250)
+        longitudeLieu = models.FloatField()
+        latitudeLieu = models.FloatField()
+        telLieu = models.IntegerField(max_length=10, null=True)
+        mailLieu = models.CharField(max_length=150, null=True)
+        webLieu = models.CharField(max_length=250, null=True)
         idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
         idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
+        idTypeLieu = models.ForeignKey('TypeLieu', on_delete=models.CASCADE)
 
         def __str__(self):
             return f"[\n idLieu : {self.idLieu} \n Lieu : {self.nomLieu} \n Adresse : {self.adresseLieu} \n]"
 
 class Horaire(models.Model):
     idHoraire = models.AutoField(primary_key=True)
-    listJour = models.CharField(max_length=300)
+    listJour = models.CharField(max_length=300, null=True)
     horaireOuverture = models.TimeField()
     horaireFermeture = models.TimeField()
-    intervalHoraire = models.BooleanField
+    intervalHoraire = models.BooleanField()
     
     def __str__(self):
             return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
@@ -137,8 +140,8 @@ class Evenement(models.Model):
 class LnkLieuHoraire(models.Model):
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     idHoraire = models.ForeignKey(Horaire, on_delete=models.CASCADE)
-    dateDebut = models.DateField
-    dateFin = models.DateField
+    dateDebut = models.DateField(null=True)
+    dateFin = models.DateField(null=True)
     
     def __str__(self):
             return f"[\n Lieu : {self.idLieu} \n Horaire : {self.idHoraire} \n date de début : {self.dateDebut} \n date de fin: {self.dateFin} \n]"

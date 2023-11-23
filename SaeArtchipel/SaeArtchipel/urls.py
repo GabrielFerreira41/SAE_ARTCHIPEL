@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from api import views
+from rest_framework.authtoken.views import obtain_auth_token
 
 router = routers.DefaultRouter()
 router.register(r'Lieu', views.LieuView, 'Lieu')
@@ -23,4 +24,5 @@ router.register(r'PreferenceLieu', views.PreferenceLieuView, 'PreferenceLieu')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('auth/', obtain_auth_token),
 ]

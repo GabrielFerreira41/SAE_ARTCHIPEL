@@ -79,7 +79,7 @@ class DepartementView(viewsets.ModelViewSet):
 class RegionView(viewsets.ModelViewSet):
     serializer_class = RegionSerializer
     queryset = Region.objects.all()
-    permission_classes = (IsAuthenticatedOrReadOnly)
+    permission_classes = [IsAuthenticated]
 
 
 class OeuvreView(viewsets.ModelViewSet):

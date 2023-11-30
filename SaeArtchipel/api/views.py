@@ -156,7 +156,10 @@ def details_Lieu(request, lieu_id):
     region = departement.idRegion
     oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
     horaire = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
-    # heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
+    
+    print("ici : ",horaire)
+    heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
+    print("ici : ",heure)
     
     
     # Créez un dictionnaire avec les détails
@@ -168,7 +171,7 @@ def details_Lieu(request, lieu_id):
         'region': RegionSerializer(region).data,
         'oeuvre': OeuvreSerializer(oeuvre, many=True).data,
         'horaire': LnkLieuHoraireSerializer(horaire, many=True).data,
-        # 'heure': HoraireSerializer(heure, many=True).data,
+        'heure': HoraireSerializer(heure, many=True).data,
 
     }
 

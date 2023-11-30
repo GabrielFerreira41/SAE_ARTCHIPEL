@@ -20,9 +20,15 @@ router.register(r'Oeuvre', views.OeuvreView, 'OeuvreLieu')
 router.register(r'Evenement', views.EvenementView, 'EvenementLieu')
 router.register(r'FavorisParcours', views.FavorisParcoursView, 'FavorisParcours')
 router.register(r'PreferenceLieu', views.PreferenceLieuView, 'PreferenceLieu')
+router.register(r'LieuHorraire', views.LieuHorraireView, 'LieuHorraire')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('auth/', obtain_auth_token),
-]
+    path('evenement/<int:evenement_id>/',views.details_evenement, name='details_evenement'),
+    path('Lieu/<int:lieu_id>/',views.details_Lieu, name='detail_Lieu'),
+    path('Parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
+
+    ]

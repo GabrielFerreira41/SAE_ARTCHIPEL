@@ -174,3 +174,33 @@ def details_Lieu(request, lieu_id):
 
     return JsonResponse(details_lieu, safe=False)
     
+def details_Parcours(request, parcours_id):
+    details = get_object_or_404(Parcours, idParcours=parcours_id)
+
+    utilisateur = details.idUtilisateur
+    etape = Etape.objects.filter(idParcours=parcours_id)
+    lieu = Lieu.objects.filter(idLieu=etape.idLieu)
+    tarif = Tarif.objects.filter(idTarif=lieu.idTarif)
+    ville = Ville.objects.filter(idVille=lieu.idVille)
+    departement = Departement.objects.filter(idDepartement=ville.idDepartement)
+    region = Region.objects.filter(idRegion=departement.idRegion)
+    horaire = LnkLieuHoraire.objects.filter(idLieu=lieu.idLieu)
+    heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
+    
+    
+    # Créez un dictionnaire avec les détails
+    details_parcours = {
+        'parcours': ParcoursSerializer(details).data,
+        'utilisateur': UtilisateurSerializer(utilisateur).data,
+        'etape': EtapeSerializer(etape, many=True).data,
+        'lieu': LieuSerializer(lieu, many=True).data,
+        'tarif': TarifSerializer(tarif, many=True).data,
+        'ville': VilleSerializer(ville, many=True).data,
+        'departement': DepartementSerializer(departement, many=True).data,
+        'region': RegionSerializer(region, many=True).data,
+        'horaire': LnkLieuHoraireSerializer(horaire, many=True).data,
+        'heure': HoraireSerializer(heure, many=True).data,
+
+    }
+
+    return JsonResponse(details_parcours, safe=False)

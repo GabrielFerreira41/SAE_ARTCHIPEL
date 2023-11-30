@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 
 const Carte = () => {
+  const [selectedMonument, setSelectedMonument] = useState(null);
+  const [monumentsList, setMonumentsList] = useState([]); // Changement du nom de la variable
+
   useEffect(() => {
     loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/GraphicsLayer', 'esri/Graphic', 'esri/widgets/Directions'], { css: true })
       .then(([Map, MapView, GraphicsLayer, Graphic, Directions]) => {
@@ -53,6 +56,9 @@ const Carte = () => {
           monumentsLayer.add(pointGraphic);
         });
 
+        // Mettez à jour le state des monuments avec la liste des monuments
+        setMonumentsList(monuments);
+
         // Ajout de la fonctionnalité d'itinéraire
         const directionsWidget = new Directions({
           view: view
@@ -71,7 +77,25 @@ const Carte = () => {
   }, []); // La dépendance vide assure que le code ne s'exécute qu'une fois
 
   return (
-    <div id="map-view" style={{ height: '50vh', width:'50vw' }}></div>
+    <div>
+      <div id="map-view" style={{ height: '65vh', width: '100vw' }}></div>
+      <ul className="list-group list-group-flush">
+        {monumentsList.map((monument, index) => (
+          <li key={index} className="list-group-item">
+            <div className="card" style={{ cursor: 'pointer' }} onClick={() => setSelectedMonument(monument)}>
+              <div className="card-body">
+                <h5 className="card-title">{monument.name}</h5>
+                <p className="card-text">
+                  {/* Vous pouvez ajouter d'autres détails du monument ici */}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+
+    </div>
   );
 };
 

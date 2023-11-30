@@ -1,14 +1,33 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
-class Utilisateur(models.Model):
-    idUtilisateur = models.AutoField(primary_key=True)
-    nomUtilisateur = models.CharField(max_length=250, unique=True)
-    prenomUtilisateur = models.CharField(max_length=250)
-    mdpUtilisateur = models.CharField(max_length=15)
-    emailUtilisateur = models.CharField(max_length=150, unique=True)
-    typeUtilisateur = models.BooleanField()
-    ddnUtilisateur = models.DateField(format('%d/%m/%Y'))
+class User(AbstractUser):
+    #idUtilisateur = models.AutoField(primary_key=True)
+    #nomUtilisateur = models.CharField(max_length=250, unique=True)
+    #prenomUtilisateur = models.CharField(max_length=250)
+    #mdpUtilisateur = models.CharField(max_length=15)
+    #emailUtilisateur = models.CharField(max_length=150, unique=True)
+    #typeUtilisateur = models.BooleanField()
+    ddnUtilisateur = models.DateField(format('%d/%m/%Y'),null=True)
+
+
+    # groups = models.ManyToManyField(
+    #     'auth.Group',
+    #     related_name='utilisateur_groups',
+    #     related_query_name='utilisateur_group',
+    #     blank=True,
+    #     verbose_name='groups',
+    #     help_text='The groups this user belongs to.'
+    # )
+    # user_permissions = models.ManyToManyField(
+    #     'auth.Permission',
+    #     related_name='utilisateur_user_permissions',
+    #     related_query_name='utilisateur_user_permission',
+    #     blank=True,
+    #     verbose_name='user permissions',
+    #     help_text='Specific permissions for this user.'
+    # )
     
     def __str__(self):
             return f"[\n User : {self.nomUtilisateur} \n Email : {self.emailUtilisateur} \n Type : {self.typeUtilisateur} \n]"

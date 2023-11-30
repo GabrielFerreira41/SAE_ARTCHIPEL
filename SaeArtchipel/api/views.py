@@ -99,4 +99,14 @@ class LnkLieuHoraireView(viewsets.ModelViewSet):
     queryset = LnkLieuHoraire.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly)
 
+# class logoutView(viewsets):
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, *args, **kwargs):
+#         token, created = Token.objects.get_or_create(user=request.user)
+#         token.delete()
+
+            
+
+
 

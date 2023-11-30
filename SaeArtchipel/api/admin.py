@@ -16,8 +16,8 @@ class TypeLieuAdmin(admin.ModelAdmin):
 class PreferenceLieuAdmin(admin.ModelAdmin):
     list_display = ('idUtilisateur','idLieu')
 
-class UtilisateurAdmin(admin.ModelAdmin):
-    list_display = ('idUtilisateur','nomUtilisateur','prenomUtilisateur','mdpUtilisateur','emailUtilisateur','ddnUtilisateur')
+# class UtilisateurAdmin(admin.ModelAdmin):
+#     list_display = ('idUtilisateur','nomUtilisateur','prenomUtilisateur','mdpUtilisateur','emailUtilisateur','ddnUtilisateur')
 
 class ParcoursAdmin(admin.ModelAdmin):
     list_display = ('idParcours','nomParcours','idUtilisateur','typeParcours','difficulteParcours','distanceParcours')
@@ -53,7 +53,7 @@ class LnkLieuHoraireAdmin(admin.ModelAdmin):
 
     
 
-admin.site.register(Utilisateur, UtilisateurAdmin)
+#admin.site.register(Utilisateur, UtilisateurAdmin)
 admin.site.register(PreferenceLieu, PreferenceLieuAdmin)
 admin.site.register(Parcours, ParcoursAdmin)
 admin.site.register(Etape, EtapeAdmin)

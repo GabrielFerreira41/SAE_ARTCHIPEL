@@ -8,16 +8,11 @@ const Lieux = () => {
   const [lieux, setLieux] = useState([]);
   const [totalLieux,setTotalLieux]= useState([]);
   useEffect(() => {
-    axios.get("https://data.centrevaldeloire.fr/api/explore/v2.1/catalog/datasets/patrimoine-architectural-en-region-centre-val-de-loire/records")
+    axios.get("http://localhost:8000/api/Lieu/")
       .then((response) => {
-        const data = response.data.results;
+        const data = response.data;
         console.log(data)
-        setLieux(data);
-
-        const total = response.data.total_count
-        console.log(total)
-        setTotalLieux(total);
-
+        setLieux(data)
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des lieux :", error);
@@ -37,10 +32,10 @@ const Lieux = () => {
             <h2>Départements</h2>
             <ul className="list-unstyled" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '10px' }}>
   {lieux.map((lieu) => (
-    <li key={lieu.id}>
+    <li key={lieu.idLieu}>
       <div className="card mb-3" style={{ width: '220px', minHeight: '200px' }}>
         <div className="card-body">
-          <Link to={`/lieux/${lieu.id}`}>{lieu.appelation}</Link>
+          <Link to={`/lieux/${lieu.idLieu}`}>{lieu.nomLieu}</Link>
         </div>
       </div>
     </li>

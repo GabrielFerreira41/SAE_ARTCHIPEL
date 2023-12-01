@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement,Region,Oeuvre, Evenement, LnkLieuHoraire
+from .models import Utilisateur, Lieu, Ville, Tarif, TypeLieu, PreferenceLieu, Parcours, Etape, FavorisParcours, Horaire, Departement,Region,Oeuvre, Evenement, LnkLieuHoraire
+
 
 class LieuSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +32,7 @@ class PreferenceLieuSerializer(serializers.ModelSerializer):
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilisateur
-        fields = ('idUtilisateur','nomUtilisateur','prenomUtilisateur','emailUtilisateur','mdpUtilisateur','typeUtilisateur','ddnUtilisateur')
+        fields = ('id','username','first_name','is_superuser','email','is_staff', 'is_active','ddnUtilisateur')
 
 class ParcoursSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
-class User(AbstractUser):
+class Utilisateur(AbstractUser):
     #idUtilisateur = models.AutoField(primary_key=True)
     #nomUtilisateur = models.CharField(max_length=250, unique=True)
     #prenomUtilisateur = models.CharField(max_length=250)

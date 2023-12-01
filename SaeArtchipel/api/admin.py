@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import *
+from django.contrib.auth.admin import UserAdmin
 
 class LieuAdmin(admin.ModelAdmin):
     list_display = ('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu', 'mailLieu', 'webLieu','idVille','idTarif','idLieu')
@@ -16,8 +17,8 @@ class TypeLieuAdmin(admin.ModelAdmin):
 class PreferenceLieuAdmin(admin.ModelAdmin):
     list_display = ('idUtilisateur','idLieu')
 
-# class UtilisateurAdmin(admin.ModelAdmin):
-#     list_display = ('idUtilisateur','nomUtilisateur','prenomUtilisateur','mdpUtilisateur','emailUtilisateur','ddnUtilisateur')
+class UtilisateurAdmin(UserAdmin):
+    list_display = ('id','username','first_name','is_superuser','email','is_staff', 'is_active','ddnUtilisateur')
 
 class ParcoursAdmin(admin.ModelAdmin):
     list_display = ('idParcours','nomParcours','idUtilisateur','typeParcours','difficulteParcours','distanceParcours')
@@ -53,7 +54,7 @@ class LnkLieuHoraireAdmin(admin.ModelAdmin):
 
     
 
-#admin.site.register(Utilisateur, UtilisateurAdmin)
+admin.site.register(Utilisateur, UtilisateurAdmin)
 admin.site.register(PreferenceLieu, PreferenceLieuAdmin)
 admin.site.register(Parcours, ParcoursAdmin)
 admin.site.register(Etape, EtapeAdmin)

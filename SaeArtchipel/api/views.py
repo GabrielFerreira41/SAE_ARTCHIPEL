@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, OeuvreSerializer, EvenementSerializer, LnkLieuHoraireSerializer
-from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Oeuvre, Evenement, LnkLieuHoraire
+from .serializers import UtilisateurSerializer, LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, OeuvreSerializer, EvenementSerializer, LnkLieuHoraireSerializer
+from .models import Utilisateur, Lieu, Ville, Tarif, TypeLieu, PreferenceLieu, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Oeuvre, Evenement, LnkLieuHoraire
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import authentication
 
@@ -39,10 +39,10 @@ class UtilisateurView(viewsets.ModelViewSet):
 
     queryset = Utilisateur.objects.all()
     serializer_class = UtilisateurSerializer
-    permission_classes = (IsAuthenticated,)
-    filterset_fields = ['typeUtilisateur','ddnUtilisateur']
-    search_fields = ['nomUtilisateur','prenomUtilisateur','emailUtilisateur']
-    permission_classes = (IsAuthenticatedOrReadOnly)
+    #permission_classes = (IsAuthenticated,)
+    #filterset_fields = ['typeUtilisateur','ddnUtilisateur']
+    #search_fields = ['nomUtilisateur','prenomUtilisateur','emailUtilisateur']
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     
 
@@ -79,7 +79,7 @@ class DepartementView(viewsets.ModelViewSet):
 class RegionView(viewsets.ModelViewSet):
     serializer_class = RegionSerializer
     queryset = Region.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class OeuvreView(viewsets.ModelViewSet):

@@ -1,44 +1,5 @@
-// import React, { Component } from "react";
-// import axios from "axios";
-
-// class App extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       donneesApi: [], // Changer le nom de l'état à "donneesApi"
-//     };
-//   }
-
-//   componentDidMount() {
-//     this.fetchDataFromAPI();
-//   }
-
-//   fetchDataFromAPI = () => {
-//     axios
-//       .get("https://data.centrevaldeloire.fr/api/explore/v2.1/catalog/datasets/inventaire-du-patrimoine-en-region-centre-val-de-loire/records?limit=100")
-//       .then((res) => this.setState({ donneesApi: res.data.results })) // Utilisez "donneesApi" au lieu de "todoList"
-//       .catch((err) => console.log(err));
-//   };
-
-//   render() {
-//     const { donneesApi } = this.state; // Utilisez "donneesApi" au lieu de "todoList"
-
-//     return (
-//       <div>
-//         <h1>Données de l'API</h1>
-//         <ul>
-//           {donneesApi.map((item, index) => ( // Ajoutez un attribut "key" unique
-//             <li key={index}>{item.etud}</li>
-//           ))}
-//         </ul>
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 
 import Accueil from './components/Accueil';
 import Lieux from './components/Lieux';
@@ -49,7 +10,15 @@ import Carte from './components/Carte';
 import Lieu from './components/Lieu';
 import Connexion from './components/Connexion';
 
-
+function PageNotFound() {
+  return (
+    <div>
+      <h1>404 - Page Not Found</h1>
+      {/* Ajoutez un lien pour rediriger vers la page d'accueil */}
+      <Link to="/">Retour à l'accueil</Link>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -57,16 +26,17 @@ function App() {
       <Routes>
         <Route path="/" element={<Accueil />} />
         <Route path="/Lieux" element={<Lieux />} />
-        <Route path="/lieux/:id" component={Lieu} />
+        <Route path="/lieux/:id" element={<Lieu />} />
         <Route path="/Info" element={<Info />} />
         <Route path="/Decouverte" element={<Decouverte />} />
-        <Route path="/Evenement" element={<Evenement/>}/>
-        <Route path='/Carte' element={<Carte/>}/>
-        <Route path='/Connexion' element={<Connexion/>}/>
-        </Routes>
+        <Route path="/Evenement" element={<Evenement />} />
+        <Route path="/Carte" element={<Carte />} />
+        <Route path="/Connexion" element={<Connexion />} />
+        {/* Ajoutez la route de secours */}
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
     </Router>
   );
 }
 
 export default App;
-

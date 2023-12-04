@@ -128,8 +128,9 @@ const Carte = () => {
         <ul className="list-group d-flex flex-wrap listeLieu">
           {monumentsList.map((monument, index) => (
             <li key={index} className="list-group-item" onClick={() => setSelectedMonument(monument)}>
-              <div className="card monument-card border-primary mb-3">
-                <div className="card-body">
+              <div className="card monument-card border-primary mb-3" style={{ width: '14rem' }}>
+                {/* Ajoutez la classe "text-center" pour centrer le contenu de la carte */}
+                <div className="card-body text-center">
                   <h5 className="card-title text-primary">{monument.name}</h5>
                   <p className="card-text text-muted">
                     {/* Vous pouvez ajouter d'autres détails du monument ici */}
@@ -139,6 +140,7 @@ const Carte = () => {
             </li>
           ))}
         </ul>
+
       </section>
     </div>
   );

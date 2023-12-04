@@ -29,6 +29,8 @@ urlpatterns = [
     path('auth/', obtain_auth_token),
     path('evenement/<int:evenement_id>/',views.details_evenement, name='details_evenement'),
     path('Lieu/<int:lieu_id>/',views.details_Lieu, name='detail_Lieu'),
-    path('Parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
+    #path('Parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
+
+    path('add_admin',include('app_admin.urls')),
 
     ]

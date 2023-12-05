@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import "../style/styleCarte.css";
+import { Link } from 'react-router-dom';
+
 
 const Carte = () => {
   const [selectedMonument, setSelectedMonument] = useState(null);
@@ -25,27 +27,28 @@ const Carte = () => {
         map.add(monumentsLayer);
 
         const monuments = [
-          { name: 'Château de Chambord', location: [1.515, 47.616] },
-          { name: 'Cathédrale de Chartres', location: [1.485, 48.447] },
-          { name: 'Château de Chenonceau', location: [1.0707, 47.3244] },
-          { name: 'Château d\'Amboise', location: [0.9845, 47.4108] },
-          { name: 'Château de Villandry', location: [0.5110, 47.3423] },
-          { name: 'Château d\'Azay-le-Rideau', location: [0.4725, 47.2613] },
-          { name: 'Château de Blois', location: [1.3307, 47.5861] },
-          { name: 'Château de Cheverny', location: [1.4552, 47.5077] },
-          { name: 'Château de Loches', location: [1.0041, 47.1284] },
-          { name: 'Château de Chinon', location: [0.2454, 47.1676] },
-          { name: 'Château de Montpoupon', location: [0.9833, 47.2167] },
-          { name: 'Château de Chaumont-sur-Loire', location: [0.9760, 47.4826] },
-          { name: 'Château de Valençay', location: [1.5736, 47.1624] },
-          { name: 'Château de Langeais', location: [0.4045, 47.3307] },
-          { name: 'Château de Sully-sur-Loire', location: [2.3832, 47.7803] },
-          { name: 'Château de Gien', location: [2.6340, 47.6876] },
-          { name: 'Château de Meung-sur-Loire', location: [1.6947, 47.8202] },
-          { name: 'Château de La Ferté-Saint-Aubin', location: [1.9583, 47.8151] },
-          { name: 'Château de Saumur', location: [-0.2458, 47.2623] },
-          { name: 'Château de Brissac', location: [-0.5520, 47.3590] },
+          { id: 1, name: 'Château de Chambord', location: [1.515, 47.616] },
+          { id: 2, name: 'Cathédrale de Chartres', location: [1.485, 48.447] },
+          { id: 3, name: 'Château de Chenonceau', location: [1.0707, 47.3244] },
+          { id: 4, name: 'Château d\'Amboise', location: [0.9845, 47.4108] },
+          { id: 5, name: 'Château de Villandry', location: [0.5110, 47.3423] },
+          { id: 6, name: 'Château d\'Azay-le-Rideau', location: [0.4725, 47.2613] },
+          { id: 7, name: 'Château de Blois', location: [1.3307, 47.5861] },
+          { id: 8, name: 'Château de Cheverny', location: [1.4552, 47.5077] },
+          { id: 9, name: 'Château de Loches', location: [1.0041, 47.1284] },
+          { id: 10, name: 'Château de Chinon', location: [0.2454, 47.1676] },
+          { id: 11, name: 'Château de Montpoupon', location: [0.9833, 47.2167] },
+          { id: 12, name: 'Château de Chaumont-sur-Loire', location: [0.9760, 47.4826] },
+          { id: 13, name: 'Château de Valençay', location: [1.5736, 47.1624] },
+          { id: 14, name: 'Château de Langeais', location: [0.4045, 47.3307] },
+          { id: 15, name: 'Château de Sully-sur-Loire', location: [2.3832, 47.7803] },
+          { id: 16, name: 'Château de Gien', location: [2.6340, 47.6876] },
+          { id: 17, name: 'Château de Meung-sur-Loire', location: [1.6947, 47.8202] },
+          { id: 18, name: 'Château de La Ferté-Saint-Aubin', location: [1.9583, 47.8151] },
+          { id: 19, name: 'Château de Saumur', location: [-0.2458, 47.2623] },
+          { id: 20, name: 'Château de Brissac', location: [-0.5520, 47.3590] },
         ];
+        
 
         monuments.forEach(monument => {
           const point = {
@@ -53,7 +56,7 @@ const Carte = () => {
             longitude: monument.location[0],
             latitude: monument.location[1]
           };
-
+        
           const markerSymbol = {
             type: 'simple-marker',
             color: [226, 119, 40],
@@ -62,24 +65,28 @@ const Carte = () => {
               width: 2
             }
           };
-
+        
           const pointGraphic = new Graphic({
             geometry: point,
             symbol: markerSymbol,
             attributes: {
-              name: monument.name
+              name: monument.name,
+              id: monument.id
             }
           });
-
+        
           const popupTemplate = {
             title: '{name}',
-            content: 'Détails du monument'
+            content: "<a href='/lieux/'{id}''>Voir le détail de '{name}'</a>"
           };
-
+        
           pointGraphic.popupTemplate = popupTemplate;
-
+        
           monumentsLayer.add(pointGraphic);
         });
+        
+        
+        
 
         monumentsLayer.on('click', event => {
           setSelectedMonument(event.graphic.attributes);
@@ -123,23 +130,24 @@ const Carte = () => {
         <div id="map-view" style={{ height: '65vh', width: '75vw' }}></div>
         <h1 className='d-flex titreCarte justify-content-center align-items-center'>Carte</h1>
       </div>
-      <section className='d-flex'>
-        <h1 className='d-flex titreListeLieux justify-content-center align-items-center'>Liste des monuments</h1>
-        <ul className="list-group d-flex flex-wrap listeLieu">
-          {monumentsList.map((monument, index) => (
-            <li key={index} className="list-group-item" onClick={() => setSelectedMonument(monument)}>
-              <div className="card monument-card border-primary mb-3" style={{ width: '14rem' }}>
-                {/* Ajoutez la classe "text-center" pour centrer le contenu de la carte */}
-                <div className="card-body text-center">
-                  <h5 className="card-title text-primary">{monument.name}</h5>
-                  <p className="card-text text-muted">
-                    {/* Vous pouvez ajouter d'autres détails du monument ici */}
-                  </p>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+      <section className=''>
+        <h1 className='titreListeLieux pt-5 pb-5 d-flex justify-content-center align-items-center'>Liste des monuments</h1>
+        <ul className="list-unstyled row">
+      {monumentsList.map((monument, index) => (
+        <li key={index} className="col-md-4 mb-4">
+          <div
+            className="card h-100 cursor-pointer"
+            onClick={() => setSelectedMonument(monument)}
+          >
+            {/* Ajoutez la classe "text-center" pour centrer le contenu de la carte */}
+            <h5 className="card-title text-primary text-center">{monument.name}</h5>
+            {/* Ajoutez ici d'autres éléments de la carte, comme les images ou les descriptions */}
+          </div>
+        </li>
+      ))}
+    </ul>
+
+
 
       </section>
     </div>

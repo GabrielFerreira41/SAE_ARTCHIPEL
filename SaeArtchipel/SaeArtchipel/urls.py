@@ -31,6 +31,6 @@ urlpatterns = [
     path('Lieu/<int:lieu_id>/',views.details_Lieu, name='detail_Lieu'),
     #path('Parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
 
-    path('add_admin',include('app_admin.urls')),
+    path('app_admin',include('app_admin.urls')),
 
     ]

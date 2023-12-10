@@ -22,3 +22,26 @@ img{
     margin-left: 3vw;
     margin-right: 3vw;
 }
+#root{
+    height: 100vh;
+}
+
+.carteVerte {
+    background-color: #4CAF50; /* Vert */
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+.ulInformation{
+    margin-left: 5vw;
+}
+
+.titreInformation{
+    margin-left: 3vw;
+    margin-top: 3vh;
+
+}
+  

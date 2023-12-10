@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
 import "../style/styleCarte.css";
-import { Link } from 'react-router-dom';
-
 
 const Carte = () => {
   const [selectedMonument, setSelectedMonument] = useState(null);
   const [monumentsList, setMonumentsList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMap,viewMonumentOnMap] = useState(null);
+  const itemsPerPage = 6;
   let view;
-
+  
   useEffect(() => {
     loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/GraphicsLayer', 'esri/Graphic', 'esri/widgets/Directions', 'esri/widgets/Popup'], { css: true })
       .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Popup]) => {
@@ -25,6 +26,7 @@ const Carte = () => {
 
         const monumentsLayer = new GraphicsLayer();
         map.add(monumentsLayer);
+
 
         const monuments = [
           { id: 1, name: 'Château de Chambord', location: [1.515, 47.616] },
@@ -48,7 +50,8 @@ const Carte = () => {
           { id: 19, name: 'Château de Saumur', location: [-0.2458, 47.2623] },
           { id: 20, name: 'Château de Brissac', location: [-0.5520, 47.3590] },
         ];
-        
+
+
 
         monuments.forEach(monument => {
           const point = {
@@ -56,7 +59,7 @@ const Carte = () => {
             longitude: monument.location[0],
             latitude: monument.location[1]
           };
-        
+
           const markerSymbol = {
             type: 'simple-marker',
             color: [226, 119, 40],
@@ -65,7 +68,7 @@ const Carte = () => {
               width: 2
             }
           };
-        
+
           const pointGraphic = new Graphic({
             geometry: point,
             symbol: markerSymbol,
@@ -74,23 +77,20 @@ const Carte = () => {
               id: monument.id
             }
           });
-        
+
           const popupTemplate = {
             title: '{name}',
-            content: "<a href='/lieux/'{id}''>Voir le détail de '{name}'</a>"
+            content: "<a href=`/lieux/${monument.id}`>Voir le détail de '{name}'</a>"
           };
-        
+
           pointGraphic.popupTemplate = popupTemplate;
-        
+
           monumentsLayer.add(pointGraphic);
         });
-        
-        
-        
 
+        
         monumentsLayer.on('click', event => {
           setSelectedMonument(event.graphic.attributes);
-          // Centrer et zoomer sur le monument sélectionné
           view.goTo({
             target: event.graphic.geometry,
             zoom: 12
@@ -99,6 +99,18 @@ const Carte = () => {
 
         setMonumentsList(monuments);
 
+        const viewMonumentOnMap = (location) => {
+          if (view) {
+            console.error("it's work");
+            view.goTo({
+              center: location,
+              zoom: 12
+            });
+          } else {
+            console.error("View is undefined.");
+          }
+        };
+      
         const directionsWidget = new Directions({
           view: view
         });
@@ -112,46 +124,66 @@ const Carte = () => {
         };
       })
       .catch(err => console.error(err));
-  }, []);
+  }, [selectedMap]);
 
-  useEffect(() => {
-    if (selectedMonument && view) {
-      // Ouvrir le popup lorsque le monument est sélectionné
-      view.popup.open({
-        title: selectedMonument.name,
-        content: 'Détails du monument'
-      });
-    }
-  }, [selectedMonument]);
+  // Fonction pour changer de page
+  const changePage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentMonuments = monumentsList.slice(startIndex, endIndex);
 
   return (
     <div className='main'>
-      <div className='d-flex mt-5'>
-        <div id="map-view" style={{ height: '65vh', width: '75vw' }}></div>
+      <div className='d-flex'>
+        <div id="map-view" style={{ height: '90vh', width: '75vw' }}></div>
         <h1 className='d-flex titreCarte justify-content-center align-items-center'>Carte</h1>
       </div>
-      <section className=''>
+      <section className='d-flex'>
         <h1 className='titreListeLieux pt-5 pb-5 d-flex justify-content-center align-items-center'>Liste des monuments</h1>
-        <ul className="list-unstyled row">
-      {monumentsList.map((monument, index) => (
-        <li key={index} className="col-md-4 mb-4">
-          <div
-            className="card h-100 cursor-pointer"
-            onClick={() => setSelectedMonument(monument)}
-          >
-            {/* Ajoutez la classe "text-center" pour centrer le contenu de la carte */}
-            <h5 className="card-title text-primary text-center">{monument.name}</h5>
-            {/* Ajoutez ici d'autres éléments de la carte, comme les images ou les descriptions */}
-          </div>
-        </li>
-      ))}
-    </ul>
+        <div>
+          <ul className="list-unstyled d-flex flex-wrap">
+            {currentMonuments.map((monument, index) => (
+              <li key={index} className="containerListeLieux col-md-4">
+                {/* <div
+                className="card d-flex justify-content-center align-items-center"
+                onClick={() => setSelectedMonument(monument)}
+              > */}
+                <h5 className=" card-title titleMonument">{monument.name}</h5>
+                <div>
+                  <a href={`/lieux/${monument.id}`}>Details</a>
+                  <a onClick={() => viewMonumentOnMap(monument.location)}>Voir sur la carte</a>
+                </div>
+                {/* Ajoutez ici d'autres éléments de la carte, comme les images ou les descriptions */}
+                {/* </div> */}
+              </li>
+            ))}
+          </ul>
 
-
-
+          <nav className="mt-4" aria-label="Page navigation">
+            <ul className="pagination justify-content-center listeLieux">
+              {Array.from({ length: Math.ceil(monumentsList.length / itemsPerPage) }, (_, index) => index + 1).map((page) => (
+                <li
+                  key={page}
+                  className={`page-item tailleLieu ${currentPage === page ? 'active' : ''}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => changePage(page)}
+                  >
+                    {page}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </section>
     </div>
   );
 };
 
 export default Carte;
+

@@ -12,10 +12,14 @@ import Connexion from './components/Connexion';
 
 function PageNotFound() {
   return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      {/* Ajoutez un lien pour rediriger vers la page d'accueil */}
-      <Link to="/">Retour à l'accueil</Link>
+    <div className="container d-flex justify-content-center bg-success  p-5">
+      <div className="text-center">
+        <h1>404 - Page Not Found</h1>
+        <p>Sorry, the page you are looking for might be in another castle.</p>
+        <Link className="btn btn-primary" to="/">
+          Retour à l'accueil
+        </Link>
+      </div>
     </div>
   );
 }

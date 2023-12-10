@@ -3,16 +3,25 @@
   color: white;
   width: 25vw;
   text-align: center;
-  height: 65vh;
+  height: 90vh;
   margin-bottom: 3vh;
 }
 
-.titreListeLieux{
-  width: 100vw;
-  color: white;
-  background-color: #12AA36;
+
+.containerListeLieux{
+  background-color: rgb(0, 159, 227);
 }
 
+.titreListeLieux{
+  width: 50vw;
+  height: 50vh;
+  color: white;
+  background-color: #12AA36;
+  position:static;
+}
+.carteListeLieux{
+  height: 25vw;
+}
 .main{
   height: 200vh;
 }
@@ -20,3 +29,19 @@
 .listeLieu{
   width: 75vw;
 }
+.listeLieux{
+  width: 25vw;
+}
+#root {
+  height: 200vh;
+  width: 100%;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+

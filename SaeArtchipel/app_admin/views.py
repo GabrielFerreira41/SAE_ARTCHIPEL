@@ -49,13 +49,13 @@ class RegionDeleteView(DeleteView):
 
 class DepartementCreateView(CreateView):
     model = Departement
-    form_class = RegionForm
+    form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
     success_url = reverse_lazy('app_admin:liste_departements')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
 
 class DepartementUpdateView(UpdateView):
     model = Departement
-    form_class = RegionForm
+    form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
     success_url = reverse_lazy('app_admin:liste_departements')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
 

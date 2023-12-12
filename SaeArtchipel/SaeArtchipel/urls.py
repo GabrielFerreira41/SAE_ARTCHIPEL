@@ -28,7 +28,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('auth/', obtain_auth_token),
     path('evenement/<int:evenement_id>/',views.details_evenement, name='details_evenement'),
-    path('Lieu/<int:lieu_id>/',views.details_Lieu, name='detail_Lieu'),
-    path('Parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
+    path('api/detail_lieu/<int:lieu_id>/',views.details_Lieu, name='detail_Lieu'),
+    path('api/detail_parcours/<int:parcours_id>/',views.details_Parcours, name='detail_Parcours'),
 
     ]

@@ -13,6 +13,41 @@ class LieuView(viewsets.ModelViewSet):
     queryset = Lieu.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def detail_Lieu(request, lieu_id):
+        details = get_object_or_404(Lieu, idLieu=lieu_id)
+
+        tarif = details.idTarif
+        ville = details.idVille
+        departement = ville.idDepartement
+        region = departement.idRegion
+        oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
+        horaires = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
+
+        heures = []
+        for horaire in horaires:
+            heures.extend(Horaire.objects.filter(idHoraire=horaire.idHoraire))
+
+        # Utilisez les serializers pour sérialiser les objets
+        lieu_serializer = LieuSerializer(details).data
+        tarif_serializer = TarifSerializer(tarif).data
+        ville_serializer = VilleSerializer(ville).data
+        departement_serializer = DepartementSerializer(departement).data
+        region_serializer = RegionSerializer(region).data
+        oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
+        horaire_serializer = HoraireSerializer(heures, many=True).data
+
+        # Créez un dictionnaire avec les détails sérialisés
+        details_lieu = {
+            'lieu': lieu_serializer,
+            'tarif': tarif_serializer,
+            'ville': ville_serializer,
+            'departement': departement_serializer,
+            'region': region_serializer,
+            'oeuvre': oeuvre_serializer,
+            'horaire': horaire_serializer,  # Utilisez le serializer HoraireSerializer
+        }
+
+        return JsonResponse(details_lieu, safe=False, charset='utf-8')
 
 class VilleView(viewsets.ModelViewSet):
     serializer_class = VilleSerializer
@@ -146,7 +181,21 @@ def details_oeuvre(request, oeuvre_id):
     }
 
     return JsonResponse(details_oeuvre, safe=False)
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework import serializers
+from .models import Lieu, Tarif, Ville, Departement, Region, Oeuvre, LnkLieuHoraire, Horaire
 
+# Créez des serializers appropriés pour chaque modèle
+
+class LieuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lieu
+        fields = '__all__'
+
+
+@api_view(['GET'])
 def details_Lieu(request, lieu_id):
     details = get_object_or_404(Lieu, idLieu=lieu_id)
 
@@ -155,54 +204,64 @@ def details_Lieu(request, lieu_id):
     departement = ville.idDepartement
     region = departement.idRegion
     oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
-    horaire = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
-    
-    # print("ici : ",horaire)
-    # heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
-    # print("ici : ",heure)
-    
-    
-    # Créez un dictionnaire avec les détails
-    details_lieu = {
-        'lieu': LieuSerializer(details).data,
-        'tarif': TarifSerializer(tarif).data,
-        'ville': VilleSerializer(ville).data,
-        'departement': DepartementSerializer(departement).data,
-        'region': RegionSerializer(region).data,
-        'oeuvre': OeuvreSerializer(oeuvre, many=True).data,
-        'horaire': LnkLieuHoraireSerializer(horaire, many=True).data,
-        # 'heure': HoraireSerializer(heure, many=True).data,
+    horaires = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
 
+    heures = []
+    for horaire in horaires:
+        heures.extend(Horaire.objects.filter(idHoraire=horaire.idHoraire))
+
+    # Utilisez les serializers pour sérialiser les objets
+    lieu_serializer = LieuSerializer(details).data
+    tarif_serializer = TarifSerializer(tarif).data
+    ville_serializer = VilleSerializer(ville).data
+    departement_serializer = DepartementSerializer(departement).data
+    region_serializer = RegionSerializer(region).data
+    oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
+
+    # Utilisez le serializer HoraireSerializer pour sérialiser les horaires
+    horaire_serializer = HoraireSerializer(heures, many=True).data
+
+    # Créez un dictionnaire avec les détails sérialisés
+    details_lieu = {
+        'lieu': lieu_serializer,
+        'tarif': tarif_serializer,
+        'ville': ville_serializer,
+        'departement': departement_serializer,
+        'region': region_serializer,
+        'oeuvre': oeuvre_serializer,
+        'horaire': horaire_serializer,  # Utilisez le serializer HoraireSerializer
     }
 
-    return JsonResponse(details_lieu, safe=False)
-    
+    return JsonResponse(details_lieu, safe=False, charset='utf-8')
+
+
 def details_Parcours(request, parcours_id):
     details = get_object_or_404(Parcours, idParcours=parcours_id)
 
-    utilisateur = details.idUtilisateur
+    # utilisateur = details.idUtilisateur
     etape = Etape.objects.filter(idParcours=parcours_id)
-    lieu = Lieu.objects.filter(idLieu=etape.idLieu)
-    tarif = Tarif.objects.filter(idTarif=lieu.idTarif)
-    ville = Ville.objects.filter(idVille=lieu.idVille)
-    departement = Departement.objects.filter(idDepartement=ville.idDepartement)
-    region = Region.objects.filter(idRegion=departement.idRegion)
-    horaire = LnkLieuHoraire.objects.filter(idLieu=lieu.idLieu)
-    heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
+    # lieu = Lieu.objects.filter(idLieu=etape.idLieu)
+    # tarif = Tarif.objects.filter(idTarif=lieu.idTarif)
+    # ville = Ville.objects.filter(idVille=lieu.idVille)
+    # departement = Departement.objects.filter(idDepartement=ville.idDepartement)
+    # region = Region.objects.filter(idRegion=departement.idRegion)
+    # horaire = LnkLieuHoraire.objects.filter(idLieu=lieu.idLieu)
+    # heure = Horaire.objects.filter(idHoraire=horaire.idHoraire)
+
     
     
     # Créez un dictionnaire avec les détails
     details_parcours = {
         'parcours': ParcoursSerializer(details).data,
-        'utilisateur': UtilisateurSerializer(utilisateur).data,
+        # 'utilisateur': UtilisateurSerializer(utilisateur).data,
         'etape': EtapeSerializer(etape, many=True).data,
-        'lieu': LieuSerializer(lieu, many=True).data,
-        'tarif': TarifSerializer(tarif, many=True).data,
-        'ville': VilleSerializer(ville, many=True).data,
-        'departement': DepartementSerializer(departement, many=True).data,
-        'region': RegionSerializer(region, many=True).data,
-        'horaire': LnkLieuHoraireSerializer(horaire, many=True).data,
-        'heure': HoraireSerializer(heure, many=True).data,
+        # 'lieu': LieuSerializer(lieu, many=True).data,
+        # 'tarif': TarifSerializer(tarif, many=True).data,
+        # 'ville': VilleSerializer(ville, many=True).data,
+        # 'departement': DepartementSerializer(departement, many=True).data,
+        # 'region': RegionSerializer(region, many=True).data,
+        # 'horaire': LnkLieuHoraireSerializer(horaire, many=True).data,
+        # 'heure': HoraireSerializer(heure, many=True).data,
 
     }
 

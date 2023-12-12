@@ -1,19 +1,28 @@
 .main{
-    background: linear-gradient(180deg, rgba(0, 159, 227, 0) 0%, rgb(0, 159, 227) 130%);
-    height: 100vh;
+    height: 110vh;
   }
   
 .rectangleBleu1{
-    background-color: rgb(0, 159, 227);
+    background-color: white;
     width: 10vw ;
     height:5vh;
     margin-right: 3vw;
 }
 
 .rectangleBleu2{
-    background-color: rgb(0, 159, 227);
+    background-color: white;
     width: 10vw ;
     height:5vh;
+}
+
+.fondBleu{
+    background-color: rgb(0, 159, 227);
+    padding: 5vw;
+}
+
+.fondVert{
+    padding:2vw;
+
 }
 
 img{
@@ -33,6 +42,17 @@ img{
     margin: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 15vw;
+  }
+
+.carteNoir {
+    background-color: black; /* Vert */
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 15vw;
   }
 
 .ulInformation{
@@ -41,7 +61,6 @@ img{
 
 .titreInformation{
     margin-left: 3vw;
-    margin-top: 3vh;
 
 }
   

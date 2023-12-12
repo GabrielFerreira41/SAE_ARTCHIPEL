@@ -8,6 +8,15 @@ const Lieu = () => {
   const { id } = useParams();
   const [lieu, setLieu] = useState(null);
 
+  const oeuvres = [
+    {'name':'Pot en verres'},
+    {'name':'Status en Bronze'},
+    {'name':'Toile'},
+    {'name':'Picasso'},
+    {'name':'Guernika'},
+    {'name':'aefzefazf'},
+  ]
+
   useEffect(() => {
     axios.get(`http://localhost:8000/Lieu/${id}/`)
       .then((response) => {
@@ -26,7 +35,7 @@ const Lieu = () => {
 
   return (
     <div className="main">
-      <div className="d-flex mt-5">
+      <div className="d-flex mt-5 fondBleu">
         <img src={imageChambord} alt="Château de Chambord" />
         <div className="d-flex align-items-center">
           <div className="container">
@@ -51,10 +60,10 @@ const Lieu = () => {
 
         </div>
       </div>
-      <div>
-        <h2 className="titreInformation">Information</h2>
+      <div className="fondVert">
+        <h2 className="titreInformation d-flex justify-content-center">Information</h2>
         <div>
-          <ul className="d-flex list-unstyled ulInformation">
+          <ul className="d-flex list-unstyled ulInformation justify-content-center">
             <li className="carteVerte">
               <h4>Tarif Lieu</h4>
               <p>{lieu.tarif.payant === false ? 'Aucun' : lieu.tarif.payant}</p>
@@ -83,6 +92,17 @@ const Lieu = () => {
 
         </div>
       </div>
+    <div>
+    <h2 className="titreInformation">Oeuvre Présente</h2>
+    <ul className=" d-flex list-unstyled">
+              {oeuvres.map((oeuvre) => (
+                <li className="carteNoir">
+                  <p>{oeuvre.name}</p>                  
+                </li>
+              ))}
+            </ul>
+  
+    </div>
     </div>
   );
 };

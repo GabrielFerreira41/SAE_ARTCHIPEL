@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import home, liste_regions, liste_departements
-from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView
+from .views import home, liste_regions, liste_departements, liste_villes
+from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView, VilleCreateView, VilleUpdateView, VilleDeleteView
 
 
 app_name = 'app_admin'
@@ -17,6 +17,11 @@ urlpatterns = [
     path('/departement/ajouter/', DepartementCreateView.as_view(), name='ajouter_departement'),
     path('/departement/modifier/<int:pk>/', DepartementUpdateView.as_view(), name='modifier_departement'),
     path('/departement/supprimer/<int:pk>/', DepartementDeleteView.as_view(), name='supprimer_departement'),
+    
+    path('/villes/', liste_villes, name='liste_villes'),
+    path('/ville/ajouter/', VilleCreateView.as_view(), name='ajouter_ville'),
+    path('/ville/modifier/<int:pk>/', VilleUpdateView.as_view(), name='modifier_ville'),
+    path('/ville/supprimer/<int:pk>/', VilleDeleteView.as_view(), name='supprimer_ville'),
 
     # path('/regions/', liste_regions, name='liste_regions'),
     # path('/region/ajouter/', RegionCreateView.as_view(), name='ajouter_region'),

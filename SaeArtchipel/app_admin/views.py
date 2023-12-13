@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from api.models import Region, Departement
-from app_admin.forms import RegionForm, DepartementForm
+from api.models import Region, Departement, Ville
+from app_admin.forms import RegionForm, DepartementForm, VilleForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
@@ -25,6 +25,11 @@ def liste_regions(request):
 def liste_departements(request):
     departements = Departement.objects.all()
     return render(request, 'app_admin/departement.html', {'departements': departements})
+
+def liste_villes(request):
+    villes = Ville.objects.all()
+    return render(request, 'app_admin/ville.html', {'villes': villes})
+
 
 
 
@@ -51,18 +56,35 @@ class DepartementCreateView(CreateView):
     model = Departement
     form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
-    success_url = reverse_lazy('app_admin:liste_departements')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
+    success_url = reverse_lazy('app_admin:liste_departements')
 
 class DepartementUpdateView(UpdateView):
     model = Departement
     form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
-    success_url = reverse_lazy('app_admin:liste_departements')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
+    success_url = reverse_lazy('app_admin:liste_departements')
 
 class DepartementDeleteView(DeleteView):
     model = Departement
     template_name = 'app_admin/departement_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_departements')
 
+
+class VilleCreateView(CreateView):
+    model = Ville
+    form_class = VilleForm
+    template_name = 'app_admin/ville_form.html'
+    success_url = reverse_lazy('app_admin:liste_villes')
+
+class VilleUpdateView(UpdateView):
+    model = Ville
+    form_class = VilleForm
+    template_name = 'app_admin/ville_form.html'
+    success_url = reverse_lazy('app_admin:liste_villes')
+
+class VilleDeleteView(DeleteView):
+    model = Ville
+    template_name = 'app_admin/ville_confirm_delete.html'
+    success_url = reverse_lazy('app_admin:liste_villes')
 
     

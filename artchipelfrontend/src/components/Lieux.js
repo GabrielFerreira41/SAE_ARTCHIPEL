@@ -7,6 +7,7 @@ import "../style/styleLieux.css";
 
 const Lieux = () => {
   const [lieux, setLieux] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/Lieu/")
@@ -19,16 +20,36 @@ const Lieux = () => {
       });
   }, []);
 
+  const departments = ["18", "28", "36", "37", "41", "45"];
+
   return (
     <div className="indexAccueil">
       <div className="">
-        <h1 className="d-flex justify-content-center align-items-center titreBlanc p-5">Lieux</h1>
+        <h1 className="titreBlancLieux d-flex justify-content-center align-items-center p-5">Lieux</h1>
+        <div className="filtreLieux d-flex justify-content-center align-items-center">
+          <form className="d-flex">
+            {departments.map((department) => (
+              <div key={department} className="form-check">
+                <input
+                  type="radio"
+                  id={`department${department}`}
+                  name="department"
+                  value={department}
+                  checked={selectedDepartment === department}
+                  onChange={() => setSelectedDepartment(department)}
+                  className="radioButtonDepLieux"
+                />
+                <label htmlFor={`department${department}`} className="form-check-label large-number">{department}</label>
+              </div>
+            ))}
+          </form>
+        </div>
       </div>
 
       <div className="container mt-3 pt-3">
         <div className="row">
-          <div className="col-sm-3">
-            <ul className="list-unstyled" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '10px' ,width:'70vw'}}>
+          <div className="col-sm-3 ">
+            <ul className="list-unstyled " style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '10px', width: '70vw' }}>
               {lieux.map((lieu) => (
                 <li className="" key={lieu.idLieu}>
                   <div className="m-3">
@@ -38,7 +59,6 @@ const Lieux = () => {
                 </li>
               ))}
             </ul>
-
           </div>
         </div>
       </div>

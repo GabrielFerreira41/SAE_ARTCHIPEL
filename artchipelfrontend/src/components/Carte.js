@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import "../style/styleCarte.css";
 
 const Carte = () => {
@@ -9,6 +12,13 @@ const Carte = () => {
   const [selectedMap,viewMonumentOnMap] = useState(null);
   const itemsPerPage = 6;
   let view;
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
   
   useEffect(() => {
     loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/GraphicsLayer', 'esri/Graphic', 'esri/widgets/Directions', 'esri/widgets/Popup'], { css: true })
@@ -137,48 +147,25 @@ const Carte = () => {
 
   return (
     <div className='main'>
-      <div className='d-flex'>
-        <div id="map-view" style={{ height: '90vh', width: '75vw' }}></div>
-        <h1 className='d-flex titreCarte justify-content-center align-items-center'>Carte</h1>
-      </div>
-      <section className='d-flex'>
-        <h1 className='titreListeLieux pt-5 pb-5 d-flex justify-content-center align-items-center'>Liste des monuments</h1>
-        <div>
-          <ul className="list-unstyled d-flex flex-wrap">
-            {currentMonuments.map((monument, index) => (
-              <li key={index} className="containerListeLieux col-md-4">
-                {/* <div
-                className="card d-flex justify-content-center align-items-center"
-                onClick={() => setSelectedMonument(monument)}
-              > */}
-                <h5 className=" card-title titleMonument">{monument.name}</h5>
-                <div>
-                  <a href={`/lieux/${monument.id}`}>Details</a>
-                  <a onClick={() => viewMonumentOnMap(monument.location)}>Voir sur la carte</a>
-                </div>
-                {/* Ajoutez ici d'autres éléments de la carte, comme les images ou les descriptions */}
-                {/* </div> */}
-              </li>
-            ))}
-          </ul>
+      <h1 className='d-flex titreCarte justify-content-center'>Carte</h1>
 
-          <nav className="mt-4" aria-label="Page navigation">
-            <ul className="pagination justify-content-center listeLieux">
-              {Array.from({ length: Math.ceil(monumentsList.length / itemsPerPage) }, (_, index) => index + 1).map((page) => (
-                <li
-                  key={page}
-                  className={`page-item tailleLieu ${currentPage === page ? 'active' : ''}`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => changePage(page)}
-                  >
-                    {page}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      <div className='d-flex justify-content-center fondVertLieux'>
+        <div id="map-view" style={{ height: '75vh', width: '75vw' }}></div>
+      </div>
+      <section className=''>
+        <h1 className='d-flex titreCarte justify-content-center mt-5'>Liste des monuments</h1>
+        <div>
+          <Slider {...sliderSettings} className="list-unstyled sliderLieux d-flex flex-wrap">
+          {currentMonuments.map((monument, index) => (
+            <div key={index} className="containerListeLieux col-md-4">
+              <h5 className="card-title titleMonument">{monument.name}</h5>
+              <div>
+                <a href={`/lieux/${monument.id}`}>Details</a>
+                <a onClick={() => viewMonumentOnMap(monument.location)}>Voir sur la carte</a>
+              </div>
+            </div>
+          ))}
+        </Slider>
         </div>
       </section>
     </div>

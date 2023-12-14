@@ -5,14 +5,21 @@
 
 .indexAccueil{
     background: linear-gradient(180deg, rgba(0, 159, 227, 0) 0%, rgb(0, 159, 227) 130%);
+    height: 110vh;
 
 }
 
-.titreBlanc{
+.titreBlancLieux{
     height: 10vh;
-    color: white;
-    background-color: #12AA36;
     font-family: 'Lilita One', sans-serif;
+    color: #12AA36;
+}
+
+.filtreLieux{
+    background-color: #12AA36;
+    width: 100vw;
+    height: 10vh;
+
 }
 
 .TitreCarteLieux{
@@ -29,4 +36,9 @@
     width: 20vw;
     height: 25vh;
 }
+
+.radioButtonDepLieux{
+    transform: scale(1.5); /* Ajustez la valeur pour augmenter ou diminuer la taille du bouton */
+    margin-right: 5px; /* Ajustez la marge entre le bouton et le label selon vos préférences */
+  }
   

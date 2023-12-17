@@ -222,6 +222,7 @@ def details_Lieu(request, lieu_id):
     heures = []
     for horaire in horaires:
         heures.extend(Horaire.objects.filter(idHoraire=horaire.idHoraire.idHoraire))
+    evenement = Evenement.objects.filter(idLieu=lieu_id)
 
     # Utilisez les serializers pour sérialiser les objets
     lieu_serializer = LieuSerializer(details).data
@@ -232,7 +233,7 @@ def details_Lieu(request, lieu_id):
     oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
     horaire_serializer = LnkLieuHoraireSerializer(horaires, many=True).data
     heure_serializer = HoraireSerializer(heures, many=True).data
-
+    evenement_serializer = EvenementSerializer(evenement, many=True).data
 
     # Utilisez le serializer HoraireSerializer pour sérialiser les horaires
 
@@ -245,6 +246,7 @@ def details_Lieu(request, lieu_id):
         'oeuvre': oeuvre_serializer,
         'horaire': horaire_serializer,  # Utilisez le serializer HoraireSerializer
         'heure': heure_serializer,
+        'evenement': evenement_serializer,
     }
 
     return JsonResponse(details_lieu, safe=False, charset='utf-8')

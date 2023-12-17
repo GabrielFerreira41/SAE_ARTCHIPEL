@@ -126,6 +126,7 @@ class Oeuvre(models.Model):
     nomOeuvre = models.CharField(max_length=200)
     descriptionOeuvre = models.CharField(max_length=200)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
+    image_oeuvre = models.CharField(max_length=250)
     
     def __str__(self):
             return f"[\n Oeuvre : {self.nomOeuvre} \n Description : {self.descriptionOeuvre} \n Lieu : {self.idLieu} \n]"

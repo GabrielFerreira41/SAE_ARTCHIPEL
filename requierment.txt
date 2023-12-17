@@ -4,3 +4,5 @@ djangorestframework
 mysqlclient
 dj-rest-auth
 django-filter
+requests
+urllib3

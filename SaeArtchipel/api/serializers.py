@@ -4,9 +4,7 @@ from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Pa
 class LieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lieu
-        #fields =('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresse','idVille','refTarif','idLieu')
-        #fields = '__all__' 
-        fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif')
+        fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif','idTypeLieu','longitudeLieu','latitudeLieu','imageLieu','descriptionLieu')
 
 class VilleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,7 +24,7 @@ class TypeLieuSerializer(serializers.ModelSerializer):
 class PreferenceLieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreferenceLieu
-        fields = ('idPreferenceLieu','idUtilisateur')
+        fields = ('idUtilisateur','idLieu')
 
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,7 +64,7 @@ class RegionSerializer(serializers.ModelSerializer):
 class OeuvreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Oeuvre
-        fields = ('idOeuvre', 'nomOeuvre', 'descriptionOeuvre', 'idLieu')
+        fields = ('idOeuvre', 'nomOeuvre', 'descriptionOeuvre', 'idLieu','image_oeuvre')
 
 class EvenementSerializer(serializers.ModelSerializer):
     class Meta:
@@ -78,3 +76,8 @@ class LnkLieuHoraireSerializer(serializers.ModelSerializer):
     class Meta:
         model = LnkLieuHoraire
         fields = ('idLieu', 'idHoraire', 'dateDebut', 'dateFin')
+
+class detailLieuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lieu
+        fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif','idTypeLieu')

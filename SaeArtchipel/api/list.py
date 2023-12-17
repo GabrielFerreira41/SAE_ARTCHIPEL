@@ -9,7 +9,7 @@ if auth.status_code == 200:
     print(token)
     headers = {'Authorization': 'Token ' + token}
 endpoint = "http://127.0.0.1:3000/api/Lieu/"
-response = requests.get(endpoint,headers=headers)
+response = requests.get(endpoint)
 
 print(response.json())
 print(response.status_code)

@@ -49,6 +49,8 @@ class Etape(models.Model):
 class Lieu(models.Model):
         idLieu = models.AutoField(primary_key=True)
         nomLieu = models.CharField(max_length=150, unique=True)
+        descriptionLieu = models.CharField(max_length=10000)
+        imageLieu = models.CharField(max_length=250)
         boolAccessibilite = models.BooleanField()
         boolParking = models.BooleanField()
         boolShopping = models.BooleanField()
@@ -77,7 +79,7 @@ class Horaire(models.Model):
     intervalHoraire = models.BooleanField()
     
     def __str__(self):
-            return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
+            return f"[\n Horaire : {self.listJour} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
 
 class TypeLieu(models.Model):
     idTypeLieu = models.AutoField(primary_key=True)
@@ -124,6 +126,7 @@ class Oeuvre(models.Model):
     nomOeuvre = models.CharField(max_length=200)
     descriptionOeuvre = models.CharField(max_length=200)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
+    image_oeuvre = models.CharField(max_length=250)
     
     def __str__(self):
             return f"[\n Oeuvre : {self.nomOeuvre} \n Description : {self.descriptionOeuvre} \n Lieu : {self.idLieu} \n]"

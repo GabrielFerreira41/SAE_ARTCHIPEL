@@ -9,6 +9,7 @@ import Evenement from './components/Evenement';
 import Carte from './components/Carte';
 import Lieu from './components/Lieu';
 import Connexion from './components/Connexion';
+import Parcours from './components/Parcours';
 
 function PageNotFound() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/Evenement" element={<Evenement />} />
         <Route path="/Carte" element={<Carte />} />
         <Route path="/Connexion" element={<Connexion />} />
+        <Route path="/Parcours" element={<Parcours />} />
         {/* Ajoutez la route de secours */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>

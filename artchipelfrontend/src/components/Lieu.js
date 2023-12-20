@@ -92,16 +92,7 @@ const Lieu = () => {
 
         </div>
       </div>
-    <div>
-    <h2 className="titreInformation">Oeuvre Présente</h2>
-    <ul className=" d-flex list-unstyled">
-              {oeuvres.map((oeuvre) => (
-                <li className="carteNoir">
-                  <p>{oeuvre.name}</p>                  
-                </li>
-              ))}
-            </ul>
-  
+    <div>  
     </div>
     </div>
   );

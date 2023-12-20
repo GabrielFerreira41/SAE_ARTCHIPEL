@@ -1,42 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { loadModules } from 'esri-loader';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import "../style/styleCarte.css";
+import '../style/styleCarte.css';
+import loupe from './images/loupeBlanc.png';
+
 
 const Carte = () => {
   const [selectedMonument, setSelectedMonument] = useState(null);
   const [monumentsList, setMonumentsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedMap,viewMonumentOnMap] = useState(null);
+  const [selectedMap, viewMonumentOnMap] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showInfoPanel, setShowInfoPanel] = useState(false);
   const itemsPerPage = 6;
   let view;
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  };
-  
+
   useEffect(() => {
-    loadModules(['esri/Map', 'esri/views/MapView', 'esri/layers/GraphicsLayer', 'esri/Graphic', 'esri/widgets/Directions', 'esri/widgets/Popup'], { css: true })
-      .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Popup]) => {
+    loadModules([
+      'esri/Map',
+      'esri/views/MapView',
+      'esri/layers/GraphicsLayer',
+      'esri/Graphic',
+      'esri/widgets/Directions',
+      'esri/widgets/Search',
+      'esri/widgets/Popup',
+    ], { css: true })
+      .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Search]) => {
         const map = new Map({
-          basemap: 'streets-navigation-vector'
+          basemap: 'streets-navigation-vector',
         });
 
         view = new MapView({
           container: 'map-view',
           map: map,
           center: [1.32, 47.75],
-          zoom: 8
+          zoom: 8,
         });
 
         const monumentsLayer = new GraphicsLayer();
         map.add(monumentsLayer);
-
 
         const monuments = [
           { id: 1, name: 'Château de Chambord', location: [1.515, 47.616] },
@@ -61,22 +64,20 @@ const Carte = () => {
           { id: 20, name: 'Château de Brissac', location: [-0.5520, 47.3590] },
         ];
 
-
-
         monuments.forEach(monument => {
           const point = {
             type: 'point',
             longitude: monument.location[0],
-            latitude: monument.location[1]
+            latitude: monument.location[1],
           };
 
           const markerSymbol = {
             type: 'simple-marker',
-            color: [226, 119, 40],
+            color: [18, 170, 54],
             outline: {
               color: [255, 255, 255],
-              width: 2
-            }
+              width: 2,
+            },
           };
 
           const pointGraphic = new Graphic({
@@ -84,13 +85,13 @@ const Carte = () => {
             symbol: markerSymbol,
             attributes: {
               name: monument.name,
-              id: monument.id
-            }
+              id: monument.id,
+            },
           });
 
           const popupTemplate = {
             title: '{name}',
-            content: "<a href=`/lieux/${monument.id}`>Voir le détail de '{name}'</a>"
+            content: `<a href="/lieux/${monument.id}">Voir le détail de '${monument.name}'</a>`,
           };
 
           pointGraphic.popupTemplate = popupTemplate;
@@ -98,12 +99,11 @@ const Carte = () => {
           monumentsLayer.add(pointGraphic);
         });
 
-        
         monumentsLayer.on('click', event => {
           setSelectedMonument(event.graphic.attributes);
           view.goTo({
             target: event.graphic.geometry,
-            zoom: 12
+            zoom: 12,
           });
         });
 
@@ -111,21 +111,28 @@ const Carte = () => {
 
         const viewMonumentOnMap = (location) => {
           if (view) {
-            console.error("it's work");
             view.goTo({
               center: location,
-              zoom: 12
+              zoom: 12,
             });
           } else {
             console.error("View is undefined.");
           }
         };
-      
+
         const directionsWidget = new Directions({
-          view: view
+          view: view,
         });
 
         view.ui.add(directionsWidget, 'top-right');
+
+        const searchWidget = new Search({
+          view: view,
+          resultGraphicEnabled: false,
+          popupEnabled: false,
+        });
+
+        view.ui.add(searchWidget, 'top-left');
 
         return () => {
           if (view) {
@@ -136,41 +143,95 @@ const Carte = () => {
       .catch(err => console.error(err));
   }, [selectedMap]);
 
-  // Fonction pour changer de page
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  const handleMarkerClick = (monument) => {
+    setSelectedMonument(monument);
+    setShowInfoPanel(true);
+  };
+
   const changePage = (page) => {
     setCurrentPage(page);
   };
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentMonuments = monumentsList.slice(startIndex, endIndex);
+  const currentMonuments = monumentsList
+    .filter(monument => monument.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice(startIndex, endIndex);
 
   return (
     <div className='main'>
       <h1 className='d-flex titreCarte justify-content-center'>Carte</h1>
-
       <div className='d-flex justify-content-center fondVertLieux'>
         <div id="map-view" style={{ height: '75vh', width: '75vw' }}></div>
       </div>
       <section className=''>
-        <h1 className='d-flex titreCarte justify-content-center mt-5'>Liste des monuments</h1>
-        <div>
-          <Slider {...sliderSettings} className="list-unstyled sliderLieux d-flex flex-wrap">
+        <div className='d-flex justify-content-center'>
+          <h1 className='d-flex titreCarteListeLieux justify-content-center mt-5'>Liste des monuments</h1>
+        </div>
+        {/* Barre de Recherche */}
+        <div className="d-flex searchBarDiv justify-content-center align-items-center">
+          <div className='divImageLoupe'>
+            <img className='ImageLoupe' src={loupe}></img>
+          </div>
+          <input
+            className='searchBar'
+            type="text"
+            placeholder="Rechercher un monument..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </div>
+        {/* Liste des Monuments */}
+        <div className="row">
           {currentMonuments.map((monument, index) => (
-            <div key={index} className="containerListeLieux col-md-4">
-              <h5 className="card-title titleMonument">{monument.name}</h5>
-              <div>
-                <a href={`/lieux/${monument.id}`}>Details</a>
-                <a onClick={() => viewMonumentOnMap(monument.location)}>Voir sur la carte</a>
+            <div key={index} className=" col-md-6 mb-4">
+              <div className="card" onClick={() => handleMarkerClick(monument)}>
+                <div className="card-body">
+                  <h5 className="card-title titleMonument">{monument.name}</h5>
+                  <div>
+                    <a href={`/lieux/${monument.id}`}>Détails</a>
+                    <a onClick={() => viewMonumentOnMap(monument.location)}>Voir sur la carte</a>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
-        </Slider>
         </div>
+        {/* Panneau d'Informations */}
+        {showInfoPanel && (
+          <div className="info-panel">
+            <h2>{selectedMonument.name}</h2>
+            {/* Ajoutez plus de détails au besoin */}
+          </div>
+        )}
+        {/* Contrôles de Pagination */}
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            {Array.from({ length: Math.ceil(monumentsList.length / itemsPerPage) }, (_, index) => (
+              <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                <a
+                  className="page-link"
+                  onClick={() => changePage(index + 1)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {index + 1}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </section>
     </div>
   );
 };
 
 export default Carte;
+
+
+
+
 

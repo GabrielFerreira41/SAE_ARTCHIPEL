@@ -164,13 +164,13 @@ const Carte = () => {
 
   return (
     <div className='main'>
-      <h1 className='d-flex titreCarte justify-content-center'>Carte</h1>
+      <h1 className='d-flex titreCarte justify-content-center'>"Carte"</h1>
       <div className='d-flex justify-content-center fondVertLieux'>
         <div id="map-view" style={{ height: '75vh', width: '75vw' }}></div>
       </div>
       <section className=''>
         <div className='d-flex justify-content-center'>
-          <h1 className='d-flex titreCarteListeLieux justify-content-center mt-5'>Liste des monuments</h1>
+          <h1 className='d-flex titreCarteListeLieux justify-content-center mt-5'>"Liste des monuments"</h1>
         </div>
         {/* Barre de Recherche */}
         <div className="d-flex searchBarDiv justify-content-center align-items-center">

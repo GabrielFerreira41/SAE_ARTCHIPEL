@@ -50,6 +50,9 @@ const Accueil = () => {
             <img className="ImageCarte" src={carte} alt="Carte" />
             <Link to={`/carte/`} className="TitreCarte d-flex justify-content-center align-items-center">Carte</Link>
           </div>
+
+
+
         </div>
       </div>
 

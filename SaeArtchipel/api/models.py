@@ -77,7 +77,7 @@ class Horaire(models.Model):
     intervalHoraire = models.BooleanField()
     
     def __str__(self):
-            return f"[\n Horaire : {self.jourHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
+            return f"[\n Horaire : {self.listJour} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
 
 class TypeLieu(models.Model):
     idTypeLieu = models.AutoField(primary_key=True)

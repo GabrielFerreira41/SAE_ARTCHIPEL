@@ -1,5 +1,5 @@
 from django import forms
-from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif
+from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -77,3 +77,73 @@ class LieuForm(forms.ModelForm):
                 }
             }
 
+class HoraireForm(forms.ModelForm):
+    class Meta:
+        model = Horaire
+        fields = '__all__'
+
+    listJour = forms.MultipleChoiceField(
+        choices=[
+            ('lundi', 'Lundi'),
+            ('mardi', 'Mardi'),
+            ('mercredi', 'Mercredi'),
+            ('jeudi', 'Jeudi'),
+            ('vendredi', 'Vendredi'),
+            ('samedi', 'Samedi'),
+            ('dimanche', 'Dimanche'),
+        ],
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label='Jours d\'ouverture'
+    )
+
+    horaireOuverture = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        label='Heure d\'ouverture'
+    )
+
+    horaireFermeture = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        label='Heure de fermeture'
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        ouverture = cleaned_data.get('horaireOuverture')
+        fermeture = cleaned_data.get('horaireFermeture')
+
+        if ouverture and fermeture and ouverture >= fermeture:
+            raise forms.ValidationError("L'heure de fermeture doit être après l'heure d'ouverture.")
+
+        return cleaned_data
+    
+class LnkLieuHoraireForm(forms.ModelForm):
+    class Meta:
+        model = LnkLieuHoraire
+        fields = '__all__'
+    
+    dateDebut = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
+    dateFin = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
+
+    def __init__(self, lieu_id=None, horaire_id=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if lieu_id:
+            self.fields['idLieu'].initial = lieu_id
+            self.fields['idLieu'].widget.attrs['readonly'] = True
+            self.fields['idLieu'].disabled = True
+
+        if horaire_id:
+            self.fields['idHoraire'].initial = horaire_id
+            self.fields['idHoraire'].widget.attrs['readonly'] = True
+            self.fields['idHoraire'].disabled = True
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date_debut = cleaned_data.get('dateDebut')
+        date_fin = cleaned_data.get('dateFin')
+
+        if date_debut > date_fin:
+            raise forms.ValidationError("La date de fin doit être après la date de début.")
+
+        return cleaned_data

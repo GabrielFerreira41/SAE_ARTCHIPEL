@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import home, liste_regions, liste_departements, liste_villes, liste_typelieux, liste_lieux
-from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView, VilleCreateView, VilleUpdateView, VilleDeleteView, TypeLieuCreateView, TypeLieuUpdateView, TypeLieuDeleteView, LieuCreateView, LieuUpdateView, LieuDeleteView
+from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView, VilleCreateView, VilleUpdateView, VilleDeleteView, TypeLieuCreateView, TypeLieuUpdateView, TypeLieuDeleteView, LieuCreateView, LieuUpdateView, LieuDeleteView, HoraireView, LnkLieuHoraireView
 
 
 app_name = 'app_admin'
@@ -34,7 +34,8 @@ urlpatterns = [
     path('/lieu/supprimer/<int:pk>/', LieuDeleteView.as_view(), name='supprimer_lieu'),
 
 
-
+    path('/horaire/<int:lieu_id>/', HoraireView.as_view(), name='horaire-view'),
+    path('/lnk-lieu-horaire/<int:lieu_id>/<int:horaire_id>/', LnkLieuHoraireView.as_view(), name='lnk-lieu-horaire-view'),
 
 
 

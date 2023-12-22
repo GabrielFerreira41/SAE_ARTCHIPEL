@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views import View
 from api.models import Region, Departement, Ville, TypeLieu, Lieu
-from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm
+from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
@@ -110,11 +111,11 @@ class TypeLieuDeleteView(DeleteView):
     success_url = reverse_lazy('app_admin:liste_typelieux')
 
 
-class LieuCreateView(CreateView):
-    model = Lieu
-    form_class = LieuForm
-    template_name = 'app_admin/lieu_form.html'
-    success_url = reverse_lazy('app_admin:liste_lieux')
+# class LieuCreateView(CreateView):
+#     model = Lieu
+#     form_class = LieuForm
+#     template_name = 'app_admin/lieu_form.html'
+#     success_url = reverse_lazy('app_admin:liste_lieux')
 
 class LieuUpdateView(UpdateView):
     model = Lieu
@@ -127,3 +128,51 @@ class LieuDeleteView(DeleteView):
     template_name = 'app_admin/lieu_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_lieux')
 
+
+class LieuCreateView(CreateView):
+    template_name = 'app_admin/lieu_form.html'
+    form_class = LieuForm
+    success_url = reverse_lazy('app_admin:horaire-view')
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            lieu = form.save()
+            return redirect('app_admin:horaire-view', lieu_id=lieu.pk)
+        return render(request, self.template_name, {'form': form})
+
+class HoraireView(CreateView):
+    template_name = 'app_admin/horaire_form.html'
+    form_class = HoraireForm
+
+    def get(self, request, lieu_id):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id})
+
+    def post(self, request, lieu_id):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            horaire = form.save()
+            return redirect('app_admin:lnk-lieu-horaire-view', lieu_id, horaire.pk)
+        return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id})
+
+class LnkLieuHoraireView(View):
+    template_name = 'app_admin/lnk_lieu_horaire_form.html'
+    form_class = LnkLieuHoraireForm
+    success_url = reverse_lazy('app_admin:horaire-view')
+    success_message = "Lieu ajouté avec succès."
+    
+    def get(self, request, lieu_id, horaire_id):
+        form = self.form_class(lieu_id, horaire_id)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, lieu_id, horaire_id):
+        form = self.form_class(request.POST, initial={'lieu_id':lieu_id, 'horaire_id':horaire_id})
+        if form.is_valid():
+            form.save()
+            return redirect('app_admin:liste_lieux')
+        return render(request, self.template_name, {'form': form})

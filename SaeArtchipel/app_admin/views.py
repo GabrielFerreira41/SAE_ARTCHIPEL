@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from api.models import Region, Departement, Ville
-from app_admin.forms import RegionForm, DepartementForm, VilleForm
+from api.models import Region, Departement, Ville, TypeLieu, Lieu
+from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
@@ -11,12 +11,9 @@ from api.models import models
 def ma_vue(request):
     # Utilisez le modèle API comme nécessaire
     objets_api = models.objects.all()
-    # ..
-
 
 def home(request):
     return render(request, 'app_admin/home.html')
-
 
 def liste_regions(request):
     regions = Region.objects.all()
@@ -30,6 +27,13 @@ def liste_villes(request):
     villes = Ville.objects.all()
     return render(request, 'app_admin/ville.html', {'villes': villes})
 
+def liste_typelieux(request):
+    typelieux = TypeLieu.objects.all()
+    return render(request, 'app_admin/typelieu.html', {'typelieux': typelieux})
+
+def liste_lieux(request):
+    lieux = Lieu.objects.all()
+    return render(request, 'app_admin/lieu.html', {'lieux': lieux})
 
 
 
@@ -87,4 +91,39 @@ class VilleDeleteView(DeleteView):
     template_name = 'app_admin/ville_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_villes')
 
-    
+
+class TypeLieuCreateView(CreateView):
+    model = TypeLieu
+    form_class = TypeLieuForm
+    template_name = 'app_admin/typelieu_form.html'
+    success_url = reverse_lazy('app_admin:liste_typelieux')
+
+class TypeLieuUpdateView(UpdateView):
+    model = TypeLieu
+    form_class = TypeLieuForm
+    template_name = 'app_admin/typelieu_form.html'
+    success_url = reverse_lazy('app_admin:liste_typelieux')
+
+class TypeLieuDeleteView(DeleteView):
+    model = TypeLieu
+    template_name = 'app_admin/typelieu_confirm_delete.html'
+    success_url = reverse_lazy('app_admin:liste_typelieux')
+
+
+class LieuCreateView(CreateView):
+    model = Lieu
+    form_class = LieuForm
+    template_name = 'app_admin/lieu_form.html'
+    success_url = reverse_lazy('app_admin:liste_lieux')
+
+class LieuUpdateView(UpdateView):
+    model = Lieu
+    form_class = LieuForm
+    template_name = 'app_admin/lieu_form.html'
+    success_url = reverse_lazy('app_admin:liste_lieux')
+
+class LieuDeleteView(DeleteView):
+    model = Lieu
+    template_name = 'app_admin/lieu_confirm_delete.html'
+    success_url = reverse_lazy('app_admin:liste_lieux')
+

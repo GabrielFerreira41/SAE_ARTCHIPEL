@@ -1,0 +1,9 @@
+{% block content %}
+  <h1>Liste des lieux</h1>
+  <ul>
+    {% for lieu in lieux %}
+      <li>{{ lieu.nomLieu }} - <a href="{% url 'app_admin:modifier_lieu' lieu.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_lieu' lieu.pk %}">Supprimer</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'app_admin:ajouter_lieu' %}">Ajouter un lieu</a>
+{% endblock %}

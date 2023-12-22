@@ -69,8 +69,11 @@ const Parcours = () => {
   };
 
   return (
-    <div className="parcours-page">
-      <h1 className='d-flex titreCarte justify-content-center'>"Parcours"</h1>
+    <div>
+      <h1 className='d-flex titreParcours justify-content-center'>"Parcours Mosaïque"</h1>
+      <div className='d-flex titreParcours justify-content-center containerRectangleVert'>
+        <div className='rectangleVert'></div>
+      </div>
       <motion.ul
         className="parcours-list list-unstyled"
         style={{

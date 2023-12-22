@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className='d-flex m-3'>
+    <header className='d-flex'>
       <nav class="navbar navbar-expand-lg navbar-light navHeader">
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="collapse navbar-collapse navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
               <a href={`/`} class="nav-link fs-5">Accueil</a>

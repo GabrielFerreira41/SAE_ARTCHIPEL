@@ -11,6 +11,8 @@
 
 .titreBlancLieux{
     height: 10vh;
+    margin-bottom: 10vh;
+    margin-top: 10vh;
     font-family: 'Lilita One', sans-serif;
     color: #12AA36;
 }

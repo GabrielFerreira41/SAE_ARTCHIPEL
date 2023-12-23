@@ -16,3 +16,24 @@
 .containerRectangleVert{
   margin-bottom: 5vh;
 }
+
+.popUp{
+  background-color: white;
+  width: 50vw;
+  height: 50vh;
+}
+
+.titrePopUpParcours{
+  width: 40%;
+}
+.ContainerListeLieuxPopUpParcours{
+  width: 60%;
+}
+.ListeLieuxPopUpParcours{
+height: 100%;
+}
+
+.LilitaOne{
+  font-family: 'Lilita One', sans-serif;
+  color: #12AA36;
+}

@@ -4,6 +4,15 @@ import axios from "axios";
 import imageChambord from './images/chambord.jpg';
 import "../style/styleLieu.css";
 
+/**
+ * La fonction ci-dessus est un composant React qui récupère et affiche les détails d'un emplacement
+ * spécifique, y compris son nom, sa description et diverses commodités.
+ * @returns Le composant renvoie une structure JSX qui représente les détails d'un emplacement
+ * spécifique. Il comprend des informations sur l'emplacement, telles que son nom, sa description et
+ * diverses commodités telles que le stationnement, les magasins et l'accessibilité. Le composant
+ * comprend également une image de l'emplacement et un message de chargement si les données sont
+ * toujours en cours de récupération.
+ */
 const Lieu = () => {
   const { id } = useParams();
   const [lieu, setLieu] = useState(null);
@@ -17,6 +26,9 @@ const Lieu = () => {
     {'name':'aefzefazf'},
   ]
 
+  /* Le hook `useEffect` est utilisé pour effectuer des effets secondaires dans les composants
+  fonctionnels. Dans ce cas, il est utilisé pour effectuer une requête HTTP GET pour récupérer les
+  détails d'un lieu spécifique à l'aide de la bibliothèque `axios`. */
   useEffect(() => {
     axios.get(`http://localhost:8000/Lieu/${id}/`)
       .then((response) => {

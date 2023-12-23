@@ -1,3 +1,4 @@
+/* Le code importe divers modules et feuilles de style nécessaires à l'application. */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -16,6 +17,8 @@ import './style/styleApp.css'
 
 
 
+/* `ReactDOM.render()` est une méthode dans React qui est utilisée pour restituer les éléments React
+dans le DOM (Document Object Model). */
 ReactDOM.render(
   <React.StrictMode>
     <Header></Header>

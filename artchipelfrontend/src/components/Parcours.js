@@ -1,3 +1,4 @@
+/* Le code importe divers modules et bibliothèques pour l'application React. */
 import React, { useState, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useModal } from 'react-hooks-use-modal';
@@ -39,6 +40,14 @@ const parcoursList = [
 ];
 
 
+/**
+ * La fonction `Parcours` est un composant React qui restitue une mosaïque d'éléments de parcours,
+ * chacun avec un titre et une description, et permet à l'utilisateur de cliquer sur un élément pour
+ * afficher plus de détails dans un modal.
+ * @returns Le composant Parcours renvoie une structure JSX qui comprend un titre, un conteneur pour
+ * une liste d'éléments de parcours et un composant modal qui affiche des informations supplémentaires
+ * lorsqu'un utilisateur clique sur un élément de parcours.
+ */
 const Parcours = () => {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
@@ -120,11 +129,16 @@ const Parcours = () => {
           </motion.li>
         ))}
       </motion.ul>
+      {/* /* Le composant `<Modal>` est un composant personnalisé utilisé pour afficher une fenêtre modale
+      ou contextuelle dans l'application. Il enveloppe le contenu qui doit être affiché dans le
+      modal et fournit des fonctionnalités pour ouvrir et fermer le modal. */}
       <Modal>
         <div className='popUp d-flex'>
-          <div className=' containertitrePopUpParcours' >
-            <h1 className='d-flex justify-content-center LilitaOne'>{selectedParcours?.title}</h1>
-            <button className=''>Voir sur la Carte</button>
+          <div className='titrePopUpParcours d-flex justify-content-center align-items-center' >
+            <div className='titleDiv'>
+              <h1 className='d-flex justify-content-center LilitaOne'>{selectedParcours?.title}</h1>
+              <button className=''>Voir sur la Carte</button>
+            </div>
 
           </div>
           <div className='ContainerListeLieuxPopUpParcours'>
@@ -132,14 +146,14 @@ const Parcours = () => {
               <button onClick={close}>CLOSE</button>
             </div>
             <div className='ListeLieuxPopUpParcours d-flex justify-content-center align-items-center'>
-            {selectedParcours && (
+              {selectedParcours && (
                 <ul className="lieux-list">
                   {selectedParcours.lieux.map((lieu) => (
                     <li className='LilitaOne'>{lieu.nom}</li>
                   ))}
                 </ul>
-            )}
-          </div>
+              )}
+            </div>
           </div>
 
         </div>

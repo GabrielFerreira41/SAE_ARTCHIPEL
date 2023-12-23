@@ -6,7 +6,16 @@ import '../style/styleCarte.css';
 import loupe from './images/loupeBlanc.png';
 
 
+/**
+ * La fonction « Carte » est un composant React qui affiche une carte avec des marqueurs pour divers
+ * lieux, permet aux utilisateurs de rechercher des lieux spécifiques et fournit une liste de
+ * lieu avec pagination.
+ * @returns Le composant `Carte` renvoie un élément JSX, qui représente la structure et le contenu de
+ * la sortie rendue du composant.
+ */
 const Carte = () => {
+  /* Ces lignes de code utilisent le hook `useState` pour créer et initialiser des variables d'état
+  dans un composant fonctionnel. */
   const [selectedMonument, setSelectedMonument] = useState(null);
   const [monumentsList, setMonumentsList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +25,9 @@ const Carte = () => {
   const itemsPerPage = 6;
   let view;
 
+  /* Le code ci-dessus est écrit en JavaScript et utilise le hook useEffect de React. Il charge
+  plusieurs modules de l'API ArcGIS pour JavaScript, notamment Map, MapView, GraphicsLayer, Graphic,
+  Directions, Search et Popup. */
   useEffect(() => {
     loadModules([
       'esri/Map',
@@ -64,6 +76,8 @@ const Carte = () => {
           { id: 20, name: 'Château de Brissac', location: [-0.5520, 47.3590] },
         ];
 
+        /* Le bloc de code parcourt un ensemble de monuments et crée des graphiques pour chaque
+        monument sur la carte. */
         monuments.forEach(monument => {
           const point = {
             type: 'point',
@@ -99,6 +113,13 @@ const Carte = () => {
           monumentsLayer.add(pointGraphic);
         });
 
+        /* Ce code ajoute un écouteur d'événement de clic à la couche graphique `monumentsLayer`.
+        Lorsqu'un utilisateur clique sur un monument sur la carte, les attributs du monument
+        sélectionné sont définis à l'aide de `setSelectedMonument(event.graphic.attributes)`. La vue
+        se déplace ensuite vers l'emplacement du monument cliqué en utilisant `view.goTo()` avec une
+        cible de la géométrie du monument cliqué et un niveau de zoom de 12. Enfin, le tableau
+        `monuments` est défini comme variable d'état `monumentsList` en utilisant `
+        setMonumentsList(monuments)`. */
         monumentsLayer.on('click', event => {
           setSelectedMonument(event.graphic.attributes);
           view.goTo({

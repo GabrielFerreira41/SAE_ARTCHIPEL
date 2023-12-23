@@ -1,3 +1,5 @@
+/* Le code importe divers composants et modules de la bibliothèque « react-router-dom » et des fichiers
+locaux. */
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
 
@@ -11,6 +13,11 @@ import Lieu from './components/Lieu';
 import Connexion from './components/Connexion';
 import Parcours from './components/Parcours';
 
+/**
+ * La fonction renvoie un élément JSX pour un message d'erreur 404 page introuvable avec un lien pour
+ * revenir à la page d'accueil.
+ * @returns un élément JSX.
+ */
 function PageNotFound() {
   return (
     <div className="container d-flex justify-content-center bg-success  p-5">
@@ -25,6 +32,14 @@ function PageNotFound() {
   );
 }
 
+/**
+ * La fonction configure le routage pour différents chemins dans une application React.
+ * @returns Le composant App renvoie un composant Router de React Router. À l'intérieur du composant
+ * Routeur, il existe plusieurs composants Route qui définissent les différents chemins et leurs
+ * composants correspondants à restituer. Les composants rendus pour chaque chemin incluent Accueil,
+ * Lieux, Lieu, Info, Découverte, Evenement, Carte, Connexion et Parcours. De plus, il existe un
+ * composant Route avec un
+ */
 function App() {
   return (
     <Router>

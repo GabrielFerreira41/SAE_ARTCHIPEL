@@ -1,3 +1,4 @@
+/* Le code importe divers modules et composants à partir de fichiers et de bibliothèques externes. */
 import React from "react";
 import "../style/styleAccueil.css";
 import banniereFestival from "../components/images/banniéreFestival.jpg";
@@ -10,6 +11,12 @@ import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player'
 
 
+/**
+ * La fonction Accueil renvoie un élément JSX qui représente la page d'accueil d'un site Web, affichant
+ * une image de bannière, une vidéo et des liens vers différentes sections du site Web.
+ * @returns Le composant Accueil renvoie un élément JSX, qui représente la structure et le contenu de
+ * la sortie du composant.
+ */
 const Accueil = () => {
   return (
     <main>

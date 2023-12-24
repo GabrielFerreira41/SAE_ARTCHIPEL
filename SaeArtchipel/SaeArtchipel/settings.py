@@ -88,14 +88,12 @@ WSGI_APPLICATION = 'SaeArtchipel.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+# base de données locale
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'artchipel',
-#         'USER': 'root',
-#         'PASSWORD': 'root_psw',
-#         'HOST': 'mysql_api',
-#         'PORT': '',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
 
@@ -110,10 +108,8 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
-}# base de données locale
+}
 
 
 # Password validation

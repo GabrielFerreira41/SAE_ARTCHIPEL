@@ -25,7 +25,7 @@ class VilleView(View):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+        data = list(Ville.objects.values()) 
         return JsonResponse(data, safe=False)
 
 
@@ -36,6 +36,10 @@ class TarifView(View):
     queryset = Tarif.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get(self, request, *args, **kwargs):
+        data = list(Tarif.objects.values()) 
+        return JsonResponse(data, safe=False)
+
 
 class TypeLieuView(View):
     serializer_class = TypeLieuSerializer
@@ -43,7 +47,7 @@ class TypeLieuView(View):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+        data = list(TypeLieu.objects.values()) 
         return JsonResponse(data, safe=False)
 
 
@@ -53,7 +57,7 @@ class PreferenceLieuView(View):
     permission_classes = (IsAuthenticatedOrReadOnly,)
    
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+        data = list(PreferenceLieu.objects.values()) 
         return JsonResponse(data, safe=False)
 
 
@@ -66,7 +70,7 @@ class UtilisateurView(View):
     search_fields = ['nomUtilisateur','prenomUtilisateur','emailUtilisateur']
     
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+        data = list(Utilisateur.objects.values()) 
         return JsonResponse(data, safe=False)
 
     
@@ -107,18 +111,17 @@ class HoraireView(View):
     queryset = Horaire.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+        data = list(Horaire.objects.values()) 
         return JsonResponse(data, safe=False)
-
-
 
 
 class DepartementView(View):
     serializer_class = DepartementSerializer
     queryset = Departement.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    
     def get(self, request, *args, **kwargs):
-        data = list(Horaire.objects.values()) 
+        data = list(Departement.objects.values()) 
         return JsonResponse(data, safe=False)
 
 
@@ -138,6 +141,10 @@ class OeuvreView(View):
     serializer_class = OeuvreSerializer
     queryset = Oeuvre.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    
+    def get(self, request, *args, **kwargs):
+        data = list(Oeuvre.objects.values()) 
+        return JsonResponse(data, safe=False)
 
 
 class EvenementView(View):
@@ -146,7 +153,7 @@ class EvenementView(View):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
-        data = list(Oeuvre.objects.values()) 
+        data = list(Evenement.objects.values()) 
         return JsonResponse(data, safe=False)
 
 

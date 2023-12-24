@@ -5,3 +5,5 @@ mysqlclient
 dj-rest-auth
 django-filter
 Pillow
+requests
+urllib3

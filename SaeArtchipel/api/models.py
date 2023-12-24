@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Utilisateur(models.Model):
@@ -6,9 +7,9 @@ class Utilisateur(models.Model):
     nomUtilisateur = models.CharField(max_length=250, unique=True)
     prenomUtilisateur = models.CharField(max_length=250)
     mdpUtilisateur = models.CharField(max_length=15)
-    emailUtilisateur = models.CharField(max_length=150, unique=True)
+    emailUtilisateur = models.CharField(max_length=150, unique=True, null=True)
     typeUtilisateur = models.BooleanField()
-    ddnUtilisateur = models.DateField(format('%d/%m/%Y'))
+    ddnUtilisateur = models.DateField(format('%d/%m/%Y'), null=True)
     
     def __str__(self):
             return f"[\n User : {self.nomUtilisateur} \n Email : {self.emailUtilisateur} \n Type : {self.typeUtilisateur} \n]"
@@ -49,21 +50,22 @@ class Etape(models.Model):
 class Lieu(models.Model):
         idLieu = models.AutoField(primary_key=True)
         nomLieu = models.CharField(max_length=150, unique=True)
-        descriptionLieu = models.CharField(max_length=10000)
-        imageLieu = models.CharField(max_length=250)
+        descriptionLieu = models.CharField(max_length=7000, null=True)
+        imageLieu = models.ImageField(null=True)
+        boolPompidouLieu = models.BooleanField(default=False)
         boolAccessibilite = models.BooleanField()
         boolParking = models.BooleanField()
         boolShopping = models.BooleanField()
         boolRepas = models.BooleanField()
-        boolTable = models.BooleanField()
         boolJaujeLieux = models.BooleanField()
         nombreMaxVisiteur = models.IntegerField()
-        adresseLieu = models.CharField(max_length=250)
-        longitudeLieu = models.FloatField()
-        latitudeLieu = models.FloatField()
-        telLieu = models.IntegerField(max_length=10, null=True)
+        adresseLieu = models.CharField(max_length=250,null=True)
+        latitudeLieu = models.FloatField(null=True)
+        longitudeLieu = models.FloatField(null=True)
+        telLieu = models.IntegerField(validators=[MinValueValidator(0000000000), MaxValueValidator(9999999999)], null=True)
         mailLieu = models.CharField(max_length=150, null=True)
         webLieu = models.CharField(max_length=250, null=True)
+        observationLieu = models.CharField(max_length=7000, null=True)
         idVille = models.ForeignKey('Ville', on_delete=models.CASCADE)
         idTarif = models.ForeignKey('Tarif', on_delete=models.CASCADE)
         idTypeLieu = models.ForeignKey('TypeLieu', on_delete=models.CASCADE)
@@ -73,11 +75,13 @@ class Lieu(models.Model):
 
 class Horaire(models.Model):
     idHoraire = models.AutoField(primary_key=True)
-    listJour = models.CharField(max_length=300, null=True)
-    horaireOuverture = models.TimeField()
-    horaireFermeture = models.TimeField()
+    observationHoraire = models.CharField(max_length=300, null=True)
+    horaireOuverture = models.TimeField(null=True)
+    horaireFermeture = models.TimeField(null=True)
     intervalHoraire = models.BooleanField()
-    
+    lienReservationHoraire = models.CharField(max_length=250, null=True)
+
+
     def __str__(self):
             return f"[\n Horaire : {self.listJour} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.listJour} \n ]"
 
@@ -99,7 +103,7 @@ class Tarif(models.Model):
 class Ville(models.Model):
     idVille = models.AutoField(primary_key=True)
     nomVille = models.CharField(max_length=200, unique=True)
-    codePostal = models.IntegerField(max_length=5)
+    codePostal = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99999)])
     idDepartement = models.ForeignKey('Departement', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -108,7 +112,7 @@ class Ville(models.Model):
 class Departement(models.Model):
     idDepartement = models.AutoField(primary_key=True)
     nomDepartement = models.CharField(max_length=200, unique=True)
-    numeroDepartement = models.IntegerField(max_length=2)
+    numeroDepartement = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)])
     idRegion = models.ForeignKey('Region', on_delete=models.CASCADE)
     
     def __str__(self):
@@ -120,20 +124,17 @@ class Region(models.Model):
     
     def __str__(self):
             return f"[\n Région : {self.nomRegion} \n]"
-
-class Oeuvre(models.Model):
-    idOeuvre = models.AutoField(primary_key=True)
-    nomOeuvre = models.CharField(max_length=200)
-    descriptionOeuvre = models.CharField(max_length=200)
-    idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     
-    def __str__(self):
-            return f"[\n Oeuvre : {self.nomOeuvre} \n Description : {self.descriptionOeuvre} \n Lieu : {self.idLieu} \n]"
-
 class Evenement(models.Model):
     idEvenement = models.AutoField(primary_key=True)
     nomEvenement = models.CharField(max_length=200, unique=True)
-    descriptionEvenement = models.CharField  (max_length=200)
+    descriptionEvenement = models.CharField(max_length=7000, null=True)
+    prixEvenement = models.FloatField(null=True)
+    dateEvenement = models.DateField(null=True)
+    heureEvenement = models.TimeField(null=True)
+    infoEvenement = models.CharField(max_length=7000, null=True)
+    adresseEvenement = models.CharField(max_length=500, null=True)
+    lienreservationEvenement = models.CharField(max_length=500, null=True)
     idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -163,7 +164,6 @@ liste des tables :
     Ville
     Departement
     Region
-    Oeuvre
     Evenement
     LnkLieuHoraire
 """

@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 class LieuAdmin(admin.ModelAdmin):
-    list_display = ('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu', 'mailLieu', 'webLieu','idVille','idTarif','idLieu')
+    list_display = ('nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu', 'mailLieu', 'webLieu','idVille','idTarif','idLieu')
 
 class VilleAdmin(admin.ModelAdmin):
     list_display = ('nomVille','codePostal','idDepartement','idVille')
@@ -29,7 +29,7 @@ class EtapeAdmin(admin.ModelAdmin):
     list_display = ('idParcours','idLieu','numEtape')
 
 class HorairesAdmin(admin.ModelAdmin):
-    list_display = ('idHoraire','listJour','horaireOuverture','horaireFermeture', 'intervalHoraire')
+    list_display = ('idHoraire','horaireOuverture','horaireFermeture', 'intervalHoraire')
 
 class tarifAdmin(admin.ModelAdmin):
     list_display = ('idTarif','typeTarif','prixUnitaire')

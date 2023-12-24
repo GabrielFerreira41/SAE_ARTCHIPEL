@@ -4,3 +4,4 @@ djangorestframework
 mysqlclient
 dj-rest-auth
 django-filter
+Pillow

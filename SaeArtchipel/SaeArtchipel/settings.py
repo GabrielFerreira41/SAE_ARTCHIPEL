@@ -95,6 +95,9 @@ DATABASES = {
         'PASSWORD': 'root_psw',
         'HOST': 'mysql_api',
         'PORT': '',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 

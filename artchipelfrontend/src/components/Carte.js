@@ -1,5 +1,6 @@
+/* Le code importe les modules et styles nécessaires pour le composant `Carte`. */
 import React, { useEffect, useState } from 'react';
-import { loadModules } from 'esri-loader';
+import { loadModules, IdentityManager } from 'esri-loader';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../style/styleCarte.css';
@@ -41,7 +42,11 @@ const Carte = () => {
       .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Search]) => {
         const map = new Map({
           basemap: 'streets-navigation-vector',
+          authentication: {
+            username: 'Gabi41',
+            password: '@Iut12345',          },
         });
+
 
         view = new MapView({
           container: 'map-view',

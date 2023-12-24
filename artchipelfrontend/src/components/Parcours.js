@@ -7,7 +7,7 @@ import "../style/styleParcours.css";
 
 
 const parcoursList = [
-  { id: 1, title: 'Parcours A', description: 'Description du parcours A', lieux: [{ id: 1, nom: 'Lieu 1A' }, { id: 2, nom: 'Lieu 2A' }, { id: 3, nom: 'Lieu 3A' }] },
+  { id: 1, title: 'Parcours A', description: 'Description du parcours A', lieux: [{ id: 1, nom: 'Lieu 1A' }, { id: 2, nom: 'Lieu 2A' }, { id: 3, nom: 'Lieu 3A' }, { id: 4, nom: 'Lieu 4A' }, { id: 5, nom: 'Lieu 5A' }, { id: 6, nom: 'Lieu 6A' }, { id: 7, nom: 'Lieu 7A' }, { id: 8, nom: 'Lieu 8A' }, { id: 9, nom: 'Lieu 9A' }, { id: 10, nom: 'Lieu 10A' }] },
   { id: 2, title: 'Parcours B', description: 'Description du parcours B', lieux: [{ id: 4, nom: 'Lieu 4B' }, { id: 5, nom: 'Lieu 5B' }] },
   { id: 3, title: 'Parcours C', description: 'Description du parcours C', lieux: [{ id: 6, nom: 'Lieu 6C' }, { id: 7, nom: 'Lieu 7C' }, { id: 8, nom: 'Lieu 8C' }] },
   { id: 4, title: 'Parcours D', description: 'Description du parcours D', lieux: [{ id: 9, nom: 'Lieu 9D' }, { id: 10, nom: 'Lieu 10D' }] },
@@ -136,8 +136,10 @@ const Parcours = () => {
         <div className='popUp d-flex'>
           <div className='titrePopUpParcours d-flex justify-content-center align-items-center' >
             <div className='titleDiv'>
-              <h1 className='d-flex justify-content-center LilitaOne'>{selectedParcours?.title}</h1>
-              <button className=''>Voir sur la Carte</button>
+              <h1 className='d-flex justify-content-center LilitaOneGreen'>{selectedParcours?.title}</h1>
+              <div className='d-flex justify-content-center'>
+                <button className=''>Voir sur la Carte</button>
+              </div>
             </div>
 
           </div>
@@ -147,9 +149,28 @@ const Parcours = () => {
             </div>
             <div className='ListeLieuxPopUpParcours d-flex justify-content-center align-items-center'>
               {selectedParcours && (
-                <ul className="lieux-list">
-                  {selectedParcours.lieux.map((lieu) => (
-                    <li className='LilitaOne'>{lieu.nom}</li>
+                <ul className="lieux-list list-unstyled lieuContainerCheminParcours">
+                  {selectedParcours.lieux.map((lieu, index) => (
+                    /* Le code `<React.Fragment>` est utilisé comme wrapper pour regrouper plusieurs
+                    éléments sans ajouter d'élément DOM supplémentaire. Il vous permet de renvoyer
+                    plusieurs éléments de la méthode de rendu d'un composant sans avoir à les
+                    envelopper dans un seul élément parent. */
+                    <React.Fragment  key={lieu.id}>
+                      <div className='d-flex justify-content-center'>
+                        <div>
+                          {index > 0 && <p className='cheminParcours'> • </p>}
+                          {index > 0 && <p className='cheminParcours'> • </p>}
+                          {index > 0 && <p className='cheminParcours mb-3'> • </p>}
+                        </div>
+                      </div>
+                      <div className='d-flex justify-content-center'>
+
+                      <li className='LilitaOneWhite listeLieuxParcours d-flex justify-content-center'>
+                        {lieu.nom}
+                      </li>
+                      </div>
+
+                    </React.Fragment>
                   ))}
                 </ul>
               )}

@@ -28,15 +28,38 @@
 }
 .ContainerListeLieuxPopUpParcours{
   width: 60%;
+  background-color: #12AA36;
 }
 .ListeLieuxPopUpParcours{
 height: 100%;
 }
 
-.LilitaOne{
+.LilitaOneWhite{
+  font-family: 'Lilita One', sans-serif;
+  color: white;
+}
+.LilitaOneGreen{
   font-family: 'Lilita One', sans-serif;
   color: #12AA36;
 }
 .titleDiv{
   height: 15vh;
+}
+.listeLieuxParcours{
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.5);
+  width: 15vw;
+  background-color: rgb(0, 159, 227);
+  height: 4vh;
+}
+.cheminParcours{
+  margin: 0;
+  padding: 0;
+  height: 1vh;
+  color: white;
+}
+
+.lieuContainerCheminParcours{ 
+  height: 40vh;
+  width: 20vw;
+  overflow-y : scroll 
 }

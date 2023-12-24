@@ -1,11 +1,19 @@
 from rest_framework import serializers
-from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement,Region,Oeuvre, Evenement, LnkLieuHoraire
+from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement,Region, Evenement, LnkLieuHoraire
 
 class LieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lieu
-        fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif','idTypeLieu','longitudeLieu','latitudeLieu','imageLieu','descriptionLieu')
+        fields = '__all__'
 
+        def get_image_url(self, obj):
+        # Assuming 'imageLieu' is the name of your ImageField
+            if obj.imageLieu:
+                return self.context['request'].build_absolute_uri(obj.imageLieu.url)
+            
+            return None
+
+    
 class VilleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ville
@@ -49,7 +57,7 @@ class FavorisParcoursSerializer(serializers.ModelSerializer):
 class HoraireSerializer(serializers.ModelSerializer):
     class Meta:
         model = Horaire
-        fields = ('idHoraire', 'listJour', 'horaireOuverture','horaireFermeture', 'intervalHoraire')
+        fields = ('idHoraire', 'observationHoraire', 'horaireOuverture', 'horaireFermeture', 'intervalHoraire', 'lienReservationHoraire')
 
 class DepartementSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,23 +69,22 @@ class RegionSerializer(serializers.ModelSerializer):
         model = Region
         fields=('idRegion', 'nomRegion')
 
-class OeuvreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Oeuvre
-        fields = ('idOeuvre', 'nomOeuvre', 'descriptionOeuvre', 'idLieu','image_oeuvre')
+# class OeuvreSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Oeuvre
+#         fields = ('idOeuvre', 'nomOeuvre', 'descriptionOeuvre', 'idLieu','image_oeuvre')
 
 class EvenementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evenement
-        fields = ('idEvenement', 'nomEvenement', 'descriptionEvenement', 'idLieu')
+        fields = ('idEvenement', 'nomEvenement', 
+                        'descriptionEvenement','prixEvenement', 
+                        'dateEvenement','heureEvenement',
+                    'infoEvenement' ,'lienreservationEvenement',
+                    'idLieu_id', 'adresseEvenement')
 
 
 class LnkLieuHoraireSerializer(serializers.ModelSerializer):
     class Meta:
         model = LnkLieuHoraire
         fields = ('idLieu', 'idHoraire', 'dateDebut', 'dateFin')
-
-class detailLieuSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lieu
-        fields = ('idLieu', 'nomLieu','boolAccessibilite','boolParking','boolShopping','boolRepas','boolTable','boolJaujeLieux','nombreMaxVisiteur','adresseLieu','telLieu','mailLieu','webLieu','idVille','idTarif','idTypeLieu')

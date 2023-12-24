@@ -1,6 +1,6 @@
 from django.views import View
 from rest_framework import viewsets
-from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, OeuvreSerializer, EvenementSerializer, LnkLieuHoraireSerializer
+from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer
 from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Evenement, LnkLieuHoraire
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
@@ -11,11 +11,24 @@ from rest_framework import serializers
 
 class LieuView(View):
     serializer_class = LieuSerializer
-    queryset = Lieu.objects.all()
+
+    #recuperer les lieux sans montrer les oeuvres à proximité qui sont aussi dans la table lieu
+
+    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+    queryset = Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
-        data = list(Lieu.objects.values()) 
+
+        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+
+        if typelieu_Oeuvre :
+            print(typelieu_Oeuvre.idTypeLieu)
+            data = list(Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu).values())
+        else:
+            data = list(Lieu.objects.values())
+
+        #data = list(Lieu.objects.values()) 
         return JsonResponse(data, safe=False)
 
 
@@ -137,13 +150,26 @@ class RegionView(View):
 
 
 
-class OeuvreView(View):
-    serializer_class = OeuvreSerializer
-    queryset = Oeuvre.objects.all()
+class OeuvreProximiteView(View):
+    #recupere les oeuvres à proximité qui sont dans la table lieu sans les autres types de lieux
+
+    serializer_class = LieuSerializer
+
+    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Musée')
+
+    queryset = Lieu.objects.filter(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     
     def get(self, request, *args, **kwargs):
-        data = list(Oeuvre.objects.values()) 
+
+        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Musée')
+
+        if typelieu_Oeuvre :
+            print(typelieu_Oeuvre.idTypeLieu)
+            data = list(Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu).values())
+        else:
+            data = list(Lieu.objects.values())
+
         return JsonResponse(data, safe=False)
 
 
@@ -190,30 +216,23 @@ def details_evenement(request, evenement_id):
     return JsonResponse(details_evenement, safe=False)
 
 
-def details_oeuvre(request, oeuvre_id):
-    details = get_object_or_404(Oeuvre, idOeuvre=oeuvre_id)
+# def details_oeuvre(request, oeuvre_id):
+#     details = get_object_or_404(Oeuvre, idOeuvre=oeuvre_id)
 
-    lieu = details.idLieu
-    tarif = details.idLieu.idTarif
-    ville = details.idLieu.idVille
+#     lieu = details.idLieu
+#     tarif = details.idLieu.idTarif
+#     ville = details.idLieu.idVille
     
     
-    # Créez un dictionnaire avec les détails
-    details_oeuvre = {
-        'oeuvre': OeuvreSerializer(details).data,
-        'lieu': LieuSerializer(lieu).data,
-        'tarif': TarifSerializer(tarif).data,
-        'ville': VilleSerializer(ville).data,
-    }
+#     # Créez un dictionnaire avec les détails
+#     details_oeuvre = {
+#         'oeuvre': OeuvreSerializer(details).data,
+#         'lieu': LieuSerializer(lieu).data,
+#         'tarif': TarifSerializer(tarif).data,
+#         'ville': VilleSerializer(ville).data,
+#     }
 
-    return JsonResponse(details_oeuvre, safe=False)
-
-# Créez des serializers appropriés pour chaque modèle
-
-class LieuSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lieu
-        fields = '__all__'
+#     return JsonResponse(details_oeuvre, safe=False)
 
 
 @api_view(['GET'])
@@ -224,7 +243,7 @@ def details_Lieu(request, lieu_id):
     ville = details.idVille
     departement = ville.idDepartement
     region = departement.idRegion
-    oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
+    #oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
     horaires = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
     heures = []
     for horaire in horaires:
@@ -237,7 +256,7 @@ def details_Lieu(request, lieu_id):
     ville_serializer = VilleSerializer(ville).data
     departement_serializer = DepartementSerializer(departement).data
     region_serializer = RegionSerializer(region).data
-    oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
+    #oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
     horaire_serializer = LnkLieuHoraireSerializer(horaires, many=True).data
     heure_serializer = HoraireSerializer(heures, many=True).data
     evenement_serializer = EvenementSerializer(evenement, many=True).data
@@ -250,13 +269,14 @@ def details_Lieu(request, lieu_id):
         'ville': ville_serializer,
         'departement': departement_serializer,
         'region': region_serializer,
-        'oeuvre': oeuvre_serializer,
+        #'oeuvre': oeuvre_serializer,
         'horaire': horaire_serializer,  # Utilisez le serializer HoraireSerializer
         'heure': heure_serializer,
         'evenement': evenement_serializer,
     }
 
     return JsonResponse(details_lieu, safe=False, charset='utf-8')
+
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
@@ -280,15 +300,15 @@ def details_Parcours(request, parcours_id):
     regions = Region.objects.filter(idRegion__in=region_ids)
 
     # Exemple : Accéder aux attributs
-    nature_trail = model_to_dict(details)
+    nature_trail = ParcoursSerializer(details).data
 
     # Convertir les objets en dictionnaires
-    etape_list = [model_to_dict(etape) for etape in etapes]
-    lieu_list = [model_to_dict(lieu) for lieu in lieux]
-    tarif_list = [model_to_dict(tarif) for tarif in tarifs]
-    ville_list = [model_to_dict(ville) for ville in villes]
-    departement_list = [model_to_dict(departement) for departement in departements]
-    region_list = [model_to_dict(region) for region in regions]
+    etape_list = [EtapeSerializer(etape).data for etape in etapes]
+    lieu_list = [LieuSerializer(lieu).data for lieu in lieux]
+    tarif_list = [TarifSerializer(tarif).data for tarif in tarifs]
+    ville_list = [VilleSerializer(ville).data for ville in villes]
+    departement_list = [DepartementSerializer(departement).data for departement in departements]
+    region_list = [RegionSerializer(region).data for region in regions]
 
     # Construire le dictionnaire de réponse
     response_data = {
@@ -314,7 +334,7 @@ def tojson(request):
         "ville" : VilleSerializer(Ville.objects.all(), many=True).data,
         "departement" : DepartementSerializer(Departement.objects.all(), many=True).data,
         "region" : RegionSerializer(Region.objects.all(), many=True).data,
-        "oeuvre" : OeuvreSerializer(Oeuvre.objects.all(), many=True).data,
+        #"oeuvre" : OeuvreSerializer(Oeuvre.objects.all(), many=True).data,
         "horaire" : HoraireSerializer(Horaire.objects.all(), many=True).data,
         "lnklieuhoraire" : LnkLieuHoraireSerializer(LnkLieuHoraire.objects.all(), many=True).data,
         "parcours" : ParcoursSerializer(Parcours.objects.all(), many=True).data,

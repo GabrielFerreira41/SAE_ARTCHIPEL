@@ -38,6 +38,7 @@ urlpatterns = [
     path('preferencelieu/',views.PreferenceLieuView.as_view(), ),
 
     #Oeuvre
-    path('oeuvre/',views.OeuvreView.as_view(),),
+    #path('oeuvre/',views.OeuvreProximiteView.as_view(),),
+    
     path('tojson/',views.tojson, name='tojson')
 ]

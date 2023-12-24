@@ -6,6 +6,58 @@ class LieuSerializer(serializers.ModelSerializer):
     typelieu = serializers.SerializerMethodField()
     ville = serializers.SerializerMethodField()
     horaire = serializers.SerializerMethodField()
+    evenement = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Lieu
+        fields = ('idLieu', 'nomLieu','descriptionLieu', 'imageLieu', 'boolPompidouLieu', 'boolAccessibilite', 'boolParking', 
+                    'boolShopping', 'boolRepas','boolJaujeLieux', 'observationLieu','nombreMaxVisiteur', 'adresseLieu', 
+                    'telLieu', 'mailLieu', 'webLieu', 'latitudeLieu', 
+                    'longitudeLieu', 'tarif', 'typelieu', 'ville', 'horaire', 'evenement')
+
+    def get_tarif(self, instance):
+        # Le paramètre 'instance' est l'instance de la catégorie consultée.
+
+        # On applique le filtre sur notre queryset pour n'avoir que les produits actifs
+        queryset = instance.idTarif
+
+        serializer = TarifSerializer(queryset)
+
+        return serializer.data
+
+    def get_typelieu(self, instance):
+        queryset = instance.idTypeLieu
+
+        serializers = TypeLieuSerializer(queryset)
+
+        return serializers.data
+    
+    def get_ville(self, instance):
+        queryset = instance.idVille
+
+        serializers = VilleSerializer(queryset)
+
+        return serializers.data
+    
+    def get_horaire(self, instance):
+        queryset = LnkLieuHoraire.objects.filter(idLieu=instance.idLieu)
+
+        serializers = LnkLieuHoraireSerializer(queryset, many=True)
+
+        return serializers.data
+
+    def get_evenement(self, instance):
+        queryset = Evenement.objects.filter(idLieu = instance.idLieu)
+
+        serializers = EvenementSerializer(queryset, many=True)
+
+        return serializers.data
+    
+class LieuEvenementSerializer(serializers.ModelSerializer):
+    tarif = serializers.SerializerMethodField()
+    typelieu = serializers.SerializerMethodField()
+    ville = serializers.SerializerMethodField()
+    horaire = serializers.SerializerMethodField()
 
     class Meta:
         model = Lieu
@@ -156,8 +208,25 @@ class EvenementSerializer(serializers.ModelSerializer):
                         'descriptionEvenement','prixEvenement', 
                         'dateEvenement','heureEvenement',
                     'infoEvenement' ,'lienreservationEvenement',
-                    'idLieu_id', 'adresseEvenement')
+                    'adresseEvenement')
 
+class EvenementLieuSerializer(serializers.ModelSerializer):
+    lieu = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Evenement
+        fields = ('idEvenement', 'nomEvenement', 
+                        'descriptionEvenement','prixEvenement', 
+                        'dateEvenement','heureEvenement',
+                    'infoEvenement' ,'lienreservationEvenement',
+                    'adresseEvenement', 'lieu')
+        
+    def get_lieu(self, instance):
+        queryset = instance.idLieu
+
+        serializers = LieuEvenementSerializer(queryset)
+
+        return serializers.data
 
 class LnkLieuHoraireSerializer(serializers.ModelSerializer):
 

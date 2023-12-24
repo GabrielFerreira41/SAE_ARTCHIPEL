@@ -1,6 +1,6 @@
 from django.views import View
 from rest_framework import viewsets
-from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer
+from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer, EvenementLieuSerializer
 from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Evenement, LnkLieuHoraire
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
@@ -14,8 +14,6 @@ class LieuView(View):
 
     #recuperer les lieux sans montrer les oeuvres à proximité qui sont aussi dans la table lieu
 
-    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
-    queryset = Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
@@ -155,22 +153,51 @@ class OeuvreProximiteView(View):
 
     serializer_class = LieuSerializer
 
-    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Musée')
-
-    queryset = Lieu.objects.filter(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
     permission_classes = (IsAuthenticatedOrReadOnly,)
     
     def get(self, request, *args, **kwargs):
 
-        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Musée')
+        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
 
         if typelieu_Oeuvre :
-            print(typelieu_Oeuvre.idTypeLieu)
-            data = list(Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu).values())
+            #print(typelieu_Oeuvre.idTypeLieu)
+            data = Lieu.objects.filter(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
         else:
-            data = list(Lieu.objects.values())
+            #print("ici")
+            return JsonResponse({"error": "Il n'existe pas d'oeuvre à proximité"}, status=404)
 
-        return JsonResponse(data, safe=False)
+        serializer = LieuSerializer(data, many=True).data
+        liste_oeuvre = {
+            'oeuvre à proximité' : serializer,
+        }
+        return JsonResponse(liste_oeuvre, safe=False)
+    
+@api_view(['GET'])
+def get_all_oeuvres_proximites_departement(request, departement_id):
+
+    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+
+    if typelieu_Oeuvre :
+        try:
+            departements = Departement.objects.filter(idDepartement=departement_id)
+        except Region.DoesNotExist:
+            return JsonResponse({"error": "La région spécifiée n'existe pas."}, status=404)
+
+        villes = Ville.objects.filter(idDepartement__in=departements)
+        lieux = Lieu.objects.filter(idVille__in=villes, idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
+    else:
+        #print("ici")
+        return JsonResponse({"error": "Il n'existe pas d'oeuvre à proximité"}, status=404)
+    
+    serializer = LieuSerializer(lieux, many=True).data
+
+    response_data = {
+        'lieux': serializer,
+    }
+    
+    return JsonResponse(response_data, safe=False)
+
+
 
 
 class EvenementView(View):
@@ -193,6 +220,7 @@ class LnkLieuHoraireView(View):
         return JsonResponse(data, safe=False)
 
 
+@api_view(['GET'])
 def details_evenement(request, evenement_id):
     evenement = get_object_or_404(Evenement, idEvenement=evenement_id)
 
@@ -265,43 +293,69 @@ def details_Parcours(request, parcours_id):
     # Récupérer l'objet Parcours
     parcours = get_object_or_404(Parcours, idParcours=parcours_id)
 
-    # Récupérer les objets Etape, Lieu, Tarif, Ville, Département, Région en utilisant des requêtes optimisées
-    # etapes = Etape.objects.filter(idParcours=parcours_id)
-    # lieu_ids = [etape.idLieu.idLieu for etape in etapes]
-    # lieux = Lieu.objects.filter(idLieu__in=lieu_ids)
-    # tarif_ids = [lieu.idTarif.idTarif for lieu in lieux]
-    # tarifs = Tarif.objects.filter(idTarif__in=tarif_ids)
-    # ville_ids = [lieu.idVille.idVille for lieu in lieux]
-    # villes = Ville.objects.filter(idVille__in=ville_ids)
-    # departement_ids = [ville.idDepartement.idDepartement for ville in villes]
-    # departements = Departement.objects.filter(idDepartement__in=departement_ids)
-    # region_ids = [departement.idRegion.idRegion for departement in departements]
-    # regions = Region.objects.filter(idRegion__in=region_ids)
-
-    # Exemple : Accéder aux attributs
     nature_trail = ParcoursSerializer(parcours).data
-
-    # Convertir les objets en dictionnaires
-    # etape_list = [EtapeSerializer(etape).data for etape in etapes]
-    # lieu_list = [LieuSerializer(lieu).data for lieu in lieux]
-    # tarif_list = [TarifSerializer(tarif).data for tarif in tarifs]
-    # ville_list = [VilleSerializer(ville).data for ville in villes]
-    # departement_list = [DepartementSerializer(departement).data for departement in departements]
-    # region_list = [RegionSerializer(region).data for region in regions]
 
     # Construire le dictionnaire de réponse
     response_data = {
         'parcours': nature_trail,
-        # 'etape': etape_list,
-        # 'lieu': lieu_list,
-        # 'tarif': tarif_list,
-        # 'ville': ville_list,
-        # 'departement': departement_list,
-        # 'region': region_list,
     }
 
-    # Retourner une JsonResponse
-    return JsonResponse(response_data)
+    return JsonResponse(response_data, safe=False)
+
+
+@api_view(['GET'])
+def detail_evenement_with_lieu(request, evenement_id):
+    evenements = get_object_or_404(Evenement, idEvenement=evenement_id)
+
+    detail_evenement_lieu = EvenementLieuSerializer(evenements).data 
+
+    response_data = {
+        'evenement': detail_evenement_lieu,
+    }
+
+    return JsonResponse(response_data, safe=False)
+
+@api_view(['GET'])
+def get_all_lieux_region(request, region_id):
+    try:
+        region = Region.objects.get(idRegion=region_id)
+    except Region.DoesNotExist:
+        return JsonResponse({"error": "La région spécifiée n'existe pas."}, status=404)
+
+    departements = Departement.objects.filter(idRegion=region.idRegion)
+    villes = Ville.objects.filter(idDepartement__in=departements)
+    lieux = Lieu.objects.filter(idVille__in=villes)
+
+    serializer = LieuSerializer(lieux, many=True).data
+
+    response_data = {
+        'lieux': serializer,
+    }
+    
+    return JsonResponse(response_data, safe=False)
+
+
+
+
+@api_view(['GET'])
+def get_all_lieux_departement(request, departement_id):
+    try:
+        departements = Departement.objects.filter(idDepartement=departement_id)
+    except Region.DoesNotExist:
+        return JsonResponse({"error": "La région spécifiée n'existe pas."}, status=404)
+
+    villes = Ville.objects.filter(idDepartement__in=departements)
+    lieux = Lieu.objects.filter(idVille__in=villes)
+
+    serializer = LieuSerializer(lieux, many=True).data
+
+    response_data = {
+        'lieux': serializer,
+    }
+    
+    return JsonResponse(response_data, safe=False)
+
+
 
 def tojson(request): 
     """

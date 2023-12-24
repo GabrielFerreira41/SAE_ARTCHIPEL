@@ -239,40 +239,19 @@ def details_evenement(request, evenement_id):
 def details_Lieu(request, lieu_id):
     details = get_object_or_404(Lieu, idLieu=lieu_id)
 
-    tarif = details.idTarif
-    ville = details.idVille
-    departement = ville.idDepartement
-    region = departement.idRegion
-    #oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)
-    horaires = LnkLieuHoraire.objects.filter(idLieu=lieu_id)
-    heures = []
-    for horaire in horaires:
-        heures.extend(Horaire.objects.filter(idHoraire=horaire.idHoraire.idHoraire))
-    evenement = Evenement.objects.filter(idLieu=lieu_id)
+    #oeuvre = Oeuvre.objects.filter(idLieu=lieu_id)  
 
     # Utilisez les serializers pour sérialiser les objets
     lieu_serializer = LieuSerializer(details).data
-    tarif_serializer = TarifSerializer(tarif).data
-    ville_serializer = VilleSerializer(ville).data
-    departement_serializer = DepartementSerializer(departement).data
-    region_serializer = RegionSerializer(region).data
+
     #oeuvre_serializer = OeuvreSerializer(oeuvre, many=True).data
-    horaire_serializer = LnkLieuHoraireSerializer(horaires, many=True).data
-    heure_serializer = HoraireSerializer(heures, many=True).data
-    evenement_serializer = EvenementSerializer(evenement, many=True).data
+
 
     # Utilisez le serializer HoraireSerializer pour sérialiser les horaires
 
     details_lieu = {
         'lieu': lieu_serializer,
-        'tarif': tarif_serializer,
-        'ville': ville_serializer,
-        'departement': departement_serializer,
-        'region': region_serializer,
         #'oeuvre': oeuvre_serializer,
-        'horaire': horaire_serializer,  # Utilisez le serializer HoraireSerializer
-        'heure': heure_serializer,
-        'evenement': evenement_serializer,
     }
 
     return JsonResponse(details_lieu, safe=False, charset='utf-8')
@@ -284,41 +263,41 @@ from django.forms.models import model_to_dict
 @api_view(['GET'])
 def details_Parcours(request, parcours_id):
     # Récupérer l'objet Parcours
-    details = get_object_or_404(Parcours, idParcours=parcours_id)
+    parcours = get_object_or_404(Parcours, idParcours=parcours_id)
 
     # Récupérer les objets Etape, Lieu, Tarif, Ville, Département, Région en utilisant des requêtes optimisées
-    etapes = Etape.objects.filter(idParcours=parcours_id)
-    lieu_ids = [etape.idLieu.idLieu for etape in etapes]
-    lieux = Lieu.objects.filter(idLieu__in=lieu_ids)
-    tarif_ids = [lieu.idTarif.idTarif for lieu in lieux]
-    tarifs = Tarif.objects.filter(idTarif__in=tarif_ids)
-    ville_ids = [lieu.idVille.idVille for lieu in lieux]
-    villes = Ville.objects.filter(idVille__in=ville_ids)
-    departement_ids = [ville.idDepartement.idDepartement for ville in villes]
-    departements = Departement.objects.filter(idDepartement__in=departement_ids)
-    region_ids = [departement.idRegion.idRegion for departement in departements]
-    regions = Region.objects.filter(idRegion__in=region_ids)
+    # etapes = Etape.objects.filter(idParcours=parcours_id)
+    # lieu_ids = [etape.idLieu.idLieu for etape in etapes]
+    # lieux = Lieu.objects.filter(idLieu__in=lieu_ids)
+    # tarif_ids = [lieu.idTarif.idTarif for lieu in lieux]
+    # tarifs = Tarif.objects.filter(idTarif__in=tarif_ids)
+    # ville_ids = [lieu.idVille.idVille for lieu in lieux]
+    # villes = Ville.objects.filter(idVille__in=ville_ids)
+    # departement_ids = [ville.idDepartement.idDepartement for ville in villes]
+    # departements = Departement.objects.filter(idDepartement__in=departement_ids)
+    # region_ids = [departement.idRegion.idRegion for departement in departements]
+    # regions = Region.objects.filter(idRegion__in=region_ids)
 
     # Exemple : Accéder aux attributs
-    nature_trail = ParcoursSerializer(details).data
+    nature_trail = ParcoursSerializer(parcours).data
 
     # Convertir les objets en dictionnaires
-    etape_list = [EtapeSerializer(etape).data for etape in etapes]
-    lieu_list = [LieuSerializer(lieu).data for lieu in lieux]
-    tarif_list = [TarifSerializer(tarif).data for tarif in tarifs]
-    ville_list = [VilleSerializer(ville).data for ville in villes]
-    departement_list = [DepartementSerializer(departement).data for departement in departements]
-    region_list = [RegionSerializer(region).data for region in regions]
+    # etape_list = [EtapeSerializer(etape).data for etape in etapes]
+    # lieu_list = [LieuSerializer(lieu).data for lieu in lieux]
+    # tarif_list = [TarifSerializer(tarif).data for tarif in tarifs]
+    # ville_list = [VilleSerializer(ville).data for ville in villes]
+    # departement_list = [DepartementSerializer(departement).data for departement in departements]
+    # region_list = [RegionSerializer(region).data for region in regions]
 
     # Construire le dictionnaire de réponse
     response_data = {
         'parcours': nature_trail,
-        'etape': etape_list,
-        'lieu': lieu_list,
-        'tarif': tarif_list,
-        'ville': ville_list,
-        'departement': departement_list,
-        'region': region_list,
+        # 'etape': etape_list,
+        # 'lieu': lieu_list,
+        # 'tarif': tarif_list,
+        # 'ville': ville_list,
+        # 'departement': departement_list,
+        # 'region': region_list,
     }
 
     # Retourner une JsonResponse

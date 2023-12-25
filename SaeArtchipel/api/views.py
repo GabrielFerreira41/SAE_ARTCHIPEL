@@ -244,25 +244,6 @@ def details_evenement(request, evenement_id):
     return JsonResponse(details_evenement, safe=False)
 
 
-# def details_oeuvre(request, oeuvre_id):
-#     details = get_object_or_404(Oeuvre, idOeuvre=oeuvre_id)
-
-#     lieu = details.idLieu
-#     tarif = details.idLieu.idTarif
-#     ville = details.idLieu.idVille
-    
-    
-#     # Créez un dictionnaire avec les détails
-#     details_oeuvre = {
-#         'oeuvre': OeuvreSerializer(details).data,
-#         'lieu': LieuSerializer(lieu).data,
-#         'tarif': TarifSerializer(tarif).data,
-#         'ville': VilleSerializer(ville).data,
-#     }
-
-#     return JsonResponse(details_oeuvre, safe=False)
-
-
 @api_view(['GET'])
 def details_Lieu(request, lieu_id):
     details = get_object_or_404(Lieu, idLieu=lieu_id)

@@ -1,18 +1,14 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth.models import AbstractUser
 
 
-class Utilisateur(models.Model):
-    idUtilisateur = models.AutoField(primary_key=True)
-    nomUtilisateur = models.CharField(max_length=250, unique=True)
-    prenomUtilisateur = models.CharField(max_length=250)
-    mdpUtilisateur = models.CharField(max_length=15)
-    emailUtilisateur = models.CharField(max_length=150, unique=True, null=True)
-    typeUtilisateur = models.BooleanField()
-    ddnUtilisateur = models.DateField(format('%d/%m/%Y'), null=True)
+class Utilisateur(AbstractUser):
+
+    ddnUtilisateur = models.DateField(format('%d/%m/%Y'),null=True)
     
     def __str__(self):
-            return f"[\n User : {self.nomUtilisateur} \n Email : {self.emailUtilisateur} \n Type : {self.typeUtilisateur} \n]"
+            return f"[\n User : {self.username} \n Email : {self.email} \n Type : {self.is_superuser} \n]"
     
 class PreferenceLieu(models.Model):
     idUtilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)

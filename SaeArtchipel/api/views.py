@@ -1,13 +1,22 @@
 from django.views import View
 from rest_framework import viewsets
-from .serializers import LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer,UtilisateurSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer, EvenementLieuSerializer
+from .serializers import RegisterSerializer, LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer, EvenementLieuSerializer
 from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Evenement, LnkLieuHoraire
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import serializers
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
+class RegisterView(generics.CreateAPIView):
+    queryset = Utilisateur.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 class LieuView(View):
     serializer_class = LieuSerializer
@@ -69,22 +78,7 @@ class PreferenceLieuView(View):
    
     def get(self, request, *args, **kwargs):
         data = list(PreferenceLieu.objects.values()) 
-        return JsonResponse(data, safe=False)
-
-
-class UtilisateurView(View):
-
-    queryset = Utilisateur.objects.all()
-    serializer_class = UtilisateurSerializer
-    permission_classes = (IsAuthenticated,)
-    filterset_fields = ['typeUtilisateur','ddnUtilisateur']
-    search_fields = ['nomUtilisateur','prenomUtilisateur','emailUtilisateur']
-    
-    def get(self, request, *args, **kwargs):
-        data = list(Utilisateur.objects.values()) 
-        return JsonResponse(data, safe=False)
-
-    
+        return JsonResponse(data, safe=False)  
 
 class ParcoursView(View):
     serializer_class = ParcoursSerializer
@@ -219,6 +213,16 @@ class LnkLieuHoraireView(View):
         data = list(LnkLieuHoraire.objects.values()) 
         return JsonResponse(data, safe=False)
 
+# class logoutView(viewsets):
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, *args, **kwargs):
+#         token, created = Token.objects.get_or_create(user=request.user)
+#         token.delete()
+
+            
+
+
 
 @api_view(['GET'])
 def details_evenement(request, evenement_id):
@@ -265,9 +269,7 @@ def details_Lieu(request, lieu_id):
 
     return JsonResponse(details_lieu, safe=False, charset='utf-8')
 
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.forms.models import model_to_dict
+
 
 @api_view(['GET'])
 def details_Parcours(request, parcours_id):
@@ -354,7 +356,7 @@ def tojson(request):
         "parcours" : ParcoursSerializer(Parcours.objects.all(), many=True).data,
         "etape" : EtapeSerializer(Etape.objects.all(), many=True).data,
         "favorisparcours" : FavorisParcoursSerializer(FavorisParcours.objects.all(), many=True).data,
-        "utilisateur" : UtilisateurSerializer(Utilisateur.objects.all(), many=True).data,
+        #"utilisateur" : UtilisateurSerializer(Utilisateur.objects.all(), many=True).data,
         "preferencelieu" : PreferenceLieuSerializer(PreferenceLieu.objects.all(), many=True).data,
         "typelieu" : TypeLieuSerializer(TypeLieu.objects.all(), many=True).data,
         "evenement" : EvenementSerializer(Evenement.objects.all(), many=True).data,

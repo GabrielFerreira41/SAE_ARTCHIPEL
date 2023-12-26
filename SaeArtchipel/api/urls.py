@@ -1,5 +1,7 @@
 from django.urls import path
 from api import views
+from .token.views import MyTokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     
@@ -50,5 +52,33 @@ urlpatterns = [
     #recupere toutes les oeuvres à proximité dans un departement
     path('oeuvre/<int:departement_id>', views.get_all_oeuvres_proximites_departement, name='get_all_oeuvres_proximites_departement'),
     
-    path('tojson/',views.tojson, name='tojson')
+    path('tojson/',views.tojson, name='tojson'),
+
+
+
+    #partie token
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh_pair'),
+
+
+
+    #creation utilisateur
+    path('register/', views.RegisterView.as_view(), name='auth_register'),
+
+
+    #reste à faire 
+    #recuperer les parcours d'un utilisateur
+
+    #creation d'un parcours avec des etapes 
+
+    #modification d'un parcours avec des etapes 
+
+    #suppression d'un parcours avec ces etapes
+
+    #modification informations utilisateur
+
 ]
+
+
+
+    

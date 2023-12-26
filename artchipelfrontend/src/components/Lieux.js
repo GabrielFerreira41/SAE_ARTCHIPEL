@@ -5,10 +5,22 @@ import { Link } from "react-router-dom";
 
 import "../style/styleLieux.css";
 
+/**
+ * La fonction `Lieux` est un composant React qui récupère les données d'une API et affiche une liste
+ * de lieux avec une option de filtre pour sélectionner un département.
+ * @returns Le composant `Lieux` renvoie un élément JSX. Il restitue un div avec la classe
+ * "indexAccueil" et contient plusieurs éléments imbriqués. Ceux-ci incluent un en-tête, un formulaire
+ * avec des boutons radio et un conteneur avec une liste d'éléments. Les éléments de liste sont générés
+ * dynamiquement en fonction des données extraites d'un point de terminaison d'API. Chaque élément de
+ * la liste contient une image, un lien et du texte.
+ */
 const Lieux = () => {
   const [lieux, setLieux] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
 
+  /* Le hook `useEffect` est utilisé pour effectuer des effets secondaires dans les composants
+  fonctionnels. Dans ce cas, il est utilisé pour récupérer les données d'un point de terminaison
+  d'API lors du montage du composant. */
   useEffect(() => {
     axios.get("http://localhost:8000/api/Lieu/")
       .then((response) => {

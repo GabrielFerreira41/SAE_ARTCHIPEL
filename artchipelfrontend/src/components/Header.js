@@ -2,6 +2,11 @@ import React from 'react';
 import '../style/styleHeader.css';
 
 import { Link } from 'react-router-dom';
+/**
+ * Le composant Header est une barre de navigation avec une barre de recherche.
+ * @returns Le composant Header renvoie un élément d'en-tête avec une barre de navigation et une barre
+ * de recherche.
+ */
 
 const Header = () => {
   return (

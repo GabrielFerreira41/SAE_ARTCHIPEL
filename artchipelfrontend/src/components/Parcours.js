@@ -94,9 +94,10 @@ const Parcours = () => {
 
   return (
     <div>
-      <h1 className='d-flex titreParcours justify-content-center'>"Parcours Mosaïque"</h1>
-      <div className='d-flex titreParcours justify-content-center containerRectangleVert'>
-        <div className='rectangleVert'></div>
+      <div className=' divContainer d-flex justify-content-center align-items-center'>
+        <div className='ContainerTitreParcoursVert d-flex justify-content-center align-items-center'>
+          <h1 className='d-flex titreParcours justify-content-center'>"Parcours Mosaïque"</h1>
+        </div>
       </div>
       <motion.ul
         className="parcours-list list-unstyled"
@@ -145,7 +146,7 @@ const Parcours = () => {
           </div>
           <div className='ContainerListeLieuxPopUpParcours'>
             <div className='d-flex justify-content-end'>
-              <button onClick={close}>CLOSE</button>
+              <button onClick={close}>X</button>
             </div>
             <div className='ListeLieuxPopUpParcours d-flex justify-content-center align-items-center'>
               {selectedParcours && (
@@ -155,7 +156,7 @@ const Parcours = () => {
                     éléments sans ajouter d'élément DOM supplémentaire. Il vous permet de renvoyer
                     plusieurs éléments de la méthode de rendu d'un composant sans avoir à les
                     envelopper dans un seul élément parent. */
-                    <React.Fragment  key={lieu.id}>
+                    <React.Fragment key={lieu.id}>
                       <div className='d-flex justify-content-center'>
                         <div>
                           {index > 0 && <p className='cheminParcours'> • </p>}
@@ -165,9 +166,9 @@ const Parcours = () => {
                       </div>
                       <div className='d-flex justify-content-center'>
 
-                      <li className='LilitaOneWhite listeLieuxParcours d-flex justify-content-center'>
-                        {lieu.nom}
-                      </li>
+                        <li className='LilitaOneWhite listeLieuxParcours d-flex justify-content-center'>
+                          {lieu.nom}
+                        </li>
                       </div>
 
                     </React.Fragment>

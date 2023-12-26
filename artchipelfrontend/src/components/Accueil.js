@@ -19,9 +19,9 @@ import ReactPlayer from 'react-player'
  */
 const Accueil = () => {
   return (
-    <main>
+    <div className="mainAccueil">
       <div className="mt-5 container d-flex justify-content-center align-items-center">
-        <img className="banniereFestival" src={banniereFestival}></img>
+        <img className="banniereFestival " src={banniereFestival}></img>
       </div>
       <div className="container text-center">
         <h2 className="Titre1 mt-5 d-flex justify-content-center align-items-center">“Découvrez le festival Ar(t]Chipel”</h2>
@@ -63,7 +63,7 @@ const Accueil = () => {
         </div>
       </div>
 
-    </main>
+    </div>
   );
 };
 

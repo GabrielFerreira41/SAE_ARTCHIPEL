@@ -303,7 +303,7 @@ const Carte = () => {
     <div className='mainCarte'>
       <div className=' divContainerCarte d-flex justify-content-center align-items-center'>
         <div className='ContainerCarteVert d-flex justify-content-center align-items-center'>
-          <h1 className='d-flex titreCarte justify-content-center'>"Carte"</h1>
+          <h1 className='titreCartee2e d-flex titreCarte justify-content-center'>"Carte"</h1>
         </div>
       </div>
       <div className='d-flex justify-content-center fondVertLieux'>

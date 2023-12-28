@@ -96,7 +96,7 @@ const Parcours = () => {
     <div>
       <div className=' divContainer d-flex justify-content-center align-items-center'>
         <div className='ContainerTitreParcoursVert d-flex justify-content-center align-items-center'>
-          <h1 className='d-flex titreParcours justify-content-center'>"Parcours Mosaïque"</h1>
+          <h1 className='titreMosaiquee2e d-flex titreParcours justify-content-center'>"Parcours Mosaïque"</h1>
         </div>
       </div>
       <motion.ul
@@ -146,7 +146,7 @@ const Parcours = () => {
           </div>
           <div className='ContainerListeLieuxPopUpParcours'>
             <div className='d-flex justify-content-end'>
-              <button onClick={close}>X</button>
+              <button className='buttonClosePopUp' onClick={close}>X</button>
             </div>
             <div className='ListeLieuxPopUpParcours d-flex justify-content-center align-items-center'>
               {selectedParcours && (

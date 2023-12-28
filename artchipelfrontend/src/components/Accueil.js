@@ -41,11 +41,11 @@ const Accueil = () => {
         <div className="d-flex flex-column align-items-center">
           <div className="m-3">
             <img className="ImageParcours" src={parcours} alt="Parcours" />
-            <Link to={`/Parcours/`} className="TitreLieux d-flex justify-content-center align-items-center">Parcours</Link>
+            <Link to={`/Parcours/`} className="e2eTestParcours TitreLieux d-flex justify-content-center align-items-center">Parcours</Link>
           </div>
           <div className="m-3">
             <img className="ImageLieux" src={lieux} alt="Lieux" />
-            <Link to={`/lieux/`} className="TitreLieux d-flex justify-content-center align-items-center">Lieux</Link>
+            <Link to={`/lieux/`} className="e2eTestLieux TitreLieux d-flex justify-content-center align-items-center">Lieux</Link>
           </div>
         </div>
         <div className="d-flex flex-column align-items-center">
@@ -55,7 +55,7 @@ const Accueil = () => {
           </div>
           <div className="m-3">
             <img className="ImageCarte" src={carte} alt="Carte" />
-            <Link to={`/carte/`} className="TitreCarte d-flex justify-content-center align-items-center">Carte</Link>
+            <Link to={`/carte/`} className="e2eTestCarte TitreCarte d-flex justify-content-center align-items-center">Carte</Link>
           </div>
 
 

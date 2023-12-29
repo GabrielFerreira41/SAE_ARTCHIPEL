@@ -1,6 +1,5 @@
 /* Le code importe divers modules et bibliothèques pour l'application React. */
-import React, { useState, useCallback } from 'react';
-import { render } from 'react-dom';
+import React, { useState } from 'react';
 import { useModal } from 'react-hooks-use-modal';
 import { motion } from 'framer-motion';
 import "../style/styleParcours.css";
@@ -54,7 +53,6 @@ const Parcours = () => {
     animate: { opacity: 1, y: 0 },
   };
 
-  const minSize = 10;
   const maxSize = 30;
   const itemsPerRow = 4;
 

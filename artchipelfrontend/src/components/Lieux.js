@@ -22,7 +22,7 @@ const Lieux = () => {
   fonctionnels. Dans ce cas, il est utilisé pour récupérer les données d'un point de terminaison
   d'API lors du montage du composant. */
   useEffect(() => {
-    axios.get("http://localhost:8000/api/Lieu/")
+    axios.get("http://localhost:8000/api/lieu/")
       .then((response) => {
         const data = response.data;
         setLieux(data);

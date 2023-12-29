@@ -5,6 +5,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../style/styleCarte.css';
 import loupe from './images/loupeBlanc.png';
+import axios from "axios";
+
 
 
 /**
@@ -26,9 +28,56 @@ const Carte = () => {
   const [showInfoPanel, setShowInfoPanel] = useState(false);
   const [showParcoursTab, setShowParcoursTab] = useState(false); // Nouvelle variable d'état pour basculer entre les onglets
   const itemsPerPage = 6;
+  const [lieux, setLieux] = useState([]);
+  const [parcours, setParcours] = useState([]);
+  const [loadingLieux, setLoadingLieux] = useState(true);
+  const [loadingParcours, setLoadingParcours] = useState(true);
+
+
+
 
   let view;
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/lieu/")
+      .then((response) => {
+        const data = response.data;
+        setLieux(data);
+        setLoadingLieux(false);
 
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des lieux :", error);
+      });
+    
+      axios.get("http://localhost:8000/api/parcours/")
+      .then((response) => {
+        
+        const parcoursList = response.data;
+
+        const parcoursDetailsList = [];
+        parcoursList.forEach((parcours) => {
+          axios.get(`http://localhost:8000/api/parcours/${parcours.idParcours}/`)
+            .then((detailsResponse) => {
+              const parcoursDetails = detailsResponse.data;
+              parcoursDetails.parcours.etapes.forEach((lieu) => {
+                lieu.location = [lieu.lieu.longitudeLieu,lieu.lieu.latitudeLieu]
+              })
+              parcoursDetailsList.push(parcoursDetails.parcours);
+              })
+            .catch((detailsError) => {
+              console.error("Erreur lors de la récupération des détails du parcours :", detailsError);
+            });
+        });
+
+      setParcours(parcoursDetailsList);
+      setLoadingParcours(false);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des lieux :", error);
+      });
+
+    
+  }, []);
   /* Le code ci-dessus est écrit en JavaScript et utilise le hook useEffect de React. Il charge
   plusieurs modules de l'API ArcGIS pour JavaScript, notamment Map, MapView, GraphicsLayer, Graphic,
   Directions, Search et Popup. */
@@ -44,11 +93,7 @@ const Carte = () => {
     ], { css: true })
       .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Search]) => {
         const map = new Map({
-          basemap: 'streets-navigation-vector',
-          authentication: {
-            username: 'Gabi41',
-            password: '@Iut12345',
-          },
+          basemap: 'streets-navigation-vector'
         });
 
 
@@ -61,93 +106,16 @@ const Carte = () => {
         const monumentsLayer = new GraphicsLayer();
 
         map.add(monumentsLayer);
-
-        const monuments = [
-          { id: 1, name: 'Château de Chambord', location: [1.515, 47.616] },
-          { id: 2, name: 'Cathédrale de Chartres', location: [1.485, 48.447] },
-          { id: 3, name: 'Château de Chenonceau', location: [1.0707, 47.3244] },
-          { id: 4, name: 'Château d\'Amboise', location: [0.9845, 47.4108] },
-          { id: 5, name: 'Château de Villandry', location: [0.5110, 47.3423] },
-          { id: 6, name: 'Château d\'Azay-le-Rideau', location: [0.4725, 47.2613] },
-          { id: 7, name: 'Château de Blois', location: [1.3307, 47.5861] },
-          { id: 8, name: 'Château de Cheverny', location: [1.4552, 47.5077] },
-          { id: 9, name: 'Château de Loches', location: [1.0041, 47.1284] },
-          { id: 10, name: 'Château de Chinon', location: [0.2454, 47.1676] },
-          { id: 11, name: 'Château de Montpoupon', location: [0.9833, 47.2167] },
-          { id: 12, name: 'Château de Chaumont-sur-Loire', location: [0.9760, 47.4826] },
-          { id: 13, name: 'Château de Valençay', location: [1.5736, 47.1624] },
-          { id: 14, name: 'Château de Langeais', location: [0.4045, 47.3307] },
-          { id: 15, name: 'Château de Sully-sur-Loire', location: [2.3832, 47.7803] },
-          { id: 16, name: 'Château de Gien', location: [2.6340, 47.6876] },
-          { id: 17, name: 'Château de Meung-sur-Loire', location: [1.6947, 47.8202] },
-          { id: 18, name: 'Château de La Ferté-Saint-Aubin', location: [1.9583, 47.8151] },
-          { id: 19, name: 'Château de Saumur', location: [-0.2458, 47.2623] },
-          { id: 20, name: 'Château de Brissac', location: [-0.5520, 47.3590] },
-        ];
-
-        const parcours = [
-          {
-            id: 21,
-            name: 'Parcours des Châteaux Royaux',
-            listeLieu: [
-              { monumentId: 1, location: [1.515, 47.616] }, // Château de Chambord
-              { monumentId: 2, location: [1.485, 48.447] }, // Cathédrale de Chartres
-              { monumentId: 2, location: [1.0707, 47.3244] },
-              { monumentId: 2, location: [0.9845, 47.4108] },
-              { monumentId: 2, location: [0.5110, 47.3423] },
-            ],
-          },
-          {
-            id: 22,
-            name: 'Parcours de la Vallée des Rois',
-            listeLieu: [
-              { monumentId: 3, location: [1.0707, 47.3244] }, // Château de Chenonceau
-              { monumentId: 4, location: [0.9845, 47.4108] }, // Château d'Amboise
-              { monumentId: 5, location: [0.5110, 47.3423] }, // Château de Villandry
-              // ... (ajoutez d'autres lieux au besoin)
-            ],
-          },
-          {
-            id: 23,
-            name: 'Parcours des Cités Médiévales',
-            listeLieu: [
-              { monumentId: 9, location: [1.0041, 47.1284] }, // Château de Loches
-              { monumentId: 10, location: [0.2454, 47.1676] }, // Château de Chinon
-              { monumentId: 11, location: [0.9833, 47.2167] }, // Château de Montpoupon
-              // ... (ajoutez d'autres lieux au besoin)
-            ],
-          },
-          {
-            id: 24,
-            name: 'Parcours des Abbayes Historiques',
-            listeLieu: [
-              { monumentId: 7, location: [1.3307, 47.5861] }, // Château de Blois
-              { monumentId: 13, location: [1.5736, 47.1624] }, // Château de Valençay
-              { monumentId: 14, location: [0.4045, 47.3307] }, // Château de Langeais
-              // ... (ajoutez d'autres lieux au besoin)
-            ],
-          },
-          {
-            id: 25,
-            name: 'Parcours des Jardins Élégants',
-            listeLieu: [
-              { monumentId: 5, location: [0.5110, 47.3423] }, // Château de Villandry
-              { monumentId: 12, location: [0.9760, 47.4826] }, // Château de Chaumont-sur-Loire
-              { monumentId: 18, location: [1.9583, 47.8151] }, // Château de La Ferté-Saint-Aubin
-              // ... (ajoutez d'autres lieux au besoin)
-            ],
-          },
-          // Ajoutez d'autres parcours au besoin...
-        ];
-
-
+      
+        if (!loadingLieux && !loadingParcours) {
         /* Le bloc de code parcourt un ensemble de monuments et crée des graphiques pour chaque
         monument sur la carte. */
-        monuments.forEach(monument => {
+        lieux.forEach(monument => {
+        if (monument.latitudeLieu !== null && monument.longitudeLieu !== null) {
           const point = {
             type: 'point',
-            longitude: monument.location[0],
-            latitude: monument.location[1],
+            longitude: monument.longitudeLieu.toString(),
+            latitude: monument.latitudeLieu.toString(),
           };
 
           const markerSymbol = {
@@ -163,20 +131,20 @@ const Carte = () => {
             geometry: point,
             symbol: markerSymbol,
             attributes: {
-              name: monument.name,
-              id: monument.id,
+              name: monument.nomLieu,
+              id: monument.idLieu,
             },
           });
 
           const popupTemplate = {
             title: '{name}',
-            content: `<a href="/lieux/${monument.id}">Voir le détail de '${monument.name}'</a>`,
+            content: `<a href="/lieux/${monument.idLieu}">Voir le détail de '${monument.nomLieu}'</a>`,
           };
 
           pointGraphic.popupTemplate = popupTemplate;
 
           monumentsLayer.add(pointGraphic);
-        });
+        }});
 
 
         /* Le code ci-dessous parcourt un tableau appelé "parcours" et crée un graphique polyligne pour
@@ -185,35 +153,47 @@ const Carte = () => {
         sera affiché lorsque vous cliquerez sur la polyligne. Enfin, le graphique polyligne est
         ajouté à un calque appelé « monumentsLayer ». */
         parcours.forEach(parcour => {
-          const path = {
-            type: 'polyline',
-            paths: parcour.listeLieu.map(waypoint => waypoint.location),
-          };
+          const validEtapes = parcour.etapes
+            .filter(lieu => lieu.lieu.latitudeLieu !== null && lieu.lieu.longitudeLieu !== null);
 
-          const lineSymbol = {
-            type: 'simple-line',
-            color: [0, 159, 227],
-            width: 2,
-          };
+          if (validEtapes.length > 1) {
+            // Créez la polyligne uniquement s'il y a au moins deux étapes avec des coordonnées valides.
+            const path = {
+              type: 'polyline',
+              paths: [validEtapes.map(waypoint => waypoint.location)],
+            };
+        
+            const lineSymbol = {
+              type: 'simple-line',
+              color: [0, 159, 227],
 
-          const pathGraphic = new Graphic({
-            geometry: path,
-            symbol: lineSymbol,
-            attributes: {
-              name: parcour.name,
-              id: parcour.id,
-            },
-          });
-
-          const popupTemplate = {
-            title: '{name}',
-            content: `<p>Ce parcours inclut plusieurs lieux. <a href="/parcours/${parcour.id}">Voir les détails du parcours</a></p>`,
-          };
-
-          pathGraphic.popupTemplate = popupTemplate;
-
-          monumentsLayer.add(pathGraphic);
+              width: 2,
+            };
+        
+            const pathGraphic = new Graphic({
+              geometry: path,
+              symbol: lineSymbol,
+              attributes: {
+                name: parcour.nomParcours,
+                id: parcour.idParcours,
+              },
+            });
+        
+            const popupTemplate = {
+              title: '{name}',
+              content: `<p>Ce parcours inclut plusieurs lieux. <a href="/parcours/${parcour.idParcours}">Voir les détails du parcours</a></p>`,
+            };
+        
+            pathGraphic.popupTemplate = popupTemplate;
+        
+            monumentsLayer.add(pathGraphic);
+            console.log('Polyline added for parcours:', parcour);
+          } else {
+            console.log('Skipping parcours with insufficient valid etapes:', parcour);
+          }
         });
+        
+      }
 
 
 
@@ -233,7 +213,7 @@ const Carte = () => {
           });
         });
 
-        setMonumentsList(monuments);
+        setMonumentsList(lieux);
         setParcoursList(parcours);
 
         const viewMonumentOnMap = (location) => {
@@ -268,7 +248,7 @@ const Carte = () => {
         };
       })
       .catch(err => console.error(err));
-  }, [selectedMap]);
+  }, [selectedMap,loadingLieux,loadingParcours]);
 
   const handleSearch = (term) => {
     setSearchTerm(term);
@@ -296,8 +276,11 @@ const Carte = () => {
   const currentList = showParcoursTab ? parcoursList : monumentsList;
 
   const currentItems = currentList
-    .filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice(startIndex, endIndex);
+  .filter((item) => {
+    const itemName = item.nomLieu || item.nomParcours;
+    return itemName.toLowerCase().includes(searchTerm.toLowerCase());
+  })
+  .slice(startIndex, endIndex);
 
   return (
     <div className='mainCarte'>
@@ -335,9 +318,9 @@ const Carte = () => {
               <div key={index} className="col-md-6 mb-4 ">
                 <div className={` ${showParcoursTab ? 'carteListeParcoursBleu' : 'carteListeLieuxVert'}`}>
                   <div className="card-body text-center">
-                    <h5 className="card-title titleMonument">{item.name}</h5>
+                    <h5 className="card-title titleMonument">{showParcoursTab ? `${item.nomParcours}` : `${item.nomLieu}`}</h5>
                     <div>
-                      <a href={showParcoursTab ? `/parcours/${item.id}` : `/lieux/${item.id}`}>
+                      <a href={showParcoursTab ? `/parcours/${item.idParcours}` : `/lieux/${item.idLieu}`}>
                         Détails
                       </a>
                       <a onClick={() => viewMonumentOnMap(item.location)}>Voir sur la carte</a>

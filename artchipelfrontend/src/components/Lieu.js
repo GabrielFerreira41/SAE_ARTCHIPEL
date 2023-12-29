@@ -30,7 +30,7 @@ const Lieu = () => {
   fonctionnels. Dans ce cas, il est utilisé pour effectuer une requête HTTP GET pour récupérer les
   détails d'un lieu spécifique à l'aide de la bibliothèque `axios`. */
   useEffect(() => {
-    axios.get(`http://localhost:8000/Lieu/${id}/`)
+    axios.get(`http://localhost:8000/lieu/${id}/`)
       .then((response) => {
         const data = response.data;
         console.log(data);

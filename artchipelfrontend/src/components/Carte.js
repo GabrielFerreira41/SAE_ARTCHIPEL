@@ -37,47 +37,42 @@ const Carte = () => {
 
 
   let view;
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/lieu/")
-      .then((response) => {
-        const data = response.data;
-        setLieux(data);
-        setLoadingLieux(false);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [lieuxResponse, parcoursResponse] = await Promise.all([
+        axios.get("http://localhost:8000/api/lieu/"),
+        axios.get("http://localhost:8000/api/parcours/")
+      ]);
 
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des lieux :", error);
-      });
-    
-      axios.get("http://localhost:8000/api/parcours/")
-      .then((response) => {
-        
-        const parcoursList = response.data;
+      // Traitement des lieux
+      const lieuxData = lieuxResponse.data;
+      setLieux(lieuxData);
+      setLoadingLieux(false);
 
-        const parcoursDetailsList = [];
-        parcoursList.forEach((parcours) => {
-          axios.get(`http://localhost:8000/api/parcours/${parcours.idParcours}/`)
-            .then((detailsResponse) => {
-              const parcoursDetails = detailsResponse.data;
-              parcoursDetails.parcours.etapes.forEach((lieu) => {
-                lieu.location = [lieu.lieu.longitudeLieu,lieu.lieu.latitudeLieu]
-              })
-              parcoursDetailsList.push(parcoursDetails.parcours);
-              })
-            .catch((detailsError) => {
-              console.error("Erreur lors de la récupération des détails du parcours :", detailsError);
-            });
-        });
+      // Traitement des parcours
+      const parcoursList = parcoursResponse.data;
+      const parcoursDetailsList = await Promise.all(
+        parcoursList.map(async (parcours) => {
+          const detailsResponse = await axios.get(`http://localhost:8000/api/parcours/${parcours.idParcours}/`);
+          const parcoursDetails = detailsResponse.data;
+          parcoursDetails.parcours.etapes.forEach((lieu) => {
+            lieu.location = [lieu.lieu.longitudeLieu, lieu.lieu.latitudeLieu];
+          });
+          return parcoursDetails.parcours;
+        })
+      );
 
       setParcours(parcoursDetailsList);
       setLoadingParcours(false);
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la récupération des lieux :", error);
-      });
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données :", error);
+    }
+  };
 
-    
-  }, []);
+  fetchData();
+}, []);
+
   /* Le code ci-dessus est écrit en JavaScript et utilise le hook useEffect de React. Il charge
   plusieurs modules de l'API ArcGIS pour JavaScript, notamment Map, MapView, GraphicsLayer, Graphic,
   Directions, Search et Popup. */

@@ -39,7 +39,7 @@ const Lieux = () => {
       <div className="">
         <h1 className="titreLieuxe2e itreBlancLieux d-flex justify-content-center align-items-center p-5">Lieux</h1>
         <div className="filtreLieux d-flex justify-content-center align-items-center">
-          <form className="d-flex">
+          <form className="d-flex justify-content-center">
             {departments.map((department) => (
               <div key={department} className="form-check">
                 <input

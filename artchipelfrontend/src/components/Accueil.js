@@ -25,7 +25,7 @@ const Accueil = () => {
       </div>
       <div className="container text-center">
         <h2 className="Titre1 mt-5 d-flex justify-content-center align-items-center">“Découvrez le festival Ar(t]Chipel”</h2>
-        <p className=" mt-2 presentationCVDL">“ Texte présentation Festival“</p>
+        <p className=" mt-2 presentationCVDL">Découvrez le Festival Artchipel, une célébration annuelle captivante de l'art et de la culture, mettant en vedette des expositions artistiques, des performances envoûtantes, des ateliers interactifs et des espaces immersifs. Rejoignez notre communauté créative lors de notre prochain événement pour explorer la diversité artistique, participer à des ateliers inspirants et créer des souvenirs uniques. Suivez-nous pour les dernières actualités et réservez vos billets pour cette expérience artistique inoubliable !</p>
         <div className="d-flex justify-content-center m-5">
           <ReactPlayer className='Youtube' url='https://youtu.be/7-rKv1aZk8s?si=fiLJ2M3T6yknLVLW' width='45vw'
             height='51.4vh' />

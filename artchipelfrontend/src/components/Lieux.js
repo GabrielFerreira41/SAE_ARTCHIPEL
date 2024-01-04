@@ -65,7 +65,7 @@ const Lieux = () => {
               {lieux.map((lieu) => (
                 <li className="" key={lieu.idLieu}>
                   <div className="m-3">
-                    <img className="ImageCarteLieux" src={imageChambord} alt="Carte" />
+                    <img className="ImageCarteLieux" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Carte" />
                     <Link to={{ pathname: `/lieux/${lieu.idLieu}` }} className="TitreCarteLieux d-flex justify-content-center align-items-center">{lieu.nomLieu}</Link>
                   </div>
                 </li>

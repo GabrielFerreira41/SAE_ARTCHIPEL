@@ -1,66 +1,51 @@
+.imgLieu{
+    align-items: center;
+    max-width: 40vw;
+    max-height: 40vh;
+    transform: translateX(-10vw);
+
+}
 .main{
     height: 150vh;
-  }
-  
-.rectangleBleu1{
-    background-color: white;
-    width: 10vw ;
-    height:5vh;
-    margin-right: 3vw;
 }
 
-.rectangleBleu2{
-    background-color: white;
-    width: 10vw ;
-    height:5vh;
+.rectangleLieuVert{
+    width: 30vw;
+    height: 50vh;
+    background-color: #12AA36;
 }
 
-.fondBleu{
+.rectangleVilleLieuVert{
+    background-color: #12AA36;
+    color: white;
+}  
+
+.styleLilitaOne{
+    font-family: 'Lilita One', sans-serif;
+}
+
+.divPresentationLieu{
+    margin-top: 10vh;
+}
+.containerDivBleuDescriptionLieu{
+    margin-top: 10vh;
+    padding: 10vh;
     background-color: rgb(0, 159, 227);
-    padding: 5vw;
+}
+.containerDescritpionLieu{
+    width: 40vw;
+    color: white;
 }
 
-.fondVert{
-    padding:2vw;
-
-}
-
-img{
+.titreListeInfoLieu{
+    background-color: #12AA36;
+    margin-right:3vw ;
+    margin-left:3vw ;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    height: 40vh;
-    margin-left: 3vw;
-    margin-right: 3vw;
-}
-#root{
-    height: 150vh;
-}
-
-.carteVerte {
-    background-color: #4CAF50; /* Vert */
     color: white;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 15vw;
-  }
-
-.carteNoir {
-    background-color: black; /* Vert */
-    color: white;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 15vw;
-  }
-
-.ulInformation{
-    margin-left: 5vw;
+    height: 5vh;
+    border-radius: 5%;
 }
-
-.titreInformation{
-    margin-left: 3vw;
-
-}
-  

@@ -18,12 +18,12 @@ const Lieu = () => {
   const [lieu, setLieu] = useState(null);
 
   const oeuvres = [
-    {'name':'Pot en verres'},
-    {'name':'Status en Bronze'},
-    {'name':'Toile'},
-    {'name':'Picasso'},
-    {'name':'Guernika'},
-    {'name':'aefzefazf'},
+    { 'name': 'Pot en verres' },
+    { 'name': 'Status en Bronze' },
+    { 'name': 'Toile' },
+    { 'name': 'Picasso' },
+    { 'name': 'Guernika' },
+    { 'name': 'aefzefazf' },
   ]
 
   /* Le hook `useEffect` est utilisé pour effectuer des effets secondaires dans les composants
@@ -47,8 +47,64 @@ const Lieu = () => {
 
   return (
     <div className="main">
-      <div className="d-flex mt-5 fondBleu">
-        <img src={imageChambord} alt="Château de Chambord" />
+      <div className="d-flex divPresentationLieu">
+        <div className="d-flex align-items-center">
+          <div className="rectangleLieuVert"></div>
+          <img className="imgLieu" src={process.env.PUBLIC_URL + `${lieu.imageLieu}`} alt="Château de Chambord" />
+        </div>
+        <div className="d-flex align-items-center">
+          <div>
+            <h1 className="titreLieuBleu styleLilitaOne">{lieu.nomLieu}</h1>
+            <div className="rectangleVilleLieuVert d-flex justify-content-center">
+              {lieu.ville.nomVille}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="containerDivBleuDescriptionLieu d-flex justify-content-center align-items-center">
+        <div className="containerDescritpionLieu">
+          <p>{lieu.descriptionLieu}</p>
+        </div>
+
+      </div>
+      <div>
+        <div>
+          <div className="d-flex justify-content-center">
+            <div>
+              <h4 className="titreListeInfoLieu">Accés Handicapé</h4>
+            </div>
+            <div>
+              <h4 className="titreListeInfoLieu">Parking</h4>
+            </div>
+            <div>
+              <h4 className="titreListeInfoLieu">Boutique</h4>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="d-flex justify-content-center">
+            <div>
+              <h4 className="titreListeInfoLieu">Tarif</h4>
+            </div>
+            <div>
+              <h4 className="titreListeInfoLieu">Horaire</h4>
+            </div>
+            <div>
+              <h4 className="titreListeInfoLieu">Jauge Lieux</h4>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  );
+};
+
+export default Lieu;
+{/* <div className="d-flex mt-5 fondBleu">
+        <img src={process.env.PUBLIC_URL + `${lieu.imageLieu}`} alt="Château de Chambord" />
         <div className="d-flex align-items-center">
           <div className="container">
             <div className="row">
@@ -105,9 +161,4 @@ const Lieu = () => {
         </div>
       </div>
     <div>  
-    </div>
-    </div>
-  );
-};
-
-export default Lieu;
+    </div> */}

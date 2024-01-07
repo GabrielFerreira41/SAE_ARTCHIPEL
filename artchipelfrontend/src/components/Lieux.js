@@ -18,6 +18,10 @@ const Lieux = () => {
   const [lieux, setLieux] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
 
+
+  const lieuxFiltres = lieux.filter((lieu) => {
+    return selectedDepartment ? lieu.departement === selectedDepartment : true;
+  });
   /* Le hook `useEffect` est utilisé pour effectuer des effets secondaires dans les composants
   fonctionnels. Dans ce cas, il est utilisé pour récupérer les données d'un point de terminaison
   d'API lors du montage du composant. */
@@ -62,18 +66,17 @@ const Lieux = () => {
         <div className="row">
           <div className="col-sm-3 ">
             <ul className="list-unstyled " style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '10px', width: '70vw' }}>
-              {lieux.map((lieu) => (
-                <li className="" key={lieu.idLieu}>
-                  <div className="m-3">
-                  {lieu.imageLieu ? (
-                    <img className="ImageCarteLieux" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Carte" />
+              {lieuxFiltres.map((lieu) => (
+                <li className="m-3" key={lieu.idLieu}>
+                  <Link to={{ pathname: `/lieux/${lieu.idLieu}` }} className="m-3 d-flex flex-column align-items-center">
+                    {lieu.imageLieu ? (
+                      <img className="ImageCarteLieux" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Carte" />
                     ) : (
                       <img className="ImageCarteLieux" src={process.env.PUBLIC_URL + `/images/artchipelDefault.png`} alt="Carte" />
-                      )
+                    )}
+                    <div className="TitreCarteLieux d-flex justify-content-center align-items-center">{lieu.nomLieu}</div>
+                  </Link>
 
-                }
-                    <Link to={{ pathname: `/lieux/${lieu.idLieu}` }} className="TitreCarteLieux d-flex justify-content-center align-items-center">{lieu.nomLieu}</Link>
-                  </div>
                 </li>
               ))}
             </ul>

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lilita+One&display=swap');
 .mainAccueil{
-  height: 270vh;
+  height: 330vh;
   background: linear-gradient(180deg, rgba(0, 159, 227, 0) 0%, rgb(0, 159, 227) 130%);
 }
 
@@ -34,6 +34,27 @@
   font-family: 'Lilita One', sans-serif;
   background-color: #12AA36;
   position: absolute;
-  transform: translateX(9vw) translateY(-3vh);
+  transform: translateX(0vw) translateY(27vh);
 }
 
+
+.accueilSugestionLieuVert{
+  background-color: #12AA36;
+  height: 50vh;
+  margin-top: 10vh;
+}
+
+.titreLilitaOneBlanc{
+  font-family: 'Lilita One', sans-serif;
+  color: white;
+}
+
+.titreLilitaOneBlancPetit{
+  font-family: 'Lilita One', sans-serif;
+  color: white;
+  font-size: 2vh;
+}
+.ImageLieuAleatoire{
+    width: 20vw;
+    height: 25vh;
+}

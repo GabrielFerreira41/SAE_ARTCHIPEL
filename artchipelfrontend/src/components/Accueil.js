@@ -1,11 +1,12 @@
 /* Le code importe divers modules et composants à partir de fichiers et de bibliothèques externes. */
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import axios from "axios";
 import "../style/styleAccueil.css";
 import banniereFestival from "../components/images/banniéreFestival.jpg";
 import parcours from "../components/images/parcours.jpg"
 import carte from "../components/images/carte.jpg"
 import evenements from "../components/images/evenement.jpg"
-import lieux from "../components/images/lieu.jpeg"
+import lieuxImage from "../components/images/lieu.jpeg"
 
 import { Link } from 'react-router-dom';
 import ReactPlayer from 'react-player'
@@ -18,6 +19,29 @@ import ReactPlayer from 'react-player'
  * la sortie du composant.
  */
 const Accueil = () => {
+  const [lieux, setLieux] = useState([]);
+
+  useEffect(() => {
+    // Récupérer la liste complète des lieux
+    axios.get("http://localhost:8000/api/lieu/")
+      .then((response) => {
+        const data = response.data;
+        setLieux(data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des lieux :", error);
+      });
+  }, []);
+
+  // Sélectionner 4 lieux aléatoires à afficher
+  const randomLieux = useMemo(() => {
+    if (lieux.length === 0) {
+      return [];
+    }
+
+    const shuffledLieux = [...lieux].sort(() => 0.5 - Math.random());
+    return shuffledLieux.slice(0, 3);
+  }, [lieux]);
   return (
     <div className="mainAccueil">
       <div className="mt-5 container d-flex justify-content-center align-items-center">
@@ -40,29 +64,53 @@ const Accueil = () => {
       <div className="d-flex justify-content-center">
         <div className="d-flex flex-column align-items-center">
           <div className="m-3">
-            <img className="ImageParcours" src={parcours} alt="Parcours" />
-            <Link to={`/Parcours/`} className="e2eTestParcours TitreLieux d-flex justify-content-center align-items-center">Parcours</Link>
+            <Link to={`/Parcours/`} className="d-flex flex-column align-items-center">
+              <img className="ImageParcours" src={parcours} alt="Parcours" />
+              <div className="e2eTestParcours TitreLieux d-flex justify-content-center align-items-center">Parcours</div>
+            </Link>
           </div>
           <div className="m-3">
-            <img className="ImageLieux" src={lieux} alt="Lieux" />
-            <Link to={`/lieux/`} className="e2eTestLieux TitreLieux d-flex justify-content-center align-items-center">Lieux</Link>
+            <Link to={`/lieux/`} className="d-flex flex-column align-items-center">
+              <img className="ImageLieux" src={lieuxImage} alt="Lieux" />
+              <div className="e2eTestLieux TitreLieux d-flex justify-content-center align-items-center">Lieux</div>
+            </Link>
           </div>
+
         </div>
         <div className="d-flex flex-column align-items-center">
-          <div className="m-3">
+          <Link to={`/evenements/`} className="m-3 d-flex flex-column align-items-center">
             <img className="ImageEvenements" src={evenements} alt="Evenements" />
             <p className="TitreEvenements d-flex justify-content-center align-items-center">Evenements</p>
-          </div>
+          </Link>
+
           <div className="m-3">
-            <img className="ImageCarte" src={carte} alt="Carte" />
-            <Link to={`/carte/`} className="e2eTestCarte TitreCarte d-flex justify-content-center align-items-center">Carte</Link>
+            <Link to={`/carte/`} className="d-flex flex-column align-items-center">
+              <img className="ImageCarte" src={carte} alt="Carte" />
+              <div className="e2eTestCarte TitreCarte d-flex justify-content-center align-items-center">Carte</div>
+            </Link>
           </div>
-
-
-
         </div>
       </div>
+      <div className="accueilSugestionLieuVert">
+        <div className="d-flex justify-content-center">
+          <h1 className="titreLilitaOneBlanc mt-5">Suggestion visite</h1>
+        </div>
+        <div className="d-flex justify-content-center">
+          {randomLieux.map((lieu) => (
+            <div className="m-3 p-2">
+              <Link to={`/lieux/${lieu.idLieu}`} className="d-flex flex-column align-items-center">
+                {lieu.imageLieu ? (
+                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Carte" />
+                ) : (
+                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/images/artchipelDefault.png`} alt="Carte" />
+                )}
+                <div className="row d-flex justify-content-center mt-3 titreLilitaOneBlancPetit text-white">{lieu.nomLieu}</div>
+              </Link>
+            </div>
 
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

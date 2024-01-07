@@ -117,12 +117,12 @@ const Lieu = () => {
         <div className="d-flex align-items-center">
           <div className="rectangleLieuVert"></div>
           {lieu.imageLieu ? (
-          <img className="imgLieu" src={process.env.PUBLIC_URL + `${lieu.imageLieu}`} alt={lieu.nomLieu} />
+            <img className="imgLieu" src={process.env.PUBLIC_URL + `${lieu.imageLieu}`} alt={lieu.nomLieu} />
           ) : (
             <img className="imgLieu" src={process.env.PUBLIC_URL + "/images/artchipelDefault.png"} alt={lieu.nomLieu} />
-            )
+          )
 
-                }
+          }
         </div>
         <div className="d-flex align-items-center">
           <div>
@@ -227,27 +227,28 @@ const Lieu = () => {
         <div className="ContainerContactsLieuBleu p-5">
           <h1 className="styleLilitaOne">Contacts</h1>
           {lieu.telLieu ? (
-            <p>Numéro téléphone : +33 0{lieu.telLieu}</p>
+            <p><b>Numéro téléphone</b> : +33 0{lieu.telLieu}</p>
           ) : (
-            <p>Numéro téléphone : Non renseigné</p>
+            <p><b>Numéro téléphone</b> : Non renseigné</p>
           )
 
           }
           {lieu.mailLieu ? (
-            <p>Adresse mail : {lieu.mailLieu}</p>
+            <p><b>Adresse mail</b> : {lieu.mailLieu}</p>
           ) : (
-            <p>Adresse mail : Non renseigné</p>
+            <p><b>Adresse mail</b> : Non renseigné</p>
           )
 
           }
           {lieu.webLieu ? (
-  <p>Site Web : <a className="sitewebLieuLien" href={`//${lieu.webLieu}`} target="_blank" rel="noopener noreferrer">{lieu.webLieu}</a></p>
-) : (
-  <p>Site Web : Non renseigné</p>
-)}
+            <p><b>Site Web</b> : <a className="sitewebLieuLien" href={`//${lieu.webLieu}`} target="_blank" rel="noopener noreferrer">{lieu.webLieu}</a></p>
+          ) : (
+            <p><b>Site Web</b> : Non renseigné</p>
+          )}
+          <p><b>Adresse</b> : {lieu.adresseLieu}, {lieu.ville.nomVille}</p>
 
 
-          
+
         </div>
       </div>
     </div>

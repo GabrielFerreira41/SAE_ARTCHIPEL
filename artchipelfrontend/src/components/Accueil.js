@@ -100,9 +100,9 @@ const Accueil = () => {
             <div className="m-3 p-2">
               <Link to={`/lieux/${lieu.idLieu}`} className="d-flex flex-column align-items-center">
                 {lieu.imageLieu ? (
-                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Carte" />
+                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/${lieu.imageLieu}`} alt="Image Lieu suggestion" />
                 ) : (
-                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/images/artchipelDefault.png`} alt="Carte" />
+                  <img className="ImageLieuAleatoire justify-content-center" src={process.env.PUBLIC_URL + `/images/artchipelDefault.png`} alt="Image Lieu sugestion" />
                 )}
                 <div className="row d-flex justify-content-center mt-3 titreLilitaOneBlancPetit text-white">{lieu.nomLieu}</div>
               </Link>

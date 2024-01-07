@@ -1,8 +1,16 @@
 import React from "react";
 import "../style/styleDecouverte.css";
 import CentrePompidou from "../components/images/pompidouLogo.jpg"
+import imagePompidou from "../components/images/centrePompidou.webp"
 
 
+/**
+ * La fonction Decouverte est un composant React qui affiche des informations sur la région Centre-Val
+ * de Loire en France et le Centre Pompidou.
+ * @returns Le composant « Découverte » renvoie un élément JSX, qui est une combinaison de syntaxe de
+ * type HTML et de code JavaScript. Il comprend plusieurs éléments div imbriqués avec différentes
+ * classes et styles, ainsi que des titres, des paragraphes et un lien.
+ */
 const Decouverte = () => {
   return (
     <div>
@@ -63,10 +71,22 @@ const Decouverte = () => {
               <h1>Centre Pompidou</h1>
               <img className="pompidouLogo" src={CentrePompidou}></img>
             </div>
-            
+          </div>
+        </div>
+        <div className="d-flex">
+          <div>
+            <div className="divDécouverteCentrePompidouNoir"></div>
+            <img className="ImagePompidou" src={imagePompidou}></img>
+          </div>
+          <div className="containerTextePresentationCentrePompidou d-flex justify-content-center">
+            <p className="textePresentationCentrePompidou">Le Centre Pompidou, joyau culturel parisien, coexiste harmonieusement avec le Festival Artchipel. Inauguré en 1977, le Centre Pompidou, conçu par les architectes Renzo Piano et Richard Rogers, se distingue par son architecture novatrice et fonctionnaliste. Il abrite le Musée National d'Art Moderne, l'un des plus grands musées d'art contemporain au monde.
+
+              En parallèle, le Festival Artchipel apporte une énergie créative supplémentaire. Ce festival annuel, célébrant l'art et la culture, s'intègre au tissu dynamique de la scène artistique parisienne. Avec ses expositions, performances et manifestations interdisciplinaires, Artchipel complète la richesse culturelle du Centre Pompidou.
+
+              Ensemble, le Centre Pompidou et le Festival Artchipel offrent une expérience artistique complète. La fusion de l'architecture innovante du Centre et de la créativité vibrante du festival crée un environnement où l'art prend vie, faisant de Paris un phare mondial de la culture contemporaine.</p>
+          </div>
         </div>
       </div>
-    </div>
 
     </div >
   );

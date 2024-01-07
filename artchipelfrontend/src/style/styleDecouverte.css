@@ -77,3 +77,22 @@
     width: 10vw;
     height: 10vh;
 }
+.ImagePompidou{
+    width: 30vw;
+    transform: translateX(15.5vw) translateY(-46vh) ;
+
+}
+.divDécouverteCentrePompidouNoir{
+    width: 30vw;
+    height: 50vh;
+    background-color: #0078C2;
+}
+.textePresentationCentrePompidou{
+    width: 50vw;
+    padding-left: 10vw;
+    text-align: justify;
+    margin-top: 10vh;
+}
+.containerTextePresentationCentrePompidou{
+    width: 70vw;
+}

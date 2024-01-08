@@ -20,6 +20,7 @@ class RegisterView(generics.CreateAPIView):
 
 class LieuView(View):
     serializer_class = LieuSerializer
+    
 
     #recuperer les lieux sans montrer les oeuvres à proximité qui sont aussi dans la table lieu
 
@@ -36,6 +37,11 @@ class LieuView(View):
             data = list(Lieu.objects.values())
 
         #data = list(Lieu.objects.values()) 
+        # ajouter le numero de departement et de region
+        for lieu in data:
+            ville = Ville.objects.get(idVille=lieu['idVille_id'])
+            departement = Departement.objects.get(idDepartement=ville.idDepartement_id)
+            lieu['numDepartement'] = departement.numeroDepartement
         return JsonResponse(data, safe=False)
 
 

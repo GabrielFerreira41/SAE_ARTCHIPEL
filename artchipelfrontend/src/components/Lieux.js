@@ -20,7 +20,8 @@ const Lieux = () => {
 
 
   const lieuxFiltres = lieux.filter((lieu) => {
-    return selectedDepartment ? lieu.departement === selectedDepartment : true;
+    console.log(lieu)
+    return selectedDepartment ? lieu.numDepartement === parseInt(selectedDepartment) : true;
   });
   /* Le hook `useEffect` est utilisé pour effectuer des effets secondaires dans les composants
   fonctionnels. Dans ce cas, il est utilisé pour récupérer les données d'un point de terminaison

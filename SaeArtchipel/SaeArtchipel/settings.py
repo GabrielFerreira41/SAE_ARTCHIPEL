@@ -145,7 +145,6 @@ WSGI_APPLICATION = 'SaeArtchipel.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -157,9 +156,19 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
-    }
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_artchipel',
+        'USER': 'root',
+        'PASSWORD': 'root_psw',
+        'HOST': 'mysql_api',
+        'PORT': '',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

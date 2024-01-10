@@ -20,28 +20,24 @@ class RegisterView(generics.CreateAPIView):
 
 class LieuView(View):
     serializer_class = LieuSerializer
-    
-
-    #recuperer les lieux sans montrer les oeuvres à proximité qui sont aussi dans la table lieu
-
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
+        try:
+            typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+        except TypeLieu.DoesNotExist:
+            typelieu_Oeuvre = None
 
-        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
-
-        if typelieu_Oeuvre :
-            print(typelieu_Oeuvre.idTypeLieu)
+        if typelieu_Oeuvre:
             data = list(Lieu.objects.exclude(idTypeLieu_id=typelieu_Oeuvre.idTypeLieu).values())
         else:
             data = list(Lieu.objects.values())
 
-        #data = list(Lieu.objects.values()) 
-        # ajouter le numero de departement et de region
         for lieu in data:
             ville = Ville.objects.get(idVille=lieu['idVille_id'])
             departement = Departement.objects.get(idDepartement=ville.idDepartement_id)
             lieu['numDepartement'] = departement.numeroDepartement
+
         return JsonResponse(data, safe=False)
 
 
@@ -156,8 +152,10 @@ class OeuvreProximiteView(View):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     
     def get(self, request, *args, **kwargs):
-
-        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+        try:
+            typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+        except TypeLieu.DoesNotExist:
+            typelieu_Oeuvre = None
 
         if typelieu_Oeuvre :
             #print(typelieu_Oeuvre.idTypeLieu)
@@ -174,9 +172,10 @@ class OeuvreProximiteView(View):
     
 @api_view(['GET'])
 def get_all_oeuvres_proximites_departement(request, departement_id):
-
-    typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
-
+    try:
+        typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
+    except TypeLieu.DoesNotExist:
+        typelieu_Oeuvre = None
     if typelieu_Oeuvre :
         try:
             departements = Departement.objects.filter(idDepartement=departement_id)

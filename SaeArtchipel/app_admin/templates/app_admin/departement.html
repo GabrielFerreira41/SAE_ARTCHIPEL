@@ -1,0 +1,9 @@
+{% block content %}
+  <h1>Liste des departements</h1>
+  <ul>
+    {% for departement in departements %}
+      <li>{{ departement.nomDepartement }} - <a href="{% url 'app_admin:modifier_departement' departement.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_departement' departement.pk %}">Supprimer</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'app_admin:ajouter_departement' %}">Ajouter un departement</a>
+{% endblock %}

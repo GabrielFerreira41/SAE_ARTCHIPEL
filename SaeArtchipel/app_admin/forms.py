@@ -129,21 +129,21 @@ class LnkLieuHoraireForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if lieu_id:
-            self.fields['idLieu'].initial = lieu_id
-            self.fields['idLieu'].widget.attrs['readonly'] = True
-            self.fields['idLieu'].disabled = True
+            self.fields['lieu_id'].initial = lieu_id
+            self.fields['lieu_id'].widget.attrs['readonly'] = True
+            self.fields['lieu_id'].disabled = True
 
         if horaire_id:
-            self.fields['idHoraire'].initial = horaire_id
-            self.fields['idHoraire'].widget.attrs['readonly'] = True
-            self.fields['idHoraire'].disabled = True
+            self.fields['horaire_id'].initial = horaire_id
+            self.fields['horaire_id'].widget.attrs['readonly'] = True
+            self.fields['horaire_id'].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()
         date_debut = cleaned_data.get('dateDebut')
         date_fin = cleaned_data.get('dateFin')
 
-        if date_debut > date_fin:
+        if date_debut and date_fin and date_debut > date_fin:
             raise forms.ValidationError("La date de fin doit être après la date de début.")
 
         return cleaned_data

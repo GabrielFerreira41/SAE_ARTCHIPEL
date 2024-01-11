@@ -32,10 +32,34 @@ def liste_typelieux(request):
     typelieux = TypeLieu.objects.all()
     return render(request, 'app_admin/typelieu.html', {'typelieux': typelieux})
 
-def liste_lieux(request):
-    lieux = Lieu.objects.all()
-    return render(request, 'app_admin/lieu.html', {'lieux': lieux})
+# def liste_lieux(request):
+#     lieux = Lieu.objects.all()
+#     return render(request, 'app_admin/lieu.html', {'lieux': lieux})
 
+def liste_lieux(request):
+    lieux_with_dates = []
+
+    for lieu in Lieu.objects.all():
+        lnk_lieu_horaires = lieu.lnklieuhoraire_set.all()
+
+        if lnk_lieu_horaires:
+            lieu_info = {
+                'pk': lieu.pk,
+                'nomLieu': lieu.nomLieu,
+                'horaires': [
+                    {
+                        'dateDebut': lnk.dateDebut,
+                        'dateFin': lnk.dateFin,
+                        'horaireOuverture': lnk.idHoraire.horaireOuverture,
+                        'horaireFermeture': lnk.idHoraire.horaireFermeture,
+                    }
+                    for lnk in lnk_lieu_horaires
+                ],
+            }
+
+            lieux_with_dates.append(lieu_info)
+
+    return render(request, 'app_admin/lieu.html', {'lieux_with_dates': lieux_with_dates})
 
 
 
@@ -160,19 +184,13 @@ class HoraireView(CreateView):
             return redirect('app_admin:lnk-lieu-horaire-view', lieu_id, horaire.pk)
         return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id})
 
-class LnkLieuHoraireView(View):
+class LnkLieuHoraireView(CreateView):
     template_name = 'app_admin/lnk_lieu_horaire_form.html'
     form_class = LnkLieuHoraireForm
-    success_url = reverse_lazy('app_admin:horaire-view')
-    success_message = "Lieu ajouté avec succès."
-    
-    def get(self, request, lieu_id, horaire_id):
-        form = self.form_class(lieu_id, horaire_id)
-        return render(request, self.template_name, {'form': form})
+    success_url = reverse_lazy('app_admin:liste_lieux')
+    success_message = "Lien ajouté avec succès."
 
-    def post(self, request, lieu_id, horaire_id):
-        form = self.form_class(request.POST, initial={'lieu_id':lieu_id, 'horaire_id':horaire_id})
-        if form.is_valid():
-            form.save()
-            return redirect('app_admin:liste_lieux')
-        return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        form.instance.lieu_id = self.kwargs['lieu_id']
+        form.instance.horaire_id = self.kwargs['horaire_id']
+        return super().form_valid(form)

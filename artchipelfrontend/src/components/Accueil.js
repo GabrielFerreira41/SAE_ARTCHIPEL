@@ -9,7 +9,8 @@ import evenements from "../components/images/evenement.jpg"
 import lieuxImage from "../components/images/lieu.jpeg"
 
 import { Link } from 'react-router-dom';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+import { useNavigate } from "react-router-dom";
 
 
 /**
@@ -20,6 +21,7 @@ import ReactPlayer from 'react-player'
  */
 const Accueil = () => {
   const [lieux, setLieux] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Récupérer la liste complète des lieux

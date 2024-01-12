@@ -65,7 +65,7 @@ class TypeLieuForm(forms.ModelForm):
 class LieuForm(forms.ModelForm):
     class Meta:
         model = Lieu
-        fields = ['nomLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas', 'boolTable',
+        fields = ['nomLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas',
                   'boolJaujeLieux', 'nombreMaxVisiteur', 'adresseLieu', 'longitudeLieu', 'latitudeLieu',
                   'telLieu', 'mailLieu', 'webLieu', 'idVille', 'idTarif', 'idTypeLieu']
         idVille = forms.ModelChoiceField(queryset=Ville.objects.all(), empty_label="Sélectionner une ville")

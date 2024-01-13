@@ -1,0 +1,12 @@
+
+<h2>Étapes du parcours</h2>
+{% if parcours.etape_set.all %}
+    <ul>
+        {% for etape in parcours.etape_set.all %}
+            <li>{{ etape.numEtape }}. Lieu : {{ etape.idLieu.nomLieu }}, ville: {{ etape.idLieu.idVille.nomVille }} ({{ etape.idLieu.idVille.codePostal }} )</li>
+            <!-- Ajoutez d'autres informations spécifiques à l'étape si nécessaire -->
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucune étape trouvée pour ce parcours.</p>
+{% endif %}

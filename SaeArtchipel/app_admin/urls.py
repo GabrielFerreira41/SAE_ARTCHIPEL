@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import home, liste_regions, liste_departements, liste_villes, liste_typelieux, liste_lieux
-from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView, VilleCreateView, VilleUpdateView, VilleDeleteView, TypeLieuCreateView, TypeLieuUpdateView, TypeLieuDeleteView, LieuCreateView, LieuUpdateView, LieuDeleteView, HoraireView, LnkLieuHoraireView
+from .views import RegionCreateView, RegionUpdateView, RegionDeleteView, DepartementCreateView, DepartementUpdateView, DepartementDeleteView, VilleCreateView, VilleUpdateView, VilleDeleteView, TypeLieuCreateView, TypeLieuUpdateView, TypeLieuDeleteView, LieuCreateView, LieuUpdateView, LieuDeleteView, HoraireView, LnkLieuHoraireView, ParcoursListView, ParcoursDetailView, DeleteViewParcours, ParcoursCreateView,edit_parcours, ListeEtape, add_etape_parcours, login_view
 
 
 app_name = 'app_admin'
@@ -38,6 +38,17 @@ urlpatterns = [
     path('/lnk-lieu-horaire/<int:lieu_id>/<int:horaire_id>/', LnkLieuHoraireView.as_view(), name='lnk-lieu-horaire-view'),
 
 
+    path('/parcours-liste/', ParcoursListView.as_view(), name='liste_parcours'),
+    path('/parcours-detail/<int:pk>/', ParcoursDetailView.as_view(), name='get_parcours'),
+    path('/supprimer-parcours/<int:pk>/', DeleteViewParcours.as_view(), name='delete_parcours'),
+    path('/creer-parcours/', ParcoursCreateView.as_view(), name='add_parcours'),
+    path('/parcours/edit/<int:parcours_id>/', edit_parcours, name='edit_parcours'),
+    path('/parcours_liste_etapes/<int:parcours_id>', ParcoursDetailView.as_view(), name='get_liste_etape' ),
+    path('/liste_all_lieux/<int:parcours_id>', ListeEtape.as_view(), name='liste_lieux_etapes'),
+    path('/ajouter_etape/', add_etape_parcours, name="ajouter_etape"),
+
+
+    path('/login/', login_view, name='login'),
 
 
     # path('/regions/', liste_regions, name='liste_regions'),

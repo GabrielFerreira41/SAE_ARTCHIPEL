@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     #'rest_framework.authtoken',
     'django_filters',
     'app_admin',
+    'django_htmx',
 ]
 
 REST_FRAMEWORK = {
@@ -108,6 +109,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = [

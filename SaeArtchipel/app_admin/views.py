@@ -1,9 +1,17 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from api.models import Region, Departement, Ville, TypeLieu, Lieu
-from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm
+from api.models import Region, Departement, Ville, TypeLieu, Lieu, Parcours, Etape, Utilisateur
+from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm, ParcoursCreationForm, EtapeForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
+import logging
+from django.http import HttpResponse, JsonResponse, QueryDict
+
+
+
+logger = logging.getLogger(__name__)
+
+
 
 
 # Create your views here.
@@ -194,3 +202,153 @@ class LnkLieuHoraireView(CreateView):
         form.instance.lieu_id = self.kwargs['lieu_id']
         form.instance.horaire_id = self.kwargs['horaire_id']
         return super().form_valid(form)
+    
+
+# Gestion des parcours
+class ParcoursListView(ListView):
+    model = Parcours
+    template_name = 'app_admin/parcours.html'
+    context_object_name = 'parcours_list'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        for parcour in queryset:
+            parcour.nb_etapes = parcour.etape_set.count()
+        return queryset
+
+    
+class ParcoursDetailView(DetailView):
+    model = Parcours
+    template_name = 'app_admin/parcours_affichage_detail_edit.html'
+    context_object_name = 'parcours'
+
+    def get_template_names(self):
+        if self.request.htmx:
+            #chargement du template pour recuperer les taches sans le menu
+            return 'app_admin/parcours_detail.html'
+        #affiche les taches de la pages 1 et le menu
+        return 'app_admin/parcours_affichage_detail_edit.html'
+    
+class EtapesParcours(DetailView):
+    model =Parcours
+    template_name = 'app_admin/parcours_liste_etapes.html'
+    context_object_name = 'parcours'
+
+
+
+"""retourne tous les lieux avec renvoie l'id du parcours"""
+class ListeEtape(ListView):
+    model = Lieu
+    template_name = 'app_admin/liste_etapes.html'
+    context_object_name = 'lieux'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        parcours_id = self.kwargs['parcours_id']
+        parcours = get_object_or_404(Parcours, pk=parcours_id)
+        context['parcours'] = parcours
+        return context
+
+
+
+class DeleteViewParcours(DeleteView):
+    model = Parcours
+    template_name = 'app_admin/parcours_confirm_delete.html'
+    success_url = reverse_lazy('app_admin:liste_parcours')
+
+    def delete(self, request, *args, **kwargs):
+        # Récupérer le parcours
+        parcours = self.get_object()
+
+        # Supprimer les étapes liées au parcours
+        parcours.etape_set.all().delete()
+
+        # Supprimer le parcours
+        return super().delete(request, *args, **kwargs)
+    
+class ParcoursCreateView(CreateView):
+    model = Parcours
+    form_class = ParcoursCreationForm
+    template_name = 'app_admin/parcours_form.html'
+    success_url = reverse_lazy('app_admin:liste_parcours')
+
+    def form_valid(self, form):
+        # Attribuer l'idUtilisateur avant de sauvegarder
+        if not form.instance.idUtilisateur_id:
+            default_user = Utilisateur.objects.get(username='admin')
+            form.instance.idUtilisateur = default_user
+
+        return super().form_valid(form)
+    
+"""fonction pour la mise à jour d'un parcours"""
+def edit_parcours(request, parcours_id):
+    parcours = get_object_or_404(Parcours, pk=parcours_id)
+
+    if request.method == 'PUT':
+        data = QueryDict(request.body).dict()
+        print(data)
+        form = ParcoursCreationForm(data, instance=parcours)
+        if form.is_valid():
+            form.save()
+            #task = Parcours.objects.get(pk=parcours_id)
+            return render(request, 'app_admin/parcours_detail.html', {'parcours': parcours})
+
+    return render(request, 'app_admin/parcours_edit.html', {'parcours': parcours})
+
+"""fonction pour ajouter une etape a un parcours"""
+def add_etape_parcours(request):
+
+    if request.method == 'POST':
+        parcours_id = request.POST.get('idParcours')
+        lieu_id = request.POST.get('idLieu')
+
+
+        parcours = get_object_or_404(Parcours, pk=parcours_id)
+        lieu = get_object_or_404(Lieu,pk=lieu_id)
+
+        # Calcul automatique du numEtape en regardant le dernier numEtape du parcours
+        dernier_etape = Etape.objects.filter(idParcours=parcours).order_by('-numEtape').first()
+        num_etape = dernier_etape.numEtape + 1 if dernier_etape else 1
+
+                # Créer une nouvelle instance de QueryDict avec les données POST mises à jour
+        updated_post_data = request.POST.copy()
+        updated_post_data["numEtape"] = num_etape
+
+        # Initialiser le formulaire avec le numEtape calculé
+        form = EtapeForm(updated_post_data, initial={'numEtape': num_etape, 'idParcours': parcours.pk, 'idLieu': lieu.pk})
+
+        if form.is_valid():
+
+            #si le lieu est déjà dans les étapes
+            if Etape.objects.filter(idParcours=parcours.pk, idLieu=lieu.pk).exists():
+                return HttpResponse("Ce lieu est déjà associé à ce parcours.")
+
+            form.save()
+            context = {'parcours': parcours}
+            
+
+            return render(request, 'app_admin/parcours_liste_etapes.html', context)
+        else:
+            logger.debug(form.errors)
+        return HttpResponse("Impossible d'ajouter le lieux comme etape")
+    
+
+
+
+#authentification
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None and user.is_staff:
+                login(request, user)
+                return 'app_admin/home.html'  # Assurez-vous de remplacer 'accueil' par le nom de votre vue d'accueil
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'login.html', {'form': form})

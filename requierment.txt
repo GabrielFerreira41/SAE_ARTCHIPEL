@@ -8,3 +8,4 @@ django-filter
 Pillow
 requests
 urllib3
+django-htmx

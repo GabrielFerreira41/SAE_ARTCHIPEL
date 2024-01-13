@@ -121,7 +121,7 @@ class HoraireForm(forms.ModelForm):
 class LnkLieuHoraireForm(forms.ModelForm):
     class Meta:
         model = LnkLieuHoraire
-        fields = '__all__'
+        fields = ['idLieu', 'idHoraire', 'dateDebut', 'dateFin']
     
     dateDebut = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
     dateFin = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
@@ -130,14 +130,14 @@ class LnkLieuHoraireForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if lieu_id:
-            self.fields['lieu_id'].initial = lieu_id
-            self.fields['lieu_id'].widget.attrs['readonly'] = True
-            self.fields['lieu_id'].disabled = True
+            self.fields['idLieu'].initial = lieu_id
+            self.fields['idLieu'].widget.attrs['readonly'] = True
+            self.fields['idLieu'].disabled = True
 
         if horaire_id:
-            self.fields['horaire_id'].initial = horaire_id
-            self.fields['horaire_id'].widget.attrs['readonly'] = True
-            self.fields['horaire_id'].disabled = True
+            self.fields['idHoraire'].initial = horaire_id
+            self.fields['idHoraire'].widget.attrs['readonly'] = True
+            self.fields['idHoraire'].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()

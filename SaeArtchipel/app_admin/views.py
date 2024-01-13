@@ -181,16 +181,21 @@ class HoraireView(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             horaire = form.save()
-            return redirect('app_admin:lnk-lieu-horaire-view', lieu_id, horaire.pk)
+            return redirect('app_admin:lnk-lieu-horaire-view', lieu_id=lieu_id, horaire_id=horaire.idHoraire)
         return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id})
 
 class LnkLieuHoraireView(CreateView):
     template_name = 'app_admin/lnk_lieu_horaire_form.html'
     form_class = LnkLieuHoraireForm
-    success_url = reverse_lazy('app_admin:liste_lieux')
     success_message = "Lieu ajouté avec succès."
 
-    def form_valid(self, form):
-        form.instance.lieu_id = self.kwargs['lieu_id']
-        form.instance.horaire_id = self.kwargs['horaire_id']
-        return super().form_valid(form)
+    def get(self, request, lieu_id, horaire_id):
+        form = self.form_class(lieu_id, horaire_id)
+        return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id, 'horaire_id': horaire_id})
+
+    def post(self, request, lieu_id, horaire_id):
+        form = self.form_class(lieu_id, horaire_id, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('app_admin:liste_lieux')
+        return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id, 'horaire_id': horaire_id})

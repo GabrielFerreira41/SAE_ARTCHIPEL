@@ -2,18 +2,13 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-  <div class="row justify-content-center m-2">
-    <div class="text-center">
-      <h1>{% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} un lien</h1>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-      </form>
-    </div>
-    
+  <div class="text-center">
+    <h1>{% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} un lien</h1>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+    </form>
   </div>
 
-</div>
 {% endblock %}

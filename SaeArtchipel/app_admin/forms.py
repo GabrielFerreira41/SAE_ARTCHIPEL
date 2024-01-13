@@ -77,8 +77,16 @@ class LieuForm(forms.ModelForm):
                     'unique': "Ce nom de lieu est déjà utilisé.",
                 }
             }
-    descriptionLieu = forms.CharField(widget=forms.Textarea)
-    observationLieu = forms.CharField(widget=forms.Textarea)
+    descriptionLieu = forms.CharField(widget=forms.Textarea, required=False)
+    observationLieu = forms.CharField(widget=forms.Textarea, required=False)
+    imageLieu = forms.ImageField(required=False)
+    nombreMaxVisiteur = forms.IntegerField(min_value=1, required=True)
+    adresseLieu = forms.CharField(required=False)
+    latitudeLieu = forms.FloatField(required=False)
+    longitudeLieu = forms.FloatField(required=False)
+    telLieu = forms.IntegerField(required=False)
+    mailLieu = forms.CharField(required=False)
+    webLieu = forms.CharField(required=False)
 
 class HoraireForm(forms.ModelForm):
     class Meta:
@@ -86,16 +94,19 @@ class HoraireForm(forms.ModelForm):
         fields = ['observationHoraire', 'horaireOuverture', 'horaireFermeture', 'intervalHoraire', 'lienReservationHoraire']
 
 
-
+    observationHoraire = forms.CharField(widget=forms.Textarea, required=False)
     horaireOuverture = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Heure d\'ouverture'
+        label='Heure d\'ouverture',
+        required=False
     )
 
     horaireFermeture = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Heure de fermeture'
+        label='Heure de fermeture',
+        required=False
     )
+    lienReservationHoraire = forms.CharField(required=False)
 
     def clean(self):
         cleaned_data = super().clean()

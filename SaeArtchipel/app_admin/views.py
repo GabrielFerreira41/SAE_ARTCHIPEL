@@ -188,7 +188,7 @@ class LnkLieuHoraireView(CreateView):
     template_name = 'app_admin/lnk_lieu_horaire_form.html'
     form_class = LnkLieuHoraireForm
     success_url = reverse_lazy('app_admin:liste_lieux')
-    success_message = "Lien ajouté avec succès."
+    success_message = "Lieu ajouté avec succès."
 
     def form_valid(self, form):
         form.instance.lieu_id = self.kwargs['lieu_id']

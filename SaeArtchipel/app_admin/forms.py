@@ -65,9 +65,10 @@ class TypeLieuForm(forms.ModelForm):
 class LieuForm(forms.ModelForm):
     class Meta:
         model = Lieu
-        fields = ['nomLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas',
-                  'boolJaujeLieux', 'nombreMaxVisiteur', 'adresseLieu', 'longitudeLieu', 'latitudeLieu',
-                  'telLieu', 'mailLieu', 'webLieu', 'idVille', 'idTarif', 'idTypeLieu']
+        fields = ['nomLieu','descriptionLieu' , 'boolPompidouLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas',
+                  'boolJaujeLieux', 'nombreMaxVisiteur', 'adresseLieu', 'latitudeLieu', 'longitudeLieu',
+                  'telLieu', 'mailLieu', 'webLieu','observationLieu' ,'idVille', 'idTarif', 'idTypeLieu']
+        
         idVille = forms.ModelChoiceField(queryset=Ville.objects.all(), empty_label="Sélectionner une ville")
         idTarif = forms.ModelChoiceField(queryset=Tarif.objects.all(), empty_label="Sélectionner un tarif")
         idtypeLieu = forms.ModelChoiceField(queryset=TypeLieu.objects.all(), empty_label="Sélectionner un type de lieu")
@@ -76,26 +77,15 @@ class LieuForm(forms.ModelForm):
                     'unique': "Ce nom de lieu est déjà utilisé.",
                 }
             }
+    descriptionLieu = forms.CharField(widget=forms.Textarea)
+    observationLieu = forms.CharField(widget=forms.Textarea)
 
 class HoraireForm(forms.ModelForm):
     class Meta:
         model = Horaire
-        fields = '__all__'
+        fields = ['observationHoraire', 'horaireOuverture', 'horaireFermeture', 'intervalHoraire', 'lienReservationHoraire']
 
-    listJour = forms.MultipleChoiceField(
-        choices=[
-            ('lundi', 'Lundi'),
-            ('mardi', 'Mardi'),
-            ('mercredi', 'Mercredi'),
-            ('jeudi', 'Jeudi'),
-            ('vendredi', 'Vendredi'),
-            ('samedi', 'Samedi'),
-            ('dimanche', 'Dimanche'),
-        ],
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-        label='Jours d\'ouverture'
-    )
+
 
     horaireOuverture = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),

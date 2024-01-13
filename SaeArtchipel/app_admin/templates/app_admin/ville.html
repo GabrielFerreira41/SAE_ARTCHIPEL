@@ -1,9 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-  <h1>Liste des villes</h1>
-  <ul>
-    {% for ville in villes %}
-      <li>{{ ville.nomVille }} - <a href="{% url 'app_admin:modifier_ville' ville.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_ville' ville.pk %}">Supprimer</a></li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'app_admin:ajouter_ville' %}">Ajouter une ville</a>
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-6">
+      <h1>Liste des villes</h1>
+      <ul>
+        {% for ville in villes %}
+          <li>{{ ville.nomVille }} - <a href="{% url 'app_admin:modifier_ville' ville.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_ville' ville.pk %}">Supprimer</a></li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'app_admin:ajouter_ville' %}">Ajouter une ville</a>
+    </div>
+    
+  </div>
+
+</div>
+  
 {% endblock %}

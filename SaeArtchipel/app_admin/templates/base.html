@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'accueil</title>
+
+    <script src="https://kit.fontawesome.com/c055ab3298.js" crossorigin="anonymous"></script>
+
+    {% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}
+    {% block styles %}
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    {% endblock %}
+
+
+    <style>
+
+      .box{
+        margin: .25rem ;
+      }
+
+    </style>
+    
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+{% block content %}
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script  type="module" src="{% static 'node_modules/popper.js/dist/popper.min.js' %}"></script>
+{% endblock %}
+
+</body>
+</html>

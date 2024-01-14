@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h1 class="text-center">Liste des parcours</h1>
+            </div>
+            <div class="col-2">
+                <a href="{% url 'app_admin:add_parcours' %}" class="btn btn-primary">Créer un parcours</a>
+            </div>
+        </div>
+
+        <div id="parcours-container" class="row" hx-get="{% url 'app_admin:liste_parcours' %}">
+            {% for parcours in parcours_list %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ parcours.nomParcours }}</h5>
+                        <p class="card-text">Type : {{ parcours.typeParcours }}</p>
+                        <p class="card-text">Difficulté : {{ parcours.difficulteParcours }}</p>
+                        <p class="card-text">Distance : {{ parcours.distanceParcours }}</p>
+                        <p class="card-text">Nombre d'étapes : {{ parcours.nb_etapes }}</p>
+                        <div class="row justify-content-center">
+                            <div class="container">
+                                <div class="row d-flex justify-content-between">
+                                    <div class="col-6">
+                                        <a class="btn btn-primary" href="{% url 'app_admin:get_parcours' parcours.pk %}">Détails</a>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="btn btn-danger" href="{% url 'app_admin:delete_parcours' parcours.pk %}">Supprimer</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+  </div>
+
+</div>
+  
+{% endblock %}

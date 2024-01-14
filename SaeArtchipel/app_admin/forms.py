@@ -1,5 +1,5 @@
 from django import forms
-from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire
+from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire, Parcours, Etape
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -148,3 +148,23 @@ class LnkLieuHoraireForm(forms.ModelForm):
             raise forms.ValidationError("La date de fin doit être après la date de début.")
 
         return cleaned_data
+    
+class ParcoursCreationForm(forms.ModelForm):
+    DIFFICULTE_CHOICES = [
+        ('facile', 'Facile'),
+        ('modere', 'Moyen'),
+        ('difficile', 'Difficile'),
+    ]
+
+    difficulteParcours = forms.ChoiceField(choices=DIFFICULTE_CHOICES, label='Difficulté du parcours')
+    distanceParcours = forms.IntegerField(label="Distance du parcours (en km)")
+
+    class Meta:
+        model = Parcours
+        fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
+
+
+class EtapeForm(forms.ModelForm):
+    class Meta:
+        model = Etape
+        fields = ['idParcours', 'idLieu', 'numEtape']

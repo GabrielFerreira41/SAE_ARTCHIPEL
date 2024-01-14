@@ -3,9 +3,16 @@ from django.views import View
 from api.models import Region, Departement, Ville, TypeLieu, Lieu, Parcours, Etape, Utilisateur
 from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm, ParcoursCreationForm, EtapeForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 import logging
 from django.http import HttpResponse, JsonResponse, QueryDict
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
+from django.http import HttpResponseRedirect
+from django.contrib.auth import logout
+from django.contrib import messages
+
 
 
 
@@ -17,25 +24,26 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 from api.models import models
 
-def ma_vue(request):
-    # Utilisez le modèle API comme nécessaire
-    objets_api = models.objects.all()
-
+@login_required()
 def home(request):
     return render(request, 'app_admin/home.html')
 
+@login_required()
 def liste_regions(request):
     regions = Region.objects.all()
     return render(request, 'app_admin/region.html', {'regions': regions})
 
+@login_required()
 def liste_departements(request):
     departements = Departement.objects.all()
     return render(request, 'app_admin/departement.html', {'departements': departements})
 
+@login_required()
 def liste_villes(request):
     villes = Ville.objects.all()
     return render(request, 'app_admin/ville.html', {'villes': villes})
 
+@login_required()
 def liste_typelieux(request):
     typelieux = TypeLieu.objects.all()
     return render(request, 'app_admin/typelieu.html', {'typelieux': typelieux})
@@ -44,6 +52,7 @@ def liste_typelieux(request):
 #     lieux = Lieu.objects.all()
 #     return render(request, 'app_admin/lieu.html', {'lieux': lieux})
 
+@login_required()
 def liste_lieux(request):
     lieux_with_dates = []
 
@@ -71,73 +80,85 @@ def liste_lieux(request):
 
 
 
-class RegionCreateView(CreateView):
+class RegionCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     model = Region
     form_class = RegionForm
     template_name = 'app_admin/region_form.html'
     success_url = reverse_lazy('app_admin:liste_regions')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
 
-class RegionUpdateView(UpdateView):
+class RegionUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/app_admin/login/'
     model = Region
     form_class = RegionForm
     template_name = 'app_admin/region_form.html'
     success_url = reverse_lazy('app_admin:liste_regions')  # Remplacez 'liste_regions' par l'URL où vous souhaitez rediriger
 
-class RegionDeleteView(DeleteView):
+class RegionDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = Region
     template_name = 'app_admin/region_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_regions')
 
 
-class DepartementCreateView(CreateView):
+class DepartementCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     model = Departement
     form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
     success_url = reverse_lazy('app_admin:liste_departements')
 
-class DepartementUpdateView(UpdateView):
+class DepartementUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/app_admin/login/'
     model = Departement
     form_class = DepartementForm
     template_name = 'app_admin/departement_form.html'
     success_url = reverse_lazy('app_admin:liste_departements')
 
-class DepartementDeleteView(DeleteView):
+class DepartementDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = Departement
     template_name = 'app_admin/departement_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_departements')
 
 
-class VilleCreateView(CreateView):
+class VilleCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     model = Ville
     form_class = VilleForm
     template_name = 'app_admin/ville_form.html'
     success_url = reverse_lazy('app_admin:liste_villes')
 
-class VilleUpdateView(UpdateView):
+class VilleUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/app_admin/login/'
     model = Ville
     form_class = VilleForm
     template_name = 'app_admin/ville_form.html'
     success_url = reverse_lazy('app_admin:liste_villes')
 
-class VilleDeleteView(DeleteView):
+class VilleDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = Ville
     template_name = 'app_admin/ville_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_villes')
 
 
-class TypeLieuCreateView(CreateView):
+class TypeLieuCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     model = TypeLieu
     form_class = TypeLieuForm
     template_name = 'app_admin/typelieu_form.html'
     success_url = reverse_lazy('app_admin:liste_typelieux')
 
-class TypeLieuUpdateView(UpdateView):
+class TypeLieuUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/app_admin/login/'
     model = TypeLieu
     form_class = TypeLieuForm
     template_name = 'app_admin/typelieu_form.html'
     success_url = reverse_lazy('app_admin:liste_typelieux')
 
-class TypeLieuDeleteView(DeleteView):
+class TypeLieuDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = TypeLieu
     template_name = 'app_admin/typelieu_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_typelieux')
@@ -149,19 +170,22 @@ class TypeLieuDeleteView(DeleteView):
 #     template_name = 'app_admin/lieu_form.html'
 #     success_url = reverse_lazy('app_admin:liste_lieux')
 
-class LieuUpdateView(UpdateView):
+class LieuUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/app_admin/login/'
     model = Lieu
     form_class = LieuForm
     template_name = 'app_admin/lieu_form.html'
     success_url = reverse_lazy('app_admin:liste_lieux')
 
-class LieuDeleteView(DeleteView):
+class LieuDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = Lieu
     template_name = 'app_admin/lieu_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_lieux')
 
 
-class LieuCreateView(CreateView):
+class LieuCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     template_name = 'app_admin/lieu_form.html'
     form_class = LieuForm
     success_url = reverse_lazy('app_admin:horaire-view')
@@ -177,7 +201,8 @@ class LieuCreateView(CreateView):
             return redirect('app_admin:horaire-view', lieu_id=lieu.pk)
         return render(request, self.template_name, {'form': form})
 
-class HoraireView(CreateView):
+class HoraireView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     template_name = 'app_admin/horaire_form.html'
     form_class = HoraireForm
 
@@ -192,7 +217,8 @@ class HoraireView(CreateView):
             return redirect('app_admin:lnk-lieu-horaire-view', lieu_id, horaire.pk)
         return render(request, self.template_name, {'form': form, 'lieu_id': lieu_id})
 
-class LnkLieuHoraireView(CreateView):
+class LnkLieuHoraireView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     template_name = 'app_admin/lnk_lieu_horaire_form.html'
     form_class = LnkLieuHoraireForm
     success_url = reverse_lazy('app_admin:liste_lieux')
@@ -205,7 +231,8 @@ class LnkLieuHoraireView(CreateView):
     
 
 # Gestion des parcours
-class ParcoursListView(ListView):
+class ParcoursListView(LoginRequiredMixin, ListView):
+    login_url = '/app_admin/login/'
     model = Parcours
     template_name = 'app_admin/parcours.html'
     context_object_name = 'parcours_list'
@@ -217,7 +244,8 @@ class ParcoursListView(ListView):
         return queryset
 
     
-class ParcoursDetailView(DetailView):
+class ParcoursDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/app_admin/login/'
     model = Parcours
     template_name = 'app_admin/parcours_affichage_detail_edit.html'
     context_object_name = 'parcours'
@@ -229,7 +257,8 @@ class ParcoursDetailView(DetailView):
         #affiche les taches de la pages 1 et le menu
         return 'app_admin/parcours_affichage_detail_edit.html'
     
-class EtapesParcours(DetailView):
+class EtapesParcours(LoginRequiredMixin, DetailView):
+    login_url = '/app_admin/login/'
     model =Parcours
     template_name = 'app_admin/parcours_liste_etapes.html'
     context_object_name = 'parcours'
@@ -237,7 +266,8 @@ class EtapesParcours(DetailView):
 
 
 """retourne tous les lieux avec renvoie l'id du parcours"""
-class ListeEtape(ListView):
+class ListeEtape(LoginRequiredMixin, ListView):
+    login_url = '/app_admin/login/'
     model = Lieu
     template_name = 'app_admin/liste_etapes.html'
     context_object_name = 'lieux'
@@ -251,7 +281,8 @@ class ListeEtape(ListView):
 
 
 
-class DeleteViewParcours(DeleteView):
+class DeleteViewParcours(LoginRequiredMixin, DeleteView):
+    login_url = '/app_admin/login/'
     model = Parcours
     template_name = 'app_admin/parcours_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_parcours')
@@ -266,7 +297,8 @@ class DeleteViewParcours(DeleteView):
         # Supprimer le parcours
         return super().delete(request, *args, **kwargs)
     
-class ParcoursCreateView(CreateView):
+class ParcoursCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
     model = Parcours
     form_class = ParcoursCreationForm
     template_name = 'app_admin/parcours_form.html'
@@ -281,6 +313,7 @@ class ParcoursCreateView(CreateView):
         return super().form_valid(form)
     
 """fonction pour la mise à jour d'un parcours"""
+@login_required()
 def edit_parcours(request, parcours_id):
     parcours = get_object_or_404(Parcours, pk=parcours_id)
 
@@ -296,6 +329,7 @@ def edit_parcours(request, parcours_id):
     return render(request, 'app_admin/parcours_edit.html', {'parcours': parcours})
 
 """fonction pour ajouter une etape a un parcours"""
+@login_required()
 def add_etape_parcours(request):
 
     if request.method == 'POST':
@@ -347,8 +381,19 @@ def login_view(request):
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
             if user is not None and user.is_staff:
                 login(request, user)
-                return 'app_admin/home.html'  # Assurez-vous de remplacer 'accueil' par le nom de votre vue d'accueil
+                logger.debug("avant redirection home")
+                return HttpResponseRedirect('/app_admin')  # Assurez-vous de remplacer '/app_admin' par le chemin correct
+            else:
+                messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
+        else:
+            messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
     else:
         form = AuthenticationForm()
 
     return render(request, 'login.html', {'form': form})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/app_admin/login/')

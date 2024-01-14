@@ -2,9 +2,11 @@ django
 django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
+django-rest-swagger
 mysqlclient
 dj-rest-auth
 django-filter
 Pillow
 requests
 urllib3
+drf-yasg

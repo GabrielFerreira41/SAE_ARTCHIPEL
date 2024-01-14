@@ -2,6 +2,18 @@ from django.urls import path
 from api import views
 from .token.views import MyTokenObtainPairView
 from rest_framework_simplejwt.views import TokenRefreshView
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+# Configuration drf-yasg pour la documentation Swagger
+schema_view = get_schema_view(
+    openapi.Info(
+        title="SaeArtchipel API",
+        default_version='v1',
+        description="API de l'application SaeArtchipel",
+    ),
+    public=True,  # Set to False if you want to hide the Swagger UI from unauthorized users
+)
 
 urlpatterns = [
     
@@ -56,17 +68,16 @@ urlpatterns = [
     
     path('tojson/',views.tojson, name='tojson'),
 
-
-
     #partie token
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh_pair'),
 
-
-
     #creation utilisateur
     path('register/', views.RegisterView.as_view(), name='auth_register'),
 
+    # Configuration drf-yasg pour la documentation Swagger
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     #reste à faire 
     #recuperer les parcours d'un utilisateur
@@ -78,9 +89,4 @@ urlpatterns = [
     #suppression d'un parcours avec ces etapes
 
     #modification informations utilisateur
-
 ]
-
-
-
-    

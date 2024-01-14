@@ -11,17 +11,23 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
-from django.forms.models import model_to_dict
+from drf_yasg.utils import swagger_auto_schema
 
 class RegisterView(generics.CreateAPIView):
     queryset = Utilisateur.objects.all()
     permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
+    serializer_class = RegisterSerializer            
+
 
 class LieuView(View):
     serializer_class = LieuSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+
+    @swagger_auto_schema(
+        operation_summary="Obtenir la liste des lieux",
+        responses={200: LieuSerializer(many=True)},
+    )
     def get(self, request, *args, **kwargs):
         try:
             typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
@@ -77,7 +83,7 @@ class PreferenceLieuView(View):
     serializer_class = PreferenceLieuSerializer
     queryset = PreferenceLieu.objects.all()
     permission_classes = (IsAuthenticatedOrReadOnly,)
-   
+    
     def get(self, request, *args, **kwargs):
         data = list(PreferenceLieu.objects.values()) 
         return JsonResponse(data, safe=False)  
@@ -169,23 +175,24 @@ class OeuvreProximiteView(View):
             'oeuvre à proximité' : serializer,
         }
         return JsonResponse(liste_oeuvre, safe=False)
-    
+
+
 @api_view(['GET'])
-def get_all_oeuvres_proximites_departement(request, departement_id):
+def get_all_oeuvres_proximites_departement(request, departement_id):                
     try:
         typelieu_Oeuvre = TypeLieu.objects.get(nomTypeLieu='Oeuvre à proximité')
     except TypeLieu.DoesNotExist:
         typelieu_Oeuvre = None
-    if typelieu_Oeuvre :
+
+    if typelieu_Oeuvre:
         try:
             departements = Departement.objects.filter(idDepartement=departement_id)
-        except Region.DoesNotExist:
-            return JsonResponse({"error": "La région spécifiée n'existe pas."}, status=404)
+        except Departement.DoesNotExist:
+            return JsonResponse({"error": "Le département spécifié n'existe pas."}, status=404)
 
         villes = Ville.objects.filter(idDepartement__in=departements)
         lieux = Lieu.objects.filter(idVille__in=villes, idTypeLieu_id=typelieu_Oeuvre.idTypeLieu)
     else:
-        #print("ici")
         return JsonResponse({"error": "Il n'existe pas d'oeuvre à proximité"}, status=404)
     
     serializer = LieuSerializer(lieux, many=True).data
@@ -195,9 +202,6 @@ def get_all_oeuvres_proximites_departement(request, departement_id):
     }
     
     return JsonResponse(response_data, safe=False)
-
-
-
 
 class EvenementView(View):
     serializer_class = EvenementSerializer
@@ -226,7 +230,6 @@ class LnkLieuHoraireView(View):
 #         token.delete()
 
             
-
 
 
 @api_view(['GET'])
@@ -321,8 +324,6 @@ def get_all_lieux_region(request, region_id):
     }
     
     return JsonResponse(response_data, safe=False)
-
-
 
 
 @api_view(['GET'])

@@ -6,6 +6,9 @@ from api import urls as api_urls  # Importez le fichier urls.py de votre applica
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    path('app_admin',include('app_admin.urls')),
+
+
     # Utilisez include avec le module urls de votre application API
     path('api/', include(api_urls)),
 ]

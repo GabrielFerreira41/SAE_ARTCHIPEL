@@ -1,0 +1,15 @@
+{% block content %}
+  <h1>Confirmer la suppression</h1>
+  <p>Êtes-vous sûr de vouloir supprimer le type de lieu "{{ object }}" ?</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <button type="submit">Confirmer</button>
+    <button type="button" onclick="cancelDelete()">Annuler</button>
+  </form>
+
+  <script>
+    function cancelDelete() {
+      window.history.back();
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'accueil</title>
+
+    <script src="https://kit.fontawesome.com/c055ab3298.js" crossorigin="anonymous"></script>
+
+    {% block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% endblock %}
+    {% block styles %}
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    {% endblock %}
+
+
+    <style>
+
+      .box{
+        margin: .25rem ;
+      }
+
+    </style>
+    
+</head>
+<body>
+
+    <header>
+      <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'app_admin:home' %}"><i class="fa-solid fa-house"></i></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="#">Lieu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+              </li>
+            </ul>
+            <!-- <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form> -->
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="row">
+        <div class="d-flex justify-content-center m-2">
+          <h1>Bienvenue sur votre administration d'Ar(t]chipel !</h1>
+        </div>   
+      </div>
+
+      <div class="row">
+        <div class="container">
+        <div class="d-flex justify-content-between flex-wrap">
+          
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Région</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/region.png' %}" style="max-height: 200px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center">
+                      <div class="container d-flex justify-content-center">
+                        <a href="{% url 'app_admin:liste_regions' %}" class="btn btn-primary">Région</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Département</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/departement.webp' %}" style="max-height: 220px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="{% url 'app_admin:liste_departements' %}" class="btn btn-primary">Département</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Ville</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/ville.png' %}" style="max-height: 200px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="{% url 'app_admin:liste_villes' %}" class="btn btn-primary">Ville</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Type de lieu</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <div class="container d-flex justify-content-center">
+                        <i class="fa-solid fa-building-columns fa-10x"></i>
+                      </div>
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="{% url 'app_admin:liste_typelieux' %}" class="btn btn-primary">Type de lieu</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Lieu</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <div class="container d-flex justify-content-center">
+                        <i class="fa-solid fa-location-dot fa-10x"></i>
+                      </div>
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="{% url 'app_admin:liste_lieux' %}" class="btn btn-primary">Lieu</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Oeuvre</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/exposition.png' %}" style="max-height: 170px;  width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="3" class="btn btn-primary">Oeuvre</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Activité</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/activite.png' %}" style="max-height: 200px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">Activité</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Evènement</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/evenement.png' %}" style="max-height: 170px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">Evènement</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-sm-3 box">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div class="row justify-content-center">
+                      <h5 class="card-title text-center">Parcours</h5>
+                    </div>
+                    <div class="row justify-content-center">
+                      <img src="{% static 'images/parcours.png' %}" style="max-height: 170px; width:auto;">
+                    </div>
+                    <div class="row justify-content-center mt-2">
+                      <div class="container d-flex justify-content-center">
+                        <a href="#" class="btn btn-primary">Parcours</a>
+                      </div>
+                    </div>                                                 
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+
+
+    {% block js %}
+    <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script  type="module" src="{% static 'node_modules/popper.js/dist/popper.min.js' %}"></script>
+  {% endblock %}
+
+</body>
+</html>

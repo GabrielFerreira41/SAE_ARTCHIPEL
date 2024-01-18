@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'rest_framework_swagger',
+    'drf_yasg',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -55,7 +57,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES' : (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly',]
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly',],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
 }
 
 
@@ -146,7 +150,6 @@ WSGI_APPLICATION = 'SaeArtchipel.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -158,9 +161,19 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
-    }
+    },
+    'test': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_artchipel',
+        'USER': 'root',
+        'PASSWORD': 'root_psw',
+        'HOST': 'mysql_api',
+        'PORT': '',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -225,7 +238,30 @@ LOGGING = {
 AUTH_USER_MODEL = 'api.Utilisateur'
 
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'api_key': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+        },
+    },
+}
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]   
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
 

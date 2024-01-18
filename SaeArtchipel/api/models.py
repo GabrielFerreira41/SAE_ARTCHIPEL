@@ -79,7 +79,7 @@ class Horaire(models.Model):
 
 
     def __str__(self):
-            return f"[\n Horaire : {self.observationHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n pour les jours: {self.observationHoraire} \n ]"
+        return f"[\n Horaire : {self.observationHoraire} \n Ouverture : {self.horaireOuverture} \n Fermeture : {self.horaireFermeture} \n ]"
 
 class TypeLieu(models.Model):
     idTypeLieu = models.AutoField(primary_key=True)

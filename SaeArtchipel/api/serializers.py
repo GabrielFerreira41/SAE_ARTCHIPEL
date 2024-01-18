@@ -177,6 +177,7 @@ class PreferenceLieuSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreferenceLieu
         fields = ('idUtilisateur','idLieu')
+    
 
 
 class ParcoursSerializer(serializers.ModelSerializer):
@@ -287,3 +288,4 @@ class LnkLieuHoraireSerializer(serializers.ModelSerializer):
         serializers = HoraireSerializer(queryset)
 
         return serializers.data
+    

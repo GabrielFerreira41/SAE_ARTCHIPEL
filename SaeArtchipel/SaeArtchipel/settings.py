@@ -47,8 +47,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     #'rest_framework.authtoken',
-    'django_filters'
+    'django_filters',
     'app_admin',
+    'django_htmx',
 ]
 
 REST_FRAMEWORK = {
@@ -112,6 +113,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -197,7 +199,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-FR'
 
 TIME_ZONE = 'UTC'
 
@@ -264,4 +266,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
+LOGIN_URL = '/app_admin/login/'
 

@@ -9,21 +9,22 @@
   <div class="row justify-content-center m-2">
     <div class="col-8">
       <h1>Confirmer la suppression</h1>
-      <p>Êtes-vous sûr de vouloir supprimer le lieu "{{ object }}" ?</p>
+      <p>Êtes-vous sûr de vouloir supprimer le parcours "{{ object }}" avec toutes ces étapes ?</p>
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <button type="submit">Confirmer</button>
-        <button type="button" onclick="cancelDelete()">Annuler</button>
+        <button type="submit" class="btn btn-primary">Confirmer</button>
+        <button type="button" onclick="cancelDelete()" class="btn btn-danger">Annuler</button>
       </form>
 
-      <script>
-        function cancelDelete() {
-          window.history.back();
-        }
-      </script>
-    </div>
-      
-  </div>
+  <script>
+    function cancelDelete() {
+      window.history.back();
+    }
+  </script>
+
+</div>
+    
+</div>
 
 </div>
 {% endblock %}

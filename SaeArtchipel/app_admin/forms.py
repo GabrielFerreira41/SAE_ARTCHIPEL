@@ -1,5 +1,5 @@
 from django import forms
-from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire
+from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire, Parcours, Etape
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -65,9 +65,10 @@ class TypeLieuForm(forms.ModelForm):
 class LieuForm(forms.ModelForm):
     class Meta:
         model = Lieu
-        fields = ['nomLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas', 'boolTable',
-                  'boolJaujeLieux', 'nombreMaxVisiteur', 'adresseLieu', 'longitudeLieu', 'latitudeLieu',
-                  'telLieu', 'mailLieu', 'webLieu', 'idVille', 'idTarif', 'idTypeLieu']
+        fields = ['nomLieu','descriptionLieu' , 'boolPompidouLieu', 'boolAccessibilite', 'boolParking', 'boolShopping', 'boolRepas',
+                  'boolJaujeLieux', 'nombreMaxVisiteur', 'adresseLieu', 'latitudeLieu', 'longitudeLieu',
+                  'telLieu', 'mailLieu', 'webLieu','observationLieu' ,'idVille', 'idTarif', 'idTypeLieu']
+        
         idVille = forms.ModelChoiceField(queryset=Ville.objects.all(), empty_label="Sélectionner une ville")
         idTarif = forms.ModelChoiceField(queryset=Tarif.objects.all(), empty_label="Sélectionner un tarif")
         idtypeLieu = forms.ModelChoiceField(queryset=TypeLieu.objects.all(), empty_label="Sélectionner un type de lieu")
@@ -76,36 +77,36 @@ class LieuForm(forms.ModelForm):
                     'unique': "Ce nom de lieu est déjà utilisé.",
                 }
             }
+    descriptionLieu = forms.CharField(widget=forms.Textarea, required=False)
+    observationLieu = forms.CharField(widget=forms.Textarea, required=False)
+    imageLieu = forms.ImageField(required=False)
+    nombreMaxVisiteur = forms.IntegerField(min_value=1, required=True)
+    adresseLieu = forms.CharField(required=False)
+    latitudeLieu = forms.FloatField(required=False)
+    longitudeLieu = forms.FloatField(required=False)
+    telLieu = forms.IntegerField(required=False)
+    mailLieu = forms.CharField(required=False)
+    webLieu = forms.CharField(required=False)
 
 class HoraireForm(forms.ModelForm):
     class Meta:
         model = Horaire
-        fields = '__all__'
+        fields = ['observationHoraire', 'horaireOuverture', 'horaireFermeture', 'intervalHoraire', 'lienReservationHoraire']
 
-    listJour = forms.MultipleChoiceField(
-        choices=[
-            ('lundi', 'Lundi'),
-            ('mardi', 'Mardi'),
-            ('mercredi', 'Mercredi'),
-            ('jeudi', 'Jeudi'),
-            ('vendredi', 'Vendredi'),
-            ('samedi', 'Samedi'),
-            ('dimanche', 'Dimanche'),
-        ],
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-        label='Jours d\'ouverture'
-    )
 
+    observationHoraire = forms.CharField(widget=forms.Textarea, required=False)
     horaireOuverture = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Heure d\'ouverture'
+        label='Heure d\'ouverture',
+        required=False
     )
 
     horaireFermeture = forms.TimeField(
         widget=forms.TimeInput(attrs={'type': 'time'}),
-        label='Heure de fermeture'
+        label='Heure de fermeture',
+        required=False
     )
+    lienReservationHoraire = forms.CharField(required=False)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -120,7 +121,7 @@ class HoraireForm(forms.ModelForm):
 class LnkLieuHoraireForm(forms.ModelForm):
     class Meta:
         model = LnkLieuHoraire
-        fields = '__all__'
+        fields = ['idLieu', 'idHoraire', 'dateDebut', 'dateFin']
     
     dateDebut = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
     dateFin = forms.DateField(required=True, widget=forms.SelectDateWidget(attrs={'class': 'datepicker'}))
@@ -129,14 +130,14 @@ class LnkLieuHoraireForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if lieu_id:
-            self.fields['lieu_id'].initial = lieu_id
-            self.fields['lieu_id'].widget.attrs['readonly'] = True
-            self.fields['lieu_id'].disabled = True
+            self.fields['idLieu'].initial = lieu_id
+            self.fields['idLieu'].widget.attrs['readonly'] = True
+            self.fields['idLieu'].disabled = True
 
         if horaire_id:
-            self.fields['horaire_id'].initial = horaire_id
-            self.fields['horaire_id'].widget.attrs['readonly'] = True
-            self.fields['horaire_id'].disabled = True
+            self.fields['idHoraire'].initial = horaire_id
+            self.fields['idHoraire'].widget.attrs['readonly'] = True
+            self.fields['idHoraire'].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()
@@ -147,3 +148,23 @@ class LnkLieuHoraireForm(forms.ModelForm):
             raise forms.ValidationError("La date de fin doit être après la date de début.")
 
         return cleaned_data
+    
+class ParcoursCreationForm(forms.ModelForm):
+    DIFFICULTE_CHOICES = [
+        ('facile', 'Facile'),
+        ('modere', 'Moyen'),
+        ('difficile', 'Difficile'),
+    ]
+
+    difficulteParcours = forms.ChoiceField(choices=DIFFICULTE_CHOICES, label='Difficulté du parcours')
+    distanceParcours = forms.IntegerField(label="Distance du parcours (en km)")
+
+    class Meta:
+        model = Parcours
+        fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
+
+
+class EtapeForm(forms.ModelForm):
+    class Meta:
+        model = Etape
+        fields = ['idParcours', 'idLieu', 'numEtape']

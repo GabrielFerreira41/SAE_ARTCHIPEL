@@ -6,15 +6,15 @@
 <div class="container">
   <div class="row justify-content-center m-2">
     <div class="col-6">
-        <h1>{% if form.instance.pk %}Modifier{% else %}Ajouter{% endif %} une région</h1>
+        <h1>Créer un parcours</h1>
         <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Créer</button>
         </form>
-      </div>
-    
     </div>
-  
-  </div>
+    
+</div>
+
+</div>
 {% endblock %}

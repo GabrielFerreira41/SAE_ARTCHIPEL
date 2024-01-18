@@ -1,0 +1,14 @@
+
+<h1>Détail du parcours</h1>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ parcours.nomParcours }}</h5>
+        <p class="card-text">Type : {{ parcours.typeParcours }}</p>
+        <p class="card-text">Difficulté : {{ parcours.difficulteParcours }}</p>
+        <p class="card-text">Distance : {{ parcours.distanceParcours }}</p>
+
+        <div>
+            <a hx-get="{% url 'app_admin:edit_parcours' parcours.pk %}" hx-target="#detail_parcours" class="btn btn-primary">Modifier</a>
+        </div>
+    </div>
+</div>

@@ -1,15 +1,29 @@
-{% block content %}
-  <h1>Confirmer la suppression</h1>
-  <p>Êtes-vous sûr de vouloir supprimer la ville "{{ object }}" ?</p>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <button type="submit">Confirmer</button>
-    <button type="button" onclick="cancelDelete()">Annuler</button>
-  </form>
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+{% endblock %}
 
-  <script>
-    function cancelDelete() {
-      window.history.back();
-    }
-  </script>
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-8">
+      <h1>Confirmer la suppression</h1>
+      <p>Êtes-vous sûr de vouloir supprimer la ville "{{ object }}" ?</p>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Confirmer</button>
+        <button type="button" onclick="cancelDelete()" class="btn btn-danger">Annuler</button>
+      </form>
+
+      <script>
+        function cancelDelete() {
+          window.history.back();
+        }
+      </script>
+  </div>
+    
+</div>
+
+</div>
 {% endblock %}

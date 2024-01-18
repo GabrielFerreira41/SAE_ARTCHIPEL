@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="m-2">Consultation et Édition de Parcours</h1>
+
+    <div >
+        <div class="container mt-5" id="detail_parcours">
+        {% include 'app_admin/parcours_detail.html' %}   
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-6">
+            <div id="liste_etape_parcours">
+            {% include 'app_admin/parcours_liste_etapes.html' %}  
+            </div> 
+        </div>
+        <div class="col-6">
+            <div id="result" hx-get="{% url 'app_admin:liste_lieux_etapes' parcours.pk %}" hx-trigger="load">
+                {% include 'app_admin/liste_etapes.html' %}  
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

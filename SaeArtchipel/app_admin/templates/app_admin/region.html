@@ -1,9 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-  <h1>Liste des régions</h1>
-  <ul>
-    {% for region in regions %}
-      <li>{{ region.nomRegion }} - <a href="{% url 'app_admin:modifier_region' region.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_region' region.pk %}">Supprimer</a></li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'app_admin:ajouter_region' %}">Ajouter une région</a>
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-6">
+        <h1>Liste des régions</h1>
+        <ul>
+          {% for region in regions %}
+            <li>{{ region.nomRegion }} - <a href="{% url 'app_admin:modifier_region' region.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_region' region.pk %}">Supprimer</a></li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'app_admin:ajouter_region' %}">Ajouter une région</a>
+    </div>
+    
+  </div>
+
+</div>
 {% endblock %}

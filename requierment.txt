@@ -10,3 +10,4 @@ Pillow
 requests
 urllib3
 drf-yasg
+django-htmx

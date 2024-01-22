@@ -1,0 +1,127 @@
+.carteListeLieuxVert{
+  background-color: #12AA36;
+  color: white;
+}
+
+.carteListeParcoursBleu{
+  background-color: rgb(0, 159, 227);
+  color: white;
+}
+.containerListeLieuxParcours{
+  width: 75vw;
+}
+
+.titreCarte{
+  color: #12AA36;
+  width: 100vw;
+  text-align: center;
+  margin-bottom: 10vh;
+  margin-top: 10vh;
+  font-family: 'Lilita One', sans-serif;
+}
+.titreCarteListeLieux{
+  color: white;
+  background-color: #12AA36;
+  text-align: center;
+  margin-bottom: 3vh;
+  font-family: 'Lilita One', sans-serif;
+  width: 20vw;
+  font-size: 3vh;
+  height:10vh ;
+
+}
+.titreCarteListeParcours{
+  color: white;
+  background-color: rgb(0, 159, 227);
+  text-align: center;
+  margin-bottom: 3vh;
+  font-family: 'Lilita One', sans-serif;
+  width: 20vw;
+  font-size: 3vh;
+  height:10vh ;
+}
+
+.fondVertLieux{
+  background-color: #12AA36;
+  padding: 5vh;
+}
+
+.containerListeLieux{
+  background-color: rgb(0, 159, 227);
+  width: 7;
+}
+.ImageLoupe{
+  width: 4vw;
+  height: 4vw;
+  padding: 1vh;
+  margin: 0;
+}
+.divImageLoupeVert{
+  background-color: #12AA36;
+  padding: 0;
+  height: 4vw;
+}
+.divImageLoupeBleu{
+  background-color: rgb(0, 159, 227);
+  padding: 0;
+  height: 4vw;
+}
+
+.searchBar{
+  width: 15vw;
+  height: 4vw;
+  font-size: 1vw;
+}
+.searchBarDiv{
+  padding: 1vh;
+  width: 25%;
+}
+.titreListeLieux{
+  width: 50vw;
+  height: 50vh;
+  color: white;
+  background-color: #12AA36;
+  position:static;
+}
+.carteListeLieux{
+  height: 25vw;
+}
+.mainCarte{
+  height: 180vh;
+}
+
+.listeLieu{
+  width: 75vw;
+}
+.listeLieux{
+  width: 25vw;
+}
+#root {
+  height: 200vh;
+  width: 100%;
+}
+
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+.ContainerTitreParcoursVert{
+  background-color: #12AA36;
+  width: 75vw;
+  height: 75vh;
+}
+
+.divContainer{
+  height: 90vh;
+}
+.containerTitreLieu{
+  width: 100vw;
+  height: 20vh;
+}
+
+
+
+

@@ -1,0 +1,72 @@
+.imgLieu{
+    align-items: center;
+    max-width: 40vw;
+    max-height: 40vh;
+    min-width: 20vw;
+    transform: translateX(-10vw);
+
+}
+.main{
+    height: 300vh;
+}
+
+.rectangleLieuVert{
+    width: 30vw;
+    height: 50vh;
+    background-color: #12AA36;
+}
+
+.rectangleVilleLieuVert{
+    background-color: #12AA36;
+    color: white;
+}  
+.containerInformationLieuAcces{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+}
+.ContainerContactsLieuBleu{
+    background-color:rgb(0, 159, 227) ;
+    width: 30vw;
+    height: 30vh;
+    color: white;
+
+}
+.sitewebLieuLien{
+    color: white;
+}
+
+.styleLilitaOne{
+    font-family: 'Lilita One', sans-serif;
+}
+.divContainerContactsLieu{
+    height: 50vh;
+}
+.divPresentationLieu{
+    margin-top: 10vh;
+}
+.containerDivBleuDescriptionLieu{
+    margin-top: 10vh;
+    padding: 10vh;
+    background-color: rgb(0, 159, 227);
+}
+.containerDescritpionLieu{
+    width: 40vw;
+    color: white;
+}
+
+.titreListeInfoLieu{
+    background-color: #12AA36;
+    margin-bottom: 1vw;
+    margin-right:3vw ;
+    margin-left:3vw ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 15vw;
+    height: 5vh;
+    border-radius: 5%;
+}
+.boolVerificationLieu{
+    width: 3vw;
+}

@@ -1,0 +1,37 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(0, 0, 0);
+    padding: 20px;
+}
+
+.footer-text {
+    margin: 0 10px;
+}
+
+.with-border {
+    border-left: 1px solid rgb(0, 0, 0);
+    padding-left: 10px; 
+}
+
+.BleuFooter{
+    width: 2vw;
+    height: 1vh;
+    background-color: rgb(20, 20, 170);
+    margin-left: 2vw;
+  }
+  .BlancFooter{
+    width: 2vw;
+    height: 1vh;
+    background-color: white;
+  }
+  .RougeFooter{
+    width: 2vw;
+    height: 1vh;
+    background-color: rgb(219, 10, 10);
+  }
+
+  footer{
+    height: 6vh;
+  }

@@ -1,0 +1,9 @@
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+/static/node_modules/
+/static/package-lock.json
+/SaeArtchipel/__pycache__/

@@ -1,0 +1,25 @@
+<form hx-put="{% url 'app_admin:edit_parcours' parcours.idParcours %}">
+    <h2>Edition du parcours</h2>
+
+    {% csrf_token %}
+
+    <p>Nom Parcours:</p>
+    <input type="text" name="nomParcours" value="{{ parcours.nomParcours}}"><br>
+
+    <p>Type Parcours:</p>
+    <input type="text" name="typeParcours" value="{{ parcours.typeParcours}}"><br>
+
+    <p>Difficulte Parcours:</p>
+    <select name="difficulteParcours">
+        <option value="facile" {% if parcours.difficulteParcours == 'facile' %}selected{% endif %}>Facile</option>
+        <option value="moyen" {% if parcours.difficulteParcours == 'moyen' %}selected{% endif %}>Moyen</option>
+        <option value="difficile" {% if parcours.difficulteParcours == 'difficile' %}selected{% endif %}>Difficile</option>
+    </select><br>
+
+    <p>Distance Parcours:</p>
+    <input type="number" name="distanceParcours" value="{{ parcours.distanceParcours }}"><br>
+
+    <button type="submit">Save</button>
+    <button class="btn btn-danger" hx-get="{% url 'app_admin:get_parcours' parcours.idParcours %}" hx-target="#detail_parcours" >Cancel</button>
+
+</form>

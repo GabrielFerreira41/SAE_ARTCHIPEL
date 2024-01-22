@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-6">
+      <h1>Liste des types de lieux</h1>
+      <ul>
+        {% for type in typelieux %}
+          <li>{{ type.nomTypeLieu }} - <a href="{% url 'app_admin:modifier_typelieu' type.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_typelieu' type.pk %}">Supprimer</a></li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'app_admin:ajouter_typelieu' %}">Ajouter un type de lieu</a>
+    </div>
+    
+  </div>
+
+</div>
+{% endblock %}

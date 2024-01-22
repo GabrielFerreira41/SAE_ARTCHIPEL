@@ -1,0 +1,31 @@
+
+<div>
+    <h2 class="text-center">Liste des lieux:</h2>
+    <p class="text-center">Ajouter un lieu pour une étape du parcours</p>
+    <ul>
+        {% for lieu in lieux %}
+
+            <li class="list-group-item d-flex justify-content-between align-items-center m-1" style="border:2px solid; border-radius: 20px;">
+                <div class="container">
+                    <div class="row">  
+                        <div class="col-9 d-flex"> 
+                        <p >
+                            # Lieu : {{ lieu.nomLieu }}, ville: {{ lieu.idVille.nomVille }} ({{ lieu.idVille.codePostal }} )
+                        </p>
+                        <!-- <p>ici:{{parcours.idParcours}}</p> -->
+                    </div> 
+                        <div class="col-2 d-flex align-items-center">
+                            <a hx-post="{% url 'app_admin:ajouter_etape' %}"  hx-vals='{"idParcours": {{ parcours.idParcours }}, "idLieu": {{ lieu.idLieu }} }'
+                            hx-target="#liste_etape_parcours" class="btn btn-secondary">Ajouter</a> 
+                        </div>
+            
+                    </div>
+                </div>
+            
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+

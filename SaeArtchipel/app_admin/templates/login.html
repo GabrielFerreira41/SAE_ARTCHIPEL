@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+
+</head>
+<body>
+    <div class="col-12 d-flex justify-content-center">
+            <div class="row m-2">
+
+         
+
+    
+                <h2>Login</h2>
+                <p>Reserver pour les administrateurs d'Artchipel</p>
+            
+                <!-- {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %} -->
+            
+                <form method="post" action="{% url 'app_admin:login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+        
+
+    </div>
+    
+</body>
+</html>

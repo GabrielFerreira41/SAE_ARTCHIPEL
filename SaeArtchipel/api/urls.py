@@ -79,6 +79,15 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
+    #modification informations utilisateur
+    path('update-user/<int:user_id>',views.update_user, name='update-user'),
+
+    #recuperer les parcours favoris d'un utilisateur
+    path('favoris-parcours/<int:user_id>',views.get_favoris_parcours, name='get-favoris-parcours'),
+
+    path('favoris-lieu/<int:user_id>',views.get_favoris_lieu, name='get-favoris-lieu'),
+
+
     #reste à faire 
     #recuperer les parcours d'un utilisateur
 
@@ -88,5 +97,4 @@ urlpatterns = [
 
     #suppression d'un parcours avec ces etapes
 
-    #modification informations utilisateur
 ]

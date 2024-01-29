@@ -145,7 +145,12 @@ class LnkLieuHoraire(models.Model):
     def __str__(self):
             return f"[\n Lieu : {self.idLieu} \n Horaire : {self.idHoraire} \n date de début : {self.dateDebut} \n date de fin: {self.dateFin} \n]"
 
-
+class FavorisLieu(models.Model):
+    idUtilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
+    idLieu = models.ForeignKey(Lieu, on_delete=models.CASCADE)
+    
+    def __str__(self):
+            return f"[\n User : {self.idUtilisateur} \n Lieu : {self.idLieu} \n]"
 """
 liste des tables :
     Utilisateur

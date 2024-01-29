@@ -1,12 +1,8 @@
 from django.views import View
-from rest_framework import viewsets
-from .serializers import RegisterSerializer, LieuSerializer, VilleSerializer, TarifSerializer, TypeLieuSerializer, PreferenceLieuSerializer, ParcoursSerializer, EtapeSerializer, FavorisParcoursSerializer, HoraireSerializer, DepartementSerializer, RegionSerializer, EvenementSerializer, LnkLieuHoraireSerializer, EvenementLieuSerializer
+from .serializers import *
 from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement, Region, Evenement, LnkLieuHoraire
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from rest_framework import serializers
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from django.shortcuts import get_object_or_404
@@ -56,9 +52,6 @@ class VilleView(View):
         data = list(Ville.objects.values()) 
         return JsonResponse(data, safe=False)
 
-
-    
-
 class TarifView(View):
     serializer_class = TarifSerializer
     queryset = Tarif.objects.all()
@@ -97,8 +90,6 @@ class ParcoursView(View):
         data = list(Parcours.objects.values()) 
         return JsonResponse(data, safe=False)
 
-
-
 class EtapeView(View):
     serializer_class = EtapeSerializer
     queryset = Etape.objects.all()
@@ -106,7 +97,6 @@ class EtapeView(View):
     def get(self, request, *args, **kwargs):
         data = list(Etape.objects.values()) 
         return JsonResponse(data, safe=False)
-
 
 class FavorisParcoursView(View):
     serializer_class = FavorisParcoursSerializer
@@ -117,8 +107,6 @@ class FavorisParcoursView(View):
         data = list(FavorisParcours.objects.values()) 
         return JsonResponse(data, safe=False)
 
-
-
 class HoraireView(View):
     serializer_class = HoraireSerializer
     queryset = Horaire.objects.all()
@@ -126,7 +114,6 @@ class HoraireView(View):
     def get(self, request, *args, **kwargs):
         data = list(Horaire.objects.values()) 
         return JsonResponse(data, safe=False)
-
 
 class DepartementView(View):
     serializer_class = DepartementSerializer
@@ -137,8 +124,6 @@ class DepartementView(View):
         data = list(Departement.objects.values()) 
         return JsonResponse(data, safe=False)
 
-
-
 class RegionView(View):
     serializer_class = RegionSerializer
     queryset = Region.objects.all()
@@ -147,8 +132,6 @@ class RegionView(View):
     def get(self, request, *args, **kwargs):
         data = list(Region.objects.values()) 
         return JsonResponse(data, safe=False)
-
-
 
 class OeuvreProximiteView(View):
     #recupere les oeuvres à proximité qui sont dans la table lieu sans les autres types de lieux
@@ -344,7 +327,19 @@ def get_all_lieux_departement(request, departement_id):
     
     return JsonResponse(response_data, safe=False)
 
-
+@api_view(['PUT'])
+def update_user(request, user_id):
+    try:
+        user = Utilisateur.objects.get(id=user_id)
+    except Utilisateur.DoesNotExist:
+        return JsonResponse({"error": "L'utilisateur spécifié n'existe pas."}, status=404)
+    
+    if request.method == 'PUT':
+        serializer = UserUpdateSerialiser(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=200)
+        return JsonResponse(serializer.errors, status=400)
 
 def tojson(request): 
     """
@@ -368,3 +363,37 @@ def tojson(request):
         "evenement" : EvenementSerializer(Evenement.objects.all(), many=True).data,
     }
     return JsonResponse(data, safe=False, charset='utf-8')
+
+@api_view(['GET'])
+def get_favoris_parcours(request, user_id):
+    try:
+        user = Utilisateur.objects.get(id=user_id)
+    except Utilisateur.DoesNotExist:
+        return JsonResponse({"error": "L'utilisateur spécifié n'existe pas."}, status=404)
+
+    favoris = FavorisParcours.objects.filter(idUtilisateur=user_id)
+
+    serializer = FavorisParcoursSerializer(favoris, many=True).data
+
+    response_data = {
+        'favoris': serializer,
+    }
+    
+    return JsonResponse(response_data, safe=False)
+
+@api_view(['GET'])
+def get_favoris_lieu(request, user_id):
+    try:
+        user = Utilisateur.objects.get(id=user_id)
+    except Utilisateur.DoesNotExist:
+        return JsonResponse({"error": "L'utilisateur spécifié n'existe pas."}, status=404)
+
+    favoris = FavorisLieu.objects.filter(idUtilisateur=user_id)
+
+    serializer = FavorisLieuSerializer(favoris, many=True).data
+
+    response_data = {
+        'favoris': serializer,
+    }
+    
+    return JsonResponse(response_data, safe=False)

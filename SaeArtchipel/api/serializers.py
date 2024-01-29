@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Lieu, Ville, Tarif, TypeLieu, PreferenceLieu,Utilisateur, Parcours, Etape, FavorisParcours, Horaire, Departement,Region, Evenement, LnkLieuHoraire
+from .models import *
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
@@ -288,4 +288,52 @@ class LnkLieuHoraireSerializer(serializers.ModelSerializer):
         serializers = HoraireSerializer(queryset)
 
         return serializers.data
+class UserUpdateSerialiser(serializers.ModelSerializer):
+
+    # construstion du serializer pour la mise à jour de l'utilisateur
+    # {user_id : 1, modif: {"username": "toto", "email": "toto@toto", "first_name": "toto", "last_name": "toto", "ddnUtilisateur": "2021-01-01} 
     
+    class Meta:
+        model = Utilisateur
+        fields = ('userid', 'modif')
+
+    def get_modif(self, obj):
+        # Customize the representation of the 'modif' field if needed
+        return {
+            'username': obj.username,
+            'email': obj.email,
+            'first_name': obj.first_name,
+            'last_name': obj.last_name,
+            'ddnUtilisateur': obj.ddnUtilisateur,
+        }
+
+    def update(self, instance, validated_data):
+
+        modif = validated_data.pop('modif', None)
+
+        # champs à modifier
+        username = modif.get('username', None) # 
+        email = modif.get('email', None)
+        first_name = modif.get('first_name', None)
+        last_name = modif.get('last_name', None)
+        ddnUtilisateur = modif.get('ddnUtilisateur', None)
+
+        if username:
+            instance.username = username
+        if email:
+            instance.email = email
+        if first_name:
+            instance.first_name = first_name
+        if last_name:
+            instance.last_name = last_name
+        if ddnUtilisateur:
+            instance.ddnUtilisateur = ddnUtilisateur
+
+        # on sauvegarde les modifications
+        instance.save()
+
+        return instance
+class FavorisLieuSerializer(serializers.Serializer):
+    class Meta:
+        model = FavorisLieu
+        fields = ('idUtilisateur','idParcours')

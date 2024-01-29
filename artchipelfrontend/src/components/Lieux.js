@@ -17,6 +17,8 @@ import "../style/styleLieux.css";
 const Lieux = () => {
   const [lieux, setLieux] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
+  const [favoris, setFavoris] = useState([]);
+
 
 
   const lieuxFiltres = lieux.filter((lieu) => {
@@ -38,7 +40,23 @@ const Lieux = () => {
   }, []);
 
   const departments = ["18", "28", "36", "37", "41", "45"];
+  const handleHeartClick = (event, idLieu) => {
+    // Vérifiez si le lieu est déjà dans les favoris
+    const isFavorite = favoris.includes(idLieu);
 
+    // Mettez à jour les favoris en fonction de l'état actuel
+    if (isFavorite) {
+      // Si déjà favori, retirez-le
+      setFavoris(favoris.filter(favId => favId !== idLieu));
+    } else {
+      // Si ce n'est pas déjà un favori, ajoutez-le
+      setFavoris([...favoris, idLieu]);
+    }
+  };
+
+  const addFavorite = (idLieux) => {
+    
+  };
   return (
     <div className="indexAccueil">
       <div className="">
@@ -75,12 +93,18 @@ const Lieux = () => {
                     ) : (
                       <img className="ImageCarteLieux" src={process.env.PUBLIC_URL + `/images/artchipelDefault.png`} alt="Carte" />
                     )}
-                    <div className="TitreCarteLieux d-flex justify-content-center align-items-center">{lieu.nomLieu}</div>
-                  </Link>
+                    <div className="TitreCarteLieux d-flex justify-content-center align-items-center">
+                      {lieu.nomLieu}
+                    </div>
 
-                </li>
+                  </Link>
+                  <input type="checkbox" className="favoris" onClick={addFavorite(lieu.idLieu)}/>
+
+                  </li>
               ))}
+              
             </ul>
+            
           </div>
         </div>
       </div>

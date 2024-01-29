@@ -13,6 +13,8 @@ import Lieu from './components/Lieu';
 import Connexion from './components/Connexion';
 import Inscription from './components/Inscription';
 import Parcours from './components/Parcours';
+import Favoris from './components/Favoris';
+
 
 /**
  * La fonction renvoie un élément JSX pour un message d'erreur 404 page introuvable avec un lien pour
@@ -56,6 +58,7 @@ function App() {
         <Route path="/Inscription" element={<Inscription />} />
         <Route path="/Parcours" element={<Parcours />} />
         {/* Ajoutez la route de secours */}
+        <Route path="/Favoris" element={<Favoris />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>

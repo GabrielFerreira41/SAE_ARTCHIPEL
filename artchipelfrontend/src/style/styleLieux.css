@@ -40,6 +40,10 @@
     transform: translateX(0vw) translateY(23vh);
 }
 
+.favoris{
+    transform: translateX(20vw) translateY(-1vh);
+}
+
 .ImageCarteLieux {
     width: 20vw;
     height: 25vh;
@@ -49,3 +53,10 @@
     transform: scale(1.5); /* Ajustez la valeur pour augmenter ou diminuer la taille du bouton */
     margin-right: 5px; /* Ajustez la marge entre le bouton et le label selon vos préférences */
 }
+
+
+
+
+
+
+   

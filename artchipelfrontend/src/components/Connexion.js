@@ -29,8 +29,8 @@ const Connexion = () => {
 
     if (storedToken) {
       // Utilisateur déjà connecté
-      setIsLoggedIn(true);
-
+      localStorage.setItem("userLogged",true)
+      setIsLoggedIn(true)
       // Afficher un message pendant quelques secondes avant la redirection
       const delayRedirect = setTimeout(() => {
         // Redirection vers la page d'accueil

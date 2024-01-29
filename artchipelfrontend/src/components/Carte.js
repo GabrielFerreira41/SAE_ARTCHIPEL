@@ -77,172 +77,173 @@ useEffect(() => {
   plusieurs modules de l'API ArcGIS pour JavaScript, notamment Map, MapView, GraphicsLayer, Graphic,
   Directions, Search et Popup. */
   useEffect(() => {
-    loadModules([
-      'esri/Map',
-      'esri/views/MapView',
-      'esri/layers/GraphicsLayer',
-      'esri/Graphic',
-      'esri/widgets/Directions',
-      'esri/widgets/Search',
-      'esri/widgets/Popup',
-    ], { css: true })
-      .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Search]) => {
-        const map = new Map({
-          basemap: 'streets-navigation-vector'
-        });
+  //   loadModules([
+  //     'esri/Map',
+  //     'esri/views/MapView',
+  //     'esri/layers/GraphicsLayer',
+  //     'esri/Graphic',
+  //     'esri/widgets/Directions',
+  //     'esri/widgets/Search',
+  //     'esri/widgets/Popup',
+  //   ], { css: true })
+  //     .then(([Map, MapView, GraphicsLayer, Graphic, Directions, Search]) => {
+  //       const map = new Map({
+  //         basemap: 'streets-navigation-vector'
+  //       });
 
 
-        view = new MapView({
-          container: 'map-view',
-          map: map,
-          center: [1.32, 47.75],
-          zoom: 8,
-        });
-        const monumentsLayer = new GraphicsLayer();
+  //       view = new MapView({
+  //         container: 'map-view',
+  //         map: map,
+  //         center: [1.32, 47.75],
+  //         zoom: 8,
+  //       });
+  //       const monumentsLayer = new GraphicsLayer();
 
-        map.add(monumentsLayer);
+  //       map.add(monumentsLayer);
       
-        if (!loadingLieux && !loadingParcours) {
-        /* Le bloc de code parcourt un ensemble de monuments et crée des graphiques pour chaque
-        monument sur la carte. */
-        lieux.forEach(monument => {
-        if (monument.latitudeLieu !== null && monument.longitudeLieu !== null) {
-          const point = {
-            type: 'point',
-            longitude: monument.longitudeLieu.toString(),
-            latitude: monument.latitudeLieu.toString(),
-          };
+  //       if (!loadingLieux && !loadingParcours) {
+  //       /* Le bloc de code parcourt un ensemble de monuments et crée des graphiques pour chaque
+  //       monument sur la carte. */
+  //       lieux.forEach(monument => {
+  //       if (monument.latitudeLieu !== null && monument.longitudeLieu !== null) {
+  //         const point = {
+  //           type: 'point',
+  //           longitude: monument.longitudeLieu.toString(),
+  //           latitude: monument.latitudeLieu.toString(),
+  //         };
 
-          const markerSymbol = {
-            type: 'simple-marker',
-            color: [18, 170, 54],
-            outline: {
-              color: [255, 255, 255],
-              width: 2,
-            },
-          };
+  //         const markerSymbol = {
+  //           type: 'simple-marker',
+  //           color: [18, 170, 54],
+  //           outline: {
+  //             color: [255, 255, 255],
+  //             width: 2,
+  //           },
+  //         };
 
-          const pointGraphic = new Graphic({
-            geometry: point,
-            symbol: markerSymbol,
-            attributes: {
-              name: monument.nomLieu,
-              id: monument.idLieu,
-            },
-          });
+  //         const pointGraphic = new Graphic({
+  //           geometry: point,
+  //           symbol: markerSymbol,
+  //           attributes: {
+  //             name: monument.nomLieu,
+  //             id: monument.idLieu,
+  //           },
+  //         });
 
-          const popupTemplate = {
-            title: '{name}',
-            content: `<a href="/lieux/${monument.idLieu}">Voir le détail de '${monument.nomLieu}'</a>`,
-          };
+  //         const popupTemplate = {
+  //           title: '{name}',
+  //           content: `<a href="/lieux/${monument.idLieu}">Voir le détail de '${monument.nomLieu}'</a>`,
+  //         };
 
-          pointGraphic.popupTemplate = popupTemplate;
+  //         pointGraphic.popupTemplate = popupTemplate;
 
-          monumentsLayer.add(pointGraphic);
-        }});
+  //         monumentsLayer.add(pointGraphic);
+  //       }});
 
 
-        /* Le code ci-dessous parcourt un tableau appelé "parcours" et crée un graphique polyligne pour
-        chaque élément du tableau. Chaque polyligne représente un chemin avec plusieurs Lieu.
-        Le code définit la couleur et la largeur de la polyligne, ainsi qu'un modèle contextuel qui
-        sera affiché lorsque vous cliquerez sur la polyligne. Enfin, le graphique polyligne est
-        ajouté à un calque appelé « monumentsLayer ». */
-        parcours.forEach(parcour => {
-          const validEtapes = parcour.etapes
-            .filter(lieu => lieu.lieu.latitudeLieu !== null && lieu.lieu.longitudeLieu !== null);
+  //       /* Le code ci-dessous parcourt un tableau appelé "parcours" et crée un graphique polyligne pour
+  //       chaque élément du tableau. Chaque polyligne représente un chemin avec plusieurs Lieu.
+  //       Le code définit la couleur et la largeur de la polyligne, ainsi qu'un modèle contextuel qui
+  //       sera affiché lorsque vous cliquerez sur la polyligne. Enfin, le graphique polyligne est
+  //       ajouté à un calque appelé « monumentsLayer ». */
+  //       parcours.forEach(parcour => {
+  //         const validEtapes = parcour.etapes
+  //           .filter(lieu => lieu.lieu.latitudeLieu !== null && lieu.lieu.longitudeLieu !== null);
 
-          if (validEtapes.length > 1) {
-            // Créez la polyligne uniquement s'il y a au moins deux étapes avec des coordonnées valides.
-            const path = {
-              type: 'polyline',
-              paths: [validEtapes.map(waypoint => waypoint.location)],
-            };
+  //         if (validEtapes.length > 1) {
+  //           // Créez la polyligne uniquement s'il y a au moins deux étapes avec des coordonnées valides.
+  //           const path = {
+  //             type: 'polyline',
+  //             paths: [validEtapes.map(waypoint => waypoint.location)],
+  //           };
         
-            const lineSymbol = {
-              type: 'simple-line',
-              color: [0, 159, 227],
+  //           const lineSymbol = {
+  //             type: 'simple-line',
+  //             color: [0, 159, 227],
 
-              width: 2,
-            };
+  //             width: 2,
+  //           };
         
-            const pathGraphic = new Graphic({
-              geometry: path,
-              symbol: lineSymbol,
-              attributes: {
-                name: parcour.nomParcours,
-                id: parcour.idParcours,
-              },
-            });
+  //           const pathGraphic = new Graphic({
+  //             geometry: path,
+  //             symbol: lineSymbol,
+  //             attributes: {
+  //               name: parcour.nomParcours,
+  //               id: parcour.idParcours,
+  //             },
+  //           });
         
-            const popupTemplate = {
-              title: '{name}',
-              content: `<p>Ce parcours inclut plusieurs lieux. <a href="/parcours/${parcour.idParcours}">Voir les détails du parcours</a></p>`,
-            };
+  //           const popupTemplate = {
+  //             title: '{name}',
+  //             content: `<p>Ce parcours inclut plusieurs lieux. <a href="/parcours/${parcour.idParcours}">Voir les détails du parcours</a></p>`,
+  //           };
         
-            pathGraphic.popupTemplate = popupTemplate;
+  //           pathGraphic.popupTemplate = popupTemplate;
         
-            monumentsLayer.add(pathGraphic);
-            console.log('Polyline added for parcours:', parcour);
-          } else {
-            console.log('Skipping parcours with insufficient valid etapes:', parcour);
-          }
-        });
+  //           monumentsLayer.add(pathGraphic);
+  //           console.log('Polyline added for parcours:', parcour);
+  //         } else {
+  //           console.log('Skipping parcours with insufficient valid etapes:', parcour);
+  //         }
+  //       });
         
-      }
-
-
+  //     }
 
 
-        /* Ce code ajoute un écouteur d'événement de clic à la couche graphique `monumentsLayer`.
-        Lorsqu'un utilisateur clique sur un monument sur la carte, les attributs du monument
-        sélectionné sont définis à l'aide de `setSelectedMonument(event.graphic.attributes)`. La vue
-        se déplace ensuite vers l'emplacement du monument cliqué en utilisant `view.goTo()` avec une
-        cible de la géométrie du monument cliqué et un niveau de zoom de 12. Enfin, le tableau
-        `monuments` est défini comme variable d'état `monumentsList` en utilisant `
-        setMonumentsList(monuments)`. */
-        monumentsLayer.on('click', event => {
-          setSelectedMonument(event.graphic.attributes);
-          view.goTo({
-            target: event.graphic.geometry,
-            zoom: 12,
-          });
-        });
+
+
+  //       /* Ce code ajoute un écouteur d'événement de clic à la couche graphique `monumentsLayer`.
+  //       Lorsqu'un utilisateur clique sur un monument sur la carte, les attributs du monument
+  //       sélectionné sont définis à l'aide de `setSelectedMonument(event.graphic.attributes)`. La vue
+  //       se déplace ensuite vers l'emplacement du monument cliqué en utilisant `view.goTo()` avec une
+  //       cible de la géométrie du monument cliqué et un niveau de zoom de 12. Enfin, le tableau
+  //       `monuments` est défini comme variable d'état `monumentsList` en utilisant `
+  //       setMonumentsList(monuments)`. */
+  //       monumentsLayer.on('click', event => {
+  //         setSelectedMonument(event.graphic.attributes);
+  //         view.goTo({
+  //           target: event.graphic.geometry,
+  //           zoom: 12,
+  //         });
+  //       });
 
         setMonumentsList(lieux);
         setParcoursList(parcours);
+      
 
-        const viewMonumentOnMap = (location) => {
-          if (view) {
-            view.goTo({
-              center: location,
-              zoom: 12,
-            });
-          } else {
-            console.error("View is undefined.");
-          }
-        };
+  //       const viewMonumentOnMap = (location) => {
+  //         if (view) {
+  //           view.goTo({
+  //             center: location,
+  //             zoom: 12,
+  //           });
+  //         } else {
+  //           console.error("View is undefined.");
+  //         }
+  //       };
 
-        const directionsWidget = new Directions({
-          view: view,
-        });
+  //       const directionsWidget = new Directions({
+  //         view: view,
+  //       });
 
-        view.ui.add(directionsWidget, 'top-right');
+  //       view.ui.add(directionsWidget, 'top-right');
 
-        const searchWidget = new Search({
-          view: view,
-          resultGraphicEnabled: false,
-          popupEnabled: false,
-        });
+  //       const searchWidget = new Search({
+  //         view: view,
+  //         resultGraphicEnabled: false,
+  //         popupEnabled: false,
+  //       });
 
-        view.ui.add(searchWidget, 'top-left');
+  //       view.ui.add(searchWidget, 'top-left');
 
-        return () => {
-          if (view) {
-            view.destroy();
-          }
-        };
-      })
-      .catch(err => console.error(err));
+  //       return () => {
+  //         if (view) {
+  //           view.destroy();
+  //         }
+  //       };
+  //     })
+  //     .catch(err => console.error(err));
   }, [selectedMap,loadingLieux,loadingParcours]);
 
   const handleSearch = (term) => {
@@ -285,7 +286,7 @@ useEffect(() => {
         </div>
       </div>
       <div className='d-flex justify-content-center fondVertLieux'>
-        <div id="map-view" style={{ height: '75vh', width: '75vw' }}></div>
+      <iframe src="https://www.google.com/maps/d/embed?mid=19t-HwS5eC2JgzhoILFAM1B12Y8OY0xQ&ehbc=2E312F" width="1500" height="900"></iframe>
       </div>
       <section className=''>
         <div className='d-flex justify-content-center containerTitreLieu'>

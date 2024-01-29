@@ -1,12 +1,13 @@
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../style/styleHeader.css';
-
+import User from './User.js'
 import { Link } from 'react-router-dom';
 /**
  * Le composant Header est une barre de navigation avec une barre de recherche.
  * @returns Le composant Header renvoie un élément d'en-tête avec une barre de navigation et une barre
  * de recherche.
  */
+
 
 const Header = () => {
 
@@ -15,14 +16,16 @@ const Header = () => {
   useEffect(() => {
     // Vérifier si l'utilisateur est déjà connecté en vérifiant la présence du token dans le localStorage
     const storedToken = localStorage.getItem('token');
-    setIsLoggedIn(!!storedToken); // Mise à jour de l'état en fonction de la présence du token
+    localStorage.setItem('userLogged',!!storedToken); // Mise à jour de l'état en fonction de la présence du token
+    setIsLoggedIn(!!storedToken)
   }, []);
 
   const handleLogout = () => {
     // Supprimer le token du localStorage ou effectuer toute autre logique de déconnexion
     localStorage.removeItem('token');
     localStorage.removeItem('tokenrefresh');
-    setIsLoggedIn(false); // Mettre à jour l'état pour refléter la déconnexion
+    localStorage.setItem('userLogged',false); // Mise à jour de l'état en fonction de la présence du token
+    setIsLoggedIn(false)
   };
 
   return (
@@ -39,6 +42,11 @@ const Header = () => {
             <li class="nav-item">
               <a href={`/Parcours`} class="nav-link fs-5">Parcours</a>
             </li>
+            {isLoggedIn ? (
+              <li className="nav-item">
+                <a href="/Favoris" className="nav-link fs-5">Favoris</a>
+              </li>
+            ) : null}
           </ul>
           <div className='Bleu'></div>
           <div className='Blanc'></div>
@@ -52,16 +60,16 @@ const Header = () => {
 
 
         {isLoggedIn ? (
-        
-        <div class="col-1">
-          <a href={'/Accueil'} onClick={handleLogout}>Déconnexion</a>
-        </div>
-      ) : (
-        <div class="col-1">
-          <a href={`/Connexion`}>Connexion</a>
-        </div>
-      )}
-        
+
+          <div class="col-1">
+            <a href={'/'} onClick={handleLogout}>Déconnexion</a>
+          </div>
+        ) : (
+          <div class="col-1">
+            <a href={`/Connexion`}>Connexion</a>
+          </div>
+        )}
+
 
       </nav>
 

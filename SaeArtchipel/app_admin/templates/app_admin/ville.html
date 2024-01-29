@@ -12,10 +12,28 @@
         {% endfor %}
       </ul>
       <a href="{% url 'app_admin:ajouter_ville' %}">Ajouter une ville</a>
-    </div>
-    
-  </div>
 
+      {% if lieux_with_dates.has_other_pages %}
+      <div class="pagination text-center">
+        <span class="step-links">
+            {% if lieux_with_dates.has_previous %}
+              <a href="?page=1" class="btn btn-primary">First</a>
+              <a href="?page={{ lieux_with_dates.previous_page_number }}" class="btn btn-primary">&#9664; Previous</a> <!-- Unicode left arrow -->
+            {% endif %}
+    
+            <span class="btn btn-info">
+              Page {{ lieux_with_dates.number }} sur {{ lieux_with_dates.paginator.num_pages }}.
+            </span>
+    
+            {% if lieux_with_dates.has_next %}
+              <a href="?page={{ lieux_with_dates.next_page_number }}" class="btn btn-primary">Next &#9654;</a> <!-- Unicode right arrow -->
+              <a href="?page={{ lieux_with_dates.paginator.num_pages }}" class="btn btn-primary">Last</a>
+            {% endif %}
+        </span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </div>
   
 {% endblock %}

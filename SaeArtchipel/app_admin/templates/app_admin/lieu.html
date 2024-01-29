@@ -5,28 +5,52 @@
 <div class="container">
   <div class="row justify-content-center m-2">
     <div class="col-6">
-        <h1>Liste des lieux</h1>
-        <ul>
-          {% for lieu_info in lieux_with_dates %}
-            <li>
-              {{ lieu_info.nomLieu }} <a href="{% url 'app_admin:modifier_lieu' lieu_info.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_lieu' lieu_info.pk %}">Supprimer</a><br>
-              {% for horaire_info in lieu_info.horaires %}
-                - Ouvert du {{ horaire_info.dateDebut }} au {{ horaire_info.dateFin }} : ({{ horaire_info.horaireOuverture }} to {{ horaire_info.horaireFermeture }})<br>
-              {% endfor %}
-            </li>
-          {% endfor %}
-        <a href="{% url 'app_admin:ajouter_lieu' %}">Ajouter un lieu</a>
+      <h1>Liste des lieux</h1>
+      <ul>
+        {% for lieu_info in lieux_with_dates %}
+          <li>
+            {{ lieu_info.nomLieu }} <a href="{% url 'app_admin:modifier_lieu' lieu_info.pk %}">Modifier</a> | <a href="{% url 'app_admin:supprimer_lieu' lieu_info.pk %}">Supprimer</a><br>
+            {% for horaire_info in lieu_info.horaires %}
+              <div class="horaire-info">
+                <p>
+                  <strong>Ouvert du</strong> {{ horaire_info.dateDebut }} <strong>au</strong> {{ horaire_info.dateFin }} :
+                  <strong>{{ horaire_info.horaireOuverture }}</strong> à <strong>{{ horaire_info.horaireFermeture }}</strong>
+                </p>
+              </div>
+            {% endfor %}
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{% url 'app_admin:ajouter_lieu' %}">Ajouter un lieu</a>
+
+      {% if lieux_with_dates.has_other_pages %}
+      <div class="pagination text-center">
+        <span class="step-links">
+            {% if lieux_with_dates.has_previous %}
+              <a href="?page=1" class="btn btn-primary">First</a>
+              <a href="?page={{ lieux_with_dates.previous_page_number }}" class="btn btn-primary">&#9664; Previous</a> <!-- Unicode left arrow -->
+            {% endif %}
+    
+            <span class="btn btn-info">
+              Page {{ lieux_with_dates.number }} sur {{ lieux_with_dates.paginator.num_pages }}.
+            </span>
+    
+            {% if lieux_with_dates.has_next %}
+              <a href="?page={{ lieux_with_dates.next_page_number }}" class="btn btn-primary">Next &#9654;</a> <!-- Unicode right arrow -->
+              <a href="?page={{ lieux_with_dates.paginator.num_pages }}" class="btn btn-primary">Last</a>
+            {% endif %}
+        </span>
+      </div>
+      {% endif %}
 
       <script>
-      function showInfo(element) {
-        var info = element.title; alert(info);
-      }
+        function showInfo(element) {
+          var info = element.title; alert(info);
+        }
       </script>
-      
-    </div>
-    
-  </div>
 
+    </div>
+  </div>
 </div>
-    
+
 {% endblock %}

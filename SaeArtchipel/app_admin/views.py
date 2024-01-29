@@ -12,7 +12,7 @@ from django.contrib.auth.views import LogoutView
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib import messages
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
@@ -31,26 +31,34 @@ def home(request):
 @login_required()
 def liste_regions(request):
     regions = Region.objects.all()
+    paginator = Paginator(regions, 10)
+    page_number = request.GET.get("page")
+    regions = paginator.get_page(page_number)
     return render(request, 'app_admin/region.html', {'regions': regions})
 
 @login_required()
 def liste_departements(request):
     departements = Departement.objects.all()
+    paginator = Paginator(departements, 10)
+    page_number = request.GET.get("page")
+    departements = paginator.get_page(page_number)
     return render(request, 'app_admin/departement.html', {'departements': departements})
 
 @login_required()
 def liste_villes(request):
     villes = Ville.objects.all()
+    paginator = Paginator(villes, 10)
+    page_number = request.GET.get("page")
+    villes = paginator.get_page(page_number)
     return render(request, 'app_admin/ville.html', {'villes': villes})
 
 @login_required()
 def liste_typelieux(request):
     typelieux = TypeLieu.objects.all()
+    paginator = Paginator(typelieux, 10)
+    page_number = request.GET.get("page")
+    typelieux = paginator.get_page(page_number)
     return render(request, 'app_admin/typelieu.html', {'typelieux': typelieux})
-
-# def liste_lieux(request):
-#     lieux = Lieu.objects.all()
-#     return render(request, 'app_admin/lieu.html', {'lieux': lieux})
 
 @login_required()
 def liste_lieux(request):
@@ -75,6 +83,10 @@ def liste_lieux(request):
             }
 
             lieux_with_dates.append(lieu_info)
+
+    paginator = Paginator(lieux_with_dates, 5)
+    page_number = request.GET.get("page")
+    lieux_with_dates = paginator.get_page(page_number)
 
     return render(request, 'app_admin/lieu.html', {'lieux_with_dates': lieux_with_dates})
 
@@ -162,13 +174,6 @@ class TypeLieuDeleteView(LoginRequiredMixin, DeleteView):
     model = TypeLieu
     template_name = 'app_admin/typelieu_confirm_delete.html'
     success_url = reverse_lazy('app_admin:liste_typelieux')
-
-
-# class LieuCreateView(CreateView):
-#     model = Lieu
-#     form_class = LieuForm
-#     template_name = 'app_admin/lieu_form.html'
-#     success_url = reverse_lazy('app_admin:liste_lieux')
 
 class LieuUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/app_admin/login/'

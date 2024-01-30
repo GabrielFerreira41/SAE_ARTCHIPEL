@@ -49,7 +49,7 @@ urlpatterns = [
 
 
     path('/login/', login_view, name='login'),
-     path('/logout/', user_logout, name='logout'),
+    path('/logout/', user_logout, name='logout'),
 
 
     # path('/regions/', liste_regions, name='liste_regions'),

@@ -163,6 +163,13 @@ class ParcoursCreationForm(forms.ModelForm):
         model = Parcours
         fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
 
+class ParcoursProposeForm(forms.ModelForm):
+    villeDepart = forms.ModelChoiceField(queryset=Ville.objects.all(), empty_label="Sélectionner une ville de départ")
+    disponibiliteJours = forms.IntegerField(min_value=1, required=True)
+
+    class Meta:
+        model = Parcours
+        fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
 
 class EtapeForm(forms.ModelForm):
     class Meta:

@@ -1,7 +1,8 @@
+import random
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from api.models import Region, Departement, Ville, TypeLieu, Lieu, Parcours, Etape, Utilisateur
-from app_admin.forms import RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm, ParcoursCreationForm, EtapeForm
+from app_admin.forms import ParcoursProposeForm, RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm, ParcoursCreationForm, EtapeForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy, reverse
 import logging
@@ -321,7 +322,68 @@ class ParcoursCreateView(LoginRequiredMixin, CreateView):
             form.instance.idUtilisateur = default_user
 
         return super().form_valid(form)
-    
+
+class ParcoursProposeView(LoginRequiredMixin, CreateView):
+    login_url = '/app_admin/login/'
+    model = Parcours
+    form_class = ParcoursProposeForm
+    template_name = 'app_admin/parcours_form.html'
+    success_url = reverse_lazy('app_admin:liste_parcours')
+
+    def form_valid(self, form):
+        # Attribuer l'idUtilisateur avant de sauvegarder
+        if not form.instance.idUtilisateur_id:
+            default_user = Utilisateur.objects.get(username='admin')
+            form.instance.idUtilisateur = default_user
+
+        # Récupérer les données du formulaire
+        ville_depart = form.cleaned_data['villeDepart']
+        disponibilite_jours = form.cleaned_data['disponibiliteJours']
+
+        # Appeler la fonction pour générer le parcours
+        parcours_genere = generer_parcours(self.request, ville_depart, disponibilite_jours)
+
+        # Enregistrer le parcours généré dans l'instance de formulaire
+        form.instance.parcours = parcours_genere
+
+        return super().form_valid(form)
+
+"""fonction pour generer un parcours"""
+@login_required()
+def generer_parcours(request, villeDepart, disponibiliteJours):
+    lieux = Lieu.objects.filter(idVille=villeDepart)
+
+    parcours = []
+    duree_cumulative = 0
+    critere_duree = 8*disponibiliteJours  # Environ 8h/jours * nombre de jours disponible
+
+    # Sélectionner le lieu de départ au hasard
+    lieu_depart = random.choice(lieux)
+
+    temps_visite_depart = temps_de_visite(lieu_depart)
+
+    if temps_visite_depart <= critere_duree:
+        parcours.append(lieu_depart)
+        duree_cumulative += temps_visite_depart
+
+    # Mélanger les autres lieux
+    autres_lieux = list(lieux.exclude(id=lieu_depart.id))
+    random.shuffle(autres_lieux)
+
+    # Boucler sur les lieux restants
+    for lieu in autres_lieux:
+        temps_visite_lieu = temps_de_visite(lieu)
+
+        if duree_cumulative + temps_visite_lieu <= critere_duree:
+            parcours.append(lieu)
+            duree_cumulative += temps_visite_lieu
+
+    return parcours
+
+def temps_de_visite(lieu):
+    # Generation du temps de visite moyen
+    return random.randint(1, 3)
+
 """fonction pour la mise à jour d'un parcours"""
 @login_required()
 def edit_parcours(request, parcours_id):

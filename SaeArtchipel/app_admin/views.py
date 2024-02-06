@@ -327,7 +327,7 @@ class ParcoursProposeView(LoginRequiredMixin, CreateView):
     login_url = '/app_admin/login/'
     model = Parcours
     form_class = ParcoursProposeForm
-    template_name = 'app_admin/parcours_form.html'
+    template_name = 'app_admin/parcours_aleatoire_form.html'
     success_url = reverse_lazy('app_admin:liste_parcours')
 
     def form_valid(self, form):
@@ -345,8 +345,20 @@ class ParcoursProposeView(LoginRequiredMixin, CreateView):
 
         # Enregistrer le parcours généré dans l'instance de formulaire
         form.instance.parcours = parcours_genere
+        ajouter_etapes_aleatoire_au_parcours(form.instance, parcours_genere)
 
         return super().form_valid(form)
+
+def ajouter_etapes_aleatoire_au_parcours(parcours_instance, parcours_genere):
+    index = 1
+    for etape in parcours_genere:
+        etape_instance = Etape.objects.create(
+            idParcours=parcours_instance,
+            idLieu=etape.idLieu,  # Supposons que l'id du lieu soit stocké dans l'attribut id
+            numEtape=index  # Utiliser un compteur pour le numéro d'étape
+        )
+        index += 1
+        etape_instance.save()
 
 """fonction pour generer un parcours"""
 @login_required()
@@ -367,7 +379,7 @@ def generer_parcours(request, villeDepart, disponibiliteJours):
         duree_cumulative += temps_visite_depart
 
     # Mélanger les autres lieux
-    autres_lieux = list(lieux.exclude(id=lieu_depart.id))
+    autres_lieux = list(lieux.exclude(idVille=lieu_depart.idLieu))
     random.shuffle(autres_lieux)
 
     # Boucler sur les lieux restants

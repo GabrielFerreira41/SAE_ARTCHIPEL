@@ -1,5 +1,6 @@
+import random
 from django import forms
-from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire, Parcours, Etape
+from api.models import Region, Departement, Ville, TypeLieu, Lieu, Tarif, Horaire, LnkLieuHoraire, Parcours, Etape  
 
 class RegionForm(forms.ModelForm):
     class Meta:
@@ -170,6 +171,33 @@ class ParcoursProposeForm(forms.ModelForm):
     class Meta:
         model = Parcours
         fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.initial['nomParcours'] = self.generate_unique_parcours_name()
+        self.initial['typeParcours'] = "TypeAleatoire"
+        self.initial['difficulteParcours'] = "Aleatoire"
+        self.initial['distanceParcours'] = random.randint(5, 50)
+
+    def generate_unique_parcours_name(self):
+        # Générer un nom aléatoire unique pour le parcours
+        base_nom = 'Aleatoire'
+        i = 1
+        nom_unique = f"{base_nom}{i}"
+        while Parcours.objects.filter(nomParcours=nom_unique).exists():
+            i += 1
+            nom_unique = f"{base_nom}{i}"
+        return nom_unique
+
+    def save(self, commit=True):
+        instance = super(ParcoursProposeForm, self).save(commit=False)
+        
+        instance.nomParcours = self.cleaned_data['nomParcours']  # Utilisation du nom saisi dans le formulaire
+
+        if commit:
+            instance.save()
+
+        return instance
 
 class EtapeForm(forms.ModelForm):
     class Meta:

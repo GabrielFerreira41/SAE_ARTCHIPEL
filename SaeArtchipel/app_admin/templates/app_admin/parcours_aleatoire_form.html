@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <div class="col-6">
+        <h1>Proposer un parcours aleatoire</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div style="display: none;">
+                {{ form.nomParcours.errors }}
+                {{ form.nomParcours.label_tag }}
+                {{ form.nomParcours }}
+            </div>
+            <div style="display: none;">
+                {{ form.typeParcours.errors }}
+                {{ form.typeParcours.label_tag }}
+                {{ form.typeParcours }}
+            </div>
+            <div style="display: none;">
+                {{ form.difficulteParcours.errors }}
+                {{ form.difficulteParcours.label_tag }}
+                {{ form.difficulteParcours }}
+            </div>
+            <div style="display: none;">
+                {{ form.distanceParcours.errors }}
+                {{ form.distanceParcours.label_tag }}
+                {{ form.distanceParcours }}
+            </div>
+            {{ form.villeDepart.errors }}
+            {{ form.villeDepart.label_tag }}
+            {{ form.villeDepart }}
+            <br>
+            {{ form.disponibiliteJours.errors }}
+            {{ form.disponibiliteJours.label_tag }}
+            {{ form.disponibiliteJours }}
+            <br>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </form>
+    </div>
+    
+</div>
+
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 import random
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
-from api.models import Region, Departement, Ville, TypeLieu, Lieu, Parcours, Etape, Utilisateur
+from api.models import Horaire, LnkLieuHoraire, Region, Departement, Ville, TypeLieu, Lieu, Parcours, Etape, Utilisateur
 from app_admin.forms import ParcoursProposeForm, RegionForm, DepartementForm, VilleForm, TypeLieuForm, LieuForm, HoraireForm, LnkLieuHoraireForm, ParcoursCreationForm, EtapeForm
 from django.views.generic import DetailView, ListView, CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy, reverse
@@ -337,14 +337,15 @@ class ParcoursProposeView(LoginRequiredMixin, CreateView):
             form.instance.idUtilisateur = default_user
 
         # Récupérer les données du formulaire
-        ville_depart = form.cleaned_data['villeDepart']
+        departement_depart = form.cleaned_data['departementDepart']
         disponibilite_jours = form.cleaned_data['disponibiliteJours']
 
         # Appeler la fonction pour générer le parcours
-        parcours_genere = generer_parcours(self.request, ville_depart, disponibilite_jours)
+        parcours_genere = generer_parcours(self.request, departement_depart, disponibilite_jours)
 
         # Enregistrer le parcours généré dans l'instance de formulaire
         form.instance.parcours = parcours_genere
+        form.instance.save()
         ajouter_etapes_aleatoire_au_parcours(form.instance, parcours_genere)
 
         return super().form_valid(form)
@@ -354,41 +355,54 @@ def ajouter_etapes_aleatoire_au_parcours(parcours_instance, parcours_genere):
     for etape in parcours_genere:
         etape_instance = Etape.objects.create(
             idParcours=parcours_instance,
-            idLieu=etape.idLieu,  # Supposons que l'id du lieu soit stocké dans l'attribut id
+            idLieu=etape,  # Supposons que l'id du lieu soit stocké dans l'attribut id
             numEtape=index  # Utiliser un compteur pour le numéro d'étape
         )
-        index += 1
         etape_instance.save()
+        index += 1
+
+from datetime import datetime, timedelta
 
 """fonction pour generer un parcours"""
 @login_required()
-def generer_parcours(request, villeDepart, disponibiliteJours):
-    lieux = Lieu.objects.filter(idVille=villeDepart)
+def generer_parcours(request, departementDepart, disponibiliteJours):
+    # Récupérer tous les lieux associés au département donné
+    lieux = Lieu.objects.filter(idVille__idDepartement=departementDepart)
 
     parcours = []
     duree_cumulative = 0
-    critere_duree = 8*disponibiliteJours  # Environ 8h/jours * nombre de jours disponible
+    critere_duree = 8 * disponibiliteJours  # Environ 8h/jours * nombre de jours disponible
 
     # Sélectionner le lieu de départ au hasard
     lieu_depart = random.choice(lieux)
 
     temps_visite_depart = temps_de_visite(lieu_depart)
+    heure_depart = datetime.now()  # Heure de départ du parcours
 
     if temps_visite_depart <= critere_duree:
         parcours.append(lieu_depart)
         duree_cumulative += temps_visite_depart
 
     # Mélanger les autres lieux
-    autres_lieux = list(lieux.exclude(idVille=lieu_depart.idLieu))
+    autres_lieux = list(lieux.exclude(idLieu=lieu_depart.idLieu))
     random.shuffle(autres_lieux)
 
     # Boucler sur les lieux restants
     for lieu in autres_lieux:
         temps_visite_lieu = temps_de_visite(lieu)
+        heure_arrivee = heure_depart + timedelta(hours=temps_visite_lieu)
 
-        if duree_cumulative + temps_visite_lieu <= critere_duree:
-            parcours.append(lieu)
-            duree_cumulative += temps_visite_lieu
+        # Récupérer les horaires associés au lieu depuis la table de liaison
+        horaires_lieu = Horaire.objects.filter(lnklieuhoraire__idLieu=lieu)
+
+        # Vérifier si le lieu peut être visité pendant ses heures d'ouverture
+        for horaire in horaires_lieu:
+            if horaire.horaireOuverture and horaire.horaireFermeture:
+                if horaire.horaireOuverture <= heure_arrivee.time() <= horaire.horaireFermeture:
+                    if duree_cumulative + temps_visite_lieu <= critere_duree:
+                        parcours.append(lieu)
+                        duree_cumulative += temps_visite_lieu
+                    break  # Sortir de la boucle dès qu'un horaire valide est trouvé
 
     return parcours
 

@@ -165,7 +165,7 @@ class ParcoursCreationForm(forms.ModelForm):
         fields = ['nomParcours', 'typeParcours', 'difficulteParcours', 'distanceParcours']
 
 class ParcoursProposeForm(forms.ModelForm):
-    villeDepart = forms.ModelChoiceField(queryset=Ville.objects.all(), empty_label="Sélectionner une ville de départ")
+    departementDepart = forms.ModelChoiceField(queryset=Departement.objects.all(), empty_label="Sélectionner un departement de départ")
     disponibiliteJours = forms.IntegerField(min_value=1, required=True)
 
     class Meta:
